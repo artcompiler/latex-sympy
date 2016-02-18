@@ -1,5 +1,3 @@
-/* -*- Mode: js; js-indent-level: 2; indent-tabs-mode: nil; tab-width: 2 -*- */
-/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
 /*
  * Copyright 2016 Art Compiler LLC. All Rights Reserved.
  *
@@ -13,42 +11,6 @@ import {Model} from "./model.js";
 
   var messages = Assert.messages;
 
-  // NOTE for debugging only
-  function stripNids(node) {
-    forEach(keys(node), function (k) {
-      if (indexOf(k, "Nid") > 0) {
-        delete node[k];
-      }
-    });
-    if (node.args) {
-      forEach(node.args, function (n) {
-        stripNids(n);
-      });
-    }
-    return node;
-  }
-
-  function hashCode(str) {
-    var hash = 0, i, chr, len;
-    if (str.length == 0) return hash;
-    for (i = 0, len = str.length; i < len; i++) {
-      chr   = str.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-  };
-
-  function undefinedNode() {
-    var node = numberNode(new Date().getTime() + Math.random());
-    node.isUndefined = true;
-    return node;
-  }
-
-  function isUndefined(node) {
-    return node.isUndefined;
-  }
-
   function newNode(op, args) {
     return {
       op: op,
@@ -56,243 +18,9 @@ import {Model} from "./model.js";
     };
   }
 
-  function binaryNode(op, args, flatten) {
-    if (args.length < 2) {
-      return args[0];
-    }
-    var aa = [];
-    forEach(args, function(n) {
-      if (flatten && n.op === op) {
-        aa = aa.concat(n.args);
-      } else {
-        aa.push(n);
-      }
-    });
-    return newNode(op, aa);
-  }
-
-  function numberNode(val, doScale, roundOnly, isRepeating) {
-    assert(!(val instanceof Array));
-    // doScale - scale n if true
-    // roundOnly - only scale if rounding
-    return newNode(Model.NUM, [String(val)]);
-  }
-
-  function multiplyNode(args, flatten) {
-    return binaryNode(Model.MUL, args, flatten);
-  }
-
-  function fractionNode(n, d) {
-    return multiplyNode([n, binaryNode(Model.POW, [d, nodeMinusOne])], true);
-  }
-
-  function unaryNode(op, args) {
-    assert(args.length === 1, "Wrong number of arguments for unary node");
-    if (op === Model.ADD) {
-      return args[0];
-    } else {
-      return newNode(op, args);
-    }
-  }
-
-  function variableNode(name) {
-    assert(typeof name === "string");
-    return newNode(Model.VAR, [name]);
-  }
-
-  function negate(n) {
-    if (typeof n === "number") {
-      return -n;
-    } else if (n.op === Model.MUL) {
-      var args = n.args.slice(0); // copy
-      if (isMinusOne(n.args[0])) {
-        args.shift();
-        return multiplyNode(args);
-      } else {
-        return multiplyNode([negate(args.shift())].concat(args));
-      }
-    } else if (n.op === Model.NUM) {
-      if (n.args[0] === "1") {
-        return nodeMinusOne;
-      } else if (n.args[0] === "-1") {
-        return nodeOne;
-      } else if (n.args[0] === "Infinity") {
-        return nodeMinusInfinity;
-      } else if (n.args[0] === "-Infinity") {
-        return nodeInfinity;
-      } else if (n.args[0].charAt(0) === "-") {
-        return unaryNode(Model.SUB, [n]);
-      } else {
-        return numberNode("-" + n.args[0]);
-      }
-    } else if (n.op === Model.POW && isMinusOne(n.args[1])) {
-      return binaryNode(Model.POW, [negate(n.args[0]), nodeMinusOne]);
-    }
-    return multiplyNode([nodeMinusOne, n]);
-  }
-
-  function isNeg(n) {
-    if (n === null) {
-      return false;
-    }
-    if (n.op) {
-      n = mathValue(n, true);
-    }
-    if (n === null) {
-      return false;  // What about -Infinity?
-    }
-    return n.compareTo(bigZero) < 0;
-  }
-
-  function isInfinity(n) {
-    if (n === Number.POSITIVE_INFINITY ||
-        n === Number.NEGATIVE_INFINITY ||
-        n.op === Model.NUM &&
-        (n.args[0] === "Infinity" ||
-         n.args[0] === "-Infinity")) {
-      return true;
-    }
-    return false;
-  }
-
-  function isE(n) {
-    if (n === null) {
-      return false;
-    } else if (n instanceof BigDecimal) {
-      return !bigE.compareTo(n);
-    } else if (typeof n === "number") {
-      return n === Math.E;
-    } else if (n.op === Model.NUM && +n.args[0] === Math.E) {
-      return true;
-    } else if (n.op === Model.VAR && n.args[0] === "e") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function isZero(n) {
-    if (n === null) {
-      return false;
-    } else if (n instanceof BigDecimal) {
-      return !bigZero.compareTo(n);
-    } else if (typeof n === "number") {
-      return n === 0;
-    } else if (n.op === Model.NUM && +n.args[0] === 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function isOne(n) {
-    if (n === null) {
-      return false;
-    } else if (n instanceof BigDecimal) {
-      return !bigOne.compareTo(n);
-    } else if (typeof n === "number") {
-      return n === 1;
-    } else if (n.op === Model.NUM) {
-      return !bigOne.compareTo(mathValue(n));
-    } else {
-      return false;
-    }
-  }
-
-  function isMinusOne(n) {
-    if (n === null) {
-      return false;
-    } else if (n instanceof BigDecimal) {
-      return !bigMinusOne.compareTo(n);
-    } else if (typeof n === "number") {
-      return n === -1;
-    } else if (n.op !== undefined) {
-      var mv = mathValue(n, true);
-      if (mv) {
-        return !bigMinusOne.compareTo(mathValue(n, true));
-      } else {
-        return false;
-      }
-    }
-    assert(false, "Internal error: unable to compare with zero.");
-  }
-
-  function toNumber(n) {
-    var str;
-    if (n === null) {
-      return Number.NaN;
-    } else if (typeof n === "number") {
-      return n;
-    } else if (n instanceof BigDecimal) {
-      str = n.toString();
-    } else if (n.op === Model.NUM) {
-      str = n.args[0];
-    } else {
-      return Number.NaN;
-    }
-    return parseFloat(str);
-  }
-
-  function toDecimal(val) {
-    var str;
-    if (val === null ||
-        isNaN(val) ||
-        isInfinity(val) ||
-        typeof val === "string" && indexOf(val, "Infinity") >= 0) {
-      return null;
-    } else if (val instanceof BigDecimal) {
-      return val;
-    } else if (val.op === Model.NUM) {
-      str = val.args[0];
-    } else {
-      str = val.toString();
-    }
-    return new BigDecimal(str);
-  }
-
-  function toRadians(node) {
-    // Convert node to radians
-    assert(node.op);
-    var val = bigOne, uu;
-    var args = [];
-    if (node.op === Model.MUL) {
-      forEach(node.args, function (n) {
-        if (n.op === Model.VAR) {
-          switch (n.args[0]) {
-          case "\\degree":
-            args.push(numberNode(new BigDecimal(""+Math.PI).divide(new BigDecimal("180"))));
-            break;
-          case "\\radians":
-            // Do nothing.
-            break;
-          default:
-            args.push(toRadians(n));
-            break;
-          }
-        } else {
-          args.push(n);
-        }
-      });
-      node = multiplyNode(args);
-    } else {
-      node = node;
-    }
-    return node;
-  }
-
-  function logBase(b, v) {
-    var n = Math.log(toNumber(v)) / Math.log(toNumber(b));
-    if (!isNaN(n)) {
-      return new BigDecimal(String(n));
-    }
-    return null;
-  }
-
   // The outer Visitor function provides a global scope for all visitors,
   // as well as dispatching to methods within a visitor.
   function Visitor(ast) {
-    var normalNumber = numberNode("298230487121230434902874");
-    normalNumber.is_normal = true;
     function visit(node, visit, resume) {
       assert(node.op && node.args, "Visitor.visit() op=" + node.op + " args = " + node.args);
       switch (node.op) {
@@ -559,11 +287,6 @@ import {Model} from "./model.js";
     this.translate = translate;
   }
 
-  function degree(node, notAbsolute) {
-    var visitor = new Visitor(new Ast);
-    return visitor.degree(node, notAbsolute);
-  }
-
   function translate(node) {
     var ast = new Ast;
     var visitor = new Visitor(ast);
@@ -630,7 +353,7 @@ import {Model} from "./model.js";
     })();
   }
 })(new Ast);
-export var Core = window.Core = (function () {
+export var Core = (function () {
   Assert.reserveCodeRange(3000, 3999, "core");
   var messages = Assert.messages;
   var message = Assert.message;
@@ -735,45 +458,16 @@ export var Core = window.Core = (function () {
 
   function validateOption(p, v) {
     switch (p) {
-    case "field":
-      switch (v) {
-      case void 0: // undefined means use default
-      case "integer":
-      case "real":
-      case "complex":
-        break;
-      default:
-        assert(false, message(3007, [p, v]));
-        break;
-      }
-      break;
     case "decimalPlaces":
       if (v === void 0 || +v >= 0 && +v <= 20) {
         break;
       }
       assert(false, message(3007, [p, v]));
       break;
-    case "allowDecimal":
     case "allowInterval":
-    case "dontExpandPowers":
-    case "dontFactorDenominators":
-    case "dontFactorTerms":
-    case "dontConvertDecimalToFraction":
-    case "dontSimplifyImaginary":
-    case "ignoreOrder":
-    case "inverseResult":
-    case "requireThousandsSeparator":
     case "ignoreText":
-    case "ignoreTrailingZeros":
     case "allowThousandsSeparator":
-    case "compareSides":
     case "ignoreCoefficientOne":
-    case "strict":
-      if (typeof v === "undefined" || typeof v === "boolean") {
-        break;
-      }
-      assert(false, message(3007, [p, v]));
-      break;
     case "setThousandsSeparator":
       if (typeof v === "undefined" ||
           v instanceof Array) {
@@ -919,3 +613,7 @@ export var Core = window.Core = (function () {
   };
 })();
 
+if (typeof window !== "undefined") {
+  // Make a browser hook.
+  window.Core = Core;
+}
