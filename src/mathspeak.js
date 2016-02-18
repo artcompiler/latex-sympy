@@ -569,6 +569,56 @@ export var Core = (function () {
       return e;
     }
   }
+  function translate(spec, solution, resume) {
+    var model;
+    try {
+      assert(spec, message(3001, [spec]));
+      Assert.setCounter(1000000, message(3005));
+      var evaluator = makeEvaluator(spec);
+      var errorCode = 0, msg = "Normal completion", stack, location;
+      evaluator.evaluate(solution, function (err, val) {
+        resume([], {
+          result: val,
+          errorCode: errorCode,
+          message: msg,
+          stack: stack,
+          location: location,
+          toString: function () {
+            return this.errorCode + ": (" + location + ") " + msg + "\n" + this.stack;
+          }
+        });
+      });
+    } catch (e) {
+      if (!e.message) {
+        try {
+          // Internal error.
+          assert(false, message(3008, [e]));
+        } catch (x) {
+          e = x;
+        }
+      }
+      errorCode = parseErrorCode(e.message);
+      msg = parseMessage(e.message);
+      stack = e.stack;
+      location = e.location;
+      console.log("ERROR evaluateVerbose stack=" + stack);
+      resume([e.stack], undefined);
+    }
+    function parseErrorCode(e) {
+      var code = +e.slice(0, indexOf(e, ":"));
+      if (!isNaN(code)) {
+        return code;
+      }
+      return 0;
+    }
+    function parseMessage(e) {
+      var code = parseErrorCode(e);
+      if (code) {
+        return e.slice(indexOf(e, ":")+2);
+      }
+      return e;
+    }
+  }
   function makeEvaluator(spec) {
     var method = spec.method;
     var value = spec.value;
