@@ -9,4 +9,4 @@ A library for constructing math to speech translators.
 
 ##### > npm test
 
-* Runs tests (TBD).
+* Runs tests.
