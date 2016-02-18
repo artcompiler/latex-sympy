@@ -1,0 +1,32 @@
+{
+  "options": {
+    "words": {
+      "0": "zero", "1": "one", "2": "two", "\\pi": "pi"
+    },
+    "rules": {
+      "\\sin{?}": "sine of %1",
+      "\\sin{?}": "sine of %1",
+      "\\cos{?}": "cosine of %1",
+      "\\tan{?}": "tangent of %1",
+      "\\sec{?}": "secant of %1",
+      "\\csc{?}": "cosecant of %1",
+      "\\cot{?}": "cotangent of %1",
+      "\\arcsin{?}": "arc sine of %1",
+      "\\arccos{?}": "arc cosine of %1",
+      "\\arctan{?}": "arc tangent of %1",
+      "?*?": "%1 %2",
+      "?": "%1 "
+    }
+  },
+  "tests": [
+    ["\\sin{2*\\pi}", "sine of two pi"],
+    ["\\cos{2*\\pi}", "cosine of two pi"],
+    ["\\tan{2*\\pi}", "tangent of two pi"],
+    ["\\sec{2*\\pi}", "secant of two pi"],
+    ["\\csc{2*\\pi}", "cosecant of two pi"],
+    ["\\cot{2*\\pi}", "cotangent of two pi"],
+    ["\\arcsin 1", "arc sine of one"],
+    ["\\arccos 1", "arc cosine of one"],
+    ["\\arctan 1", "arc tangent of one"]
+  ]
+}
