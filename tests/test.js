@@ -1,5 +1,5 @@
 import fs from "fs";
-import {Core} from "../lib/mathspeak.js";
+import {Core} from "../lib/core.js";
 function trim(str) {
   let i = 0;
   let out = "";
@@ -33,6 +33,7 @@ function run(fname) {
   });
   let passCount = 0, failCount = 0;
   let t0 = Date.now();
+  console.log("Starting " + fname);
   test.tests.forEach(t => {
     evaluator.evaluate(t[0], function (err, val) {
       if (err && err.length) {
@@ -52,4 +53,5 @@ function run(fname) {
   console.log("Test completed in " + (Date.now() - t0) + " ms");
   console.log(passCount + " PASSED, " + failCount + " FAILED");
 }
-run("./tests/data/gc21065.json");
+run("./tests/data/gc57354.json");
+run("./tests/data/gc57355.json");
