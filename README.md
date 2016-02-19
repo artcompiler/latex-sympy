@@ -7,6 +7,6 @@ A library for constructing math to speech translators.
 * Compiles source files (in ES2015) to a node compatible library (in ES5).
 * Creates a browser compatible bundle.
 
-##### > npm test
+##### > npm run test
 
 * Runs tests.
