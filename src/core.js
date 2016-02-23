@@ -250,9 +250,20 @@ import {Model} from "./model.js";
           return expand(pattern, args);
         },
         variable: function(node) {
+          let str = "";
+          forEach(node.args, function (n, i) {
+            // This is a little bit of a hack to handle how subscripts are encoded
+            // as compound variables.
+            if (i > 0) {
+              str += " subscript ";
+              str += lookup(n.args[0]);
+            } else {
+              str += lookup(n);
+            }
+          });
           return {
             op: Model.VAR,
-            args: [lookup(node.args[0])]
+            args: [str]
           };
         },
         comma: function(node) {
