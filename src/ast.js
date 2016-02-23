@@ -1,5 +1,3 @@
-/* -*- Mode: js; js-indent-level: 2; indent-tabs-mode: nil; tab-width: 2 -*- */
-/* vim: set shiftwidth=2 tabstop=2 autoindent cindent expandtab: */
 /*
  * Copyright 2013 Art Compiler LLC
  *
@@ -15,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-"use strict";
 /*
   This module implements the node factory for abstract syntax trees (AST).
 
@@ -47,7 +44,7 @@ export let Ast = (function () {
   // Create a node for operation 'op'
   Ast.prototype.create = function create(op, args) {
     // Create a node that inherits from Ast
-    var node = create(this);
+    let node = create(this);
     if (typeof op === "string") {
       node.op = op;
       if (args instanceof Array) {
@@ -56,7 +53,7 @@ export let Ast = (function () {
         node.args = [];
       }
     } else if (op !== null && typeof op === "object") {
-      var obj = op;
+      let obj = op;
       forEach(keys(obj), function (v, i) {
         node[v] = obj[v];
       });
@@ -116,15 +113,15 @@ export let Ast = (function () {
       node = this;
     }
     assert(typeof node === "object", "node not an object");
-    var op = node.op;
-    var count = node.args.length;
-    var args = "";
-    var args_nids = [ ];
+    let op = node.op;
+    let count = node.args.length;
+    let args = "";
+    let args_nids = [ ];
 //    if (node.lbrk && node.lbrk !== "{".charCodeAt(0)) {
 //      args += String.fromCharCode(node.lbrk);
 //      args += String.fromCharCode(node.rbrk);
 //    }
-    for (var i=0; i < count; i++) {
+    for (let i=0; i < count; i++) {
       args += " ";
       if (typeof node.args[i] === "string") {
         args += args_nids[i] = node.args[i];
@@ -132,8 +129,8 @@ export let Ast = (function () {
         args += args_nids[i] = this.intern(node.args[i]);
       }
     }
-    var key = op + count + args;
-    var nid = this.nodeMap[key];
+    let key = op + count + args;
+    let nid = this.nodeMap[key];
     if (nid === void 0) {
       this.nodePool.push({
         op: op,
@@ -147,8 +144,8 @@ export let Ast = (function () {
 
   // Get a node from the node pool.
   Ast.prototype.node = function node(nid) {
-    var n = JSON.parse(JSON.stringify(this.nodePool[nid]));
-    for (var i=0; i < n.args.length; i++) {
+    let n = JSON.parse(JSON.stringify(this.nodePool[nid]));
+    for (let i=0; i < n.args.length; i++) {
       // If string, then not a nid.
       if (typeof n.args[i] !== "string") {
         n.args[i] = this.node(n.args[i]);
@@ -159,8 +156,8 @@ export let Ast = (function () {
 
   // Dump the contents of the node pool.
   Ast.prototype.dumpAll = function dumpAll() {
-    var s = "";
-    var ast = this;
+    let s = "";
+    let ast = this;
     forEach(this.nodePool, function (n, i) {
       s += "\n" + i + ": " + Ast.dump(n);
     });
@@ -170,12 +167,12 @@ export let Ast = (function () {
   // Dump the contents of a node.
   Ast.dump = Ast.prototype.dump = function dump(n) {
     if (typeof n === "string") {
-      var s = "\""+n+"\"";
+      let s = "\""+n+"\"";
     } else if (typeof n === "number") {
-      var s = n;
+      let s = n;
     } else {
-      var s = "{ op: \"" + n.op + "\", args: [ ";
-      for (var i=0; i < n.args.length; i++) {
+      let s = "{ op: \"" + n.op + "\", args: [ ";
+      for (let i=0; i < n.args.length; i++) {
         if (i > 0) {
           s += " , ";
         }
@@ -187,29 +184,9 @@ export let Ast = (function () {
   };
 
   // Self tests
-  var RUN_SELF_TESTS = false;
+  let RUN_SELF_TESTS = false;
   function test() {
     (function () {
-      trace("Ast self testing");
-      var ast = new Ast();
-      var node1 = {op: "+", args: [10, 20]};
-      var node2 = {op: "+", args: [10, 30]};
-      var node3 = {op: "num", args: [10]};
-      var node4 = ast.create("+").arg(10).arg(30);
-      var node5 = ast.create("+", [10, 20]);
-      var node6 = ast.create({op: "+", args: [10, 20]});
-      var nid1 = ast.intern(node1);
-      var nid2 = ast.intern(node2);
-      var nid3 = ast.intern(node3);
-      var nid4 = node4.intern();
-      var nid5 = node5.intern();
-      var nid6 = node6.intern();
-      var result = nid2 === nid4 ? "PASS" : "FAIL";
-      trace(result + ": " + "nid2 === nid4");
-      var result = nid1 === nid5 ? "PASS" : "FAIL";
-      trace(result + ": " + "nid1 === nid5");
-      var result = nid5 === nid6 ? "PASS" : "FAIL";
-      trace(result + ": " + "nid5 === nid6");
     })();
   }
   if (RUN_SELF_TESTS) {

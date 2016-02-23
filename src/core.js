@@ -9,7 +9,7 @@ import {Model} from "./model.js";
 
 (function (ast) {
 
-  var messages = Assert.messages;
+  let messages = Assert.messages;
 
   function newNode(op, args) {
     return {
@@ -118,8 +118,8 @@ import {Model} from "./model.js";
     }
 
     function lookup(word) {
-      var words = Model.option("words");
-      var val;
+      let words = Model.option("words");
+      let val;
       if (words) {
         val = words[word];
       }
@@ -132,7 +132,7 @@ import {Model} from "./model.js";
 
     // ["? + ?", "? - ?"], "1 + 2"
     function match(rules, node) {
-      var matches = rules.filter(function (rule) {
+      let matches = rules.filter(function (rule) {
         if (rule.op === undefined || node.op === undefined) {
           return false;
         }
@@ -144,7 +144,7 @@ import {Model} from "./model.js";
           rule.op === node.op &&
           rule.args.length === node.args.length &&
           rule.args.every(function (arg, i) {
-            var result = match([arg], node.args[i]);
+            let result = match([arg], node.args[i]);
             return result.length === 1;
           })
         );
@@ -198,8 +198,8 @@ import {Model} from "./model.js";
 
     function isLowerPrecedence(n0, n1) {
       // Is n1 lower precedence than n0?
-      var p0 = getPrec(n0.op);
-      var p1 = getPrec(n1.op);
+      let p0 = getPrec(n0.op);
+      let p1 = getPrec(n1.op);
       return p1 < p0;
     }
 
@@ -218,35 +218,35 @@ import {Model} from "./model.js";
           };
         },
         binary: function(node) {
-          var args = [];
+          let args = [];
           forEach(node.args, function (n) {
             if (isLowerPrecedence(node, n)) {
               n = newNode(Model.PAREN, [n]);
             }
             args = args.concat(translate(n, patterns, patternsHash));              
           });
-          var matches = match(patterns, node);
+          let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          var pattern = patternsHash[ast.intern(matches[0])];
+          let pattern = patternsHash[ast.intern(matches[0])];
            return expand(pattern, args);
         },
         unary: function(node) {
-          var args = [];
+          let args = [];
           forEach(node.args, function (n) {
             if (isLowerPrecedence(node, n)) {
               n = newNode(Model.PAREN, [n]);
             }
             args = args.concat(translate(n, patterns, patternsHash));
           });
-          var matches = match(patterns, node);
+          let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          var pattern = patternsHash[ast.intern(matches[0])];
+          let pattern = patternsHash[ast.intern(matches[0])];
           return expand(pattern, args);
         },
         variable: function(node) {
@@ -256,24 +256,24 @@ import {Model} from "./model.js";
           };
         },
         comma: function(node) {
-          var args = [];
+          let args = [];
           forEach(node.args, function (n) {
             args = args.concat(translate(n, patterns, patternsHash));
           });
-          var str = "list " + args;
+          let str = "list " + args;
           return str;
         },
         equals: function(node) {
-          var args = [];
+          let args = [];
           forEach(node.args, function (n) {
             args = args.concat(translate(n, patterns, patternsHash));
           });
-          var matches = match(patterns, node);
+          let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          var pattern = patternsHash[ast.intern(matches[0])];
+          let pattern = patternsHash[ast.intern(matches[0])];
           return expand(pattern, args);
         },
         paren: function(node) {
@@ -288,30 +288,30 @@ import {Model} from "./model.js";
   }
 
   function translate(node) {
-    var ast = new Ast;
-    var visitor = new Visitor(ast);
-    var rules = Model.option("rules");
-    var keys = Object.keys(rules);
-    var patterns = [];
-    var patternsHash = {};
+    let ast = new Ast;
+    let visitor = new Visitor(ast);
+    let rules = Model.option("rules");
+    let keys = Object.keys(rules);
+    let patterns = [];
+    let patternsHash = {};
     keys.forEach(function (key) {
-      var node = Model.create(key);
+      let node = Model.create(key);
       patterns.push(node);
-      var hash = ast.intern(node);
+      let hash = ast.intern(node);
       patternsHash[hash] = rules[key];
     });
     return visitor.translate(node, patterns, patternsHash);
   }
 
   Model.fn.translate = function (n1) {
-    var n = translate(n1);
+    let n = translate(n1);
     assert(n.op === Model.VAR, "Expecting var, got " + n.op);
     return n.args[0];
   }
 
-  var option = Model.option = function option(p, v) {
-    var options = Model.options;
-    var opt = options && options[p];
+  let option = Model.option = function option(p, v) {
+    let options = Model.options;
+    let opt = options && options[p];
     if (v !== undefined) {
       // Set the option value.
       Model.options = options = options ? options : {};
@@ -343,9 +343,9 @@ import {Model} from "./model.js";
     return opt;
   }
 
-  var RUN_SELF_TESTS = false;
+  let RUN_SELF_TESTS = false;
   if (RUN_SELF_TESTS) {
-    var env = {
+    let env = {
     };
 
     trace("\nMath Model self testing");
@@ -353,11 +353,11 @@ import {Model} from "./model.js";
     })();
   }
 })(new Ast);
-export var Core = (function () {
+export let Core = (function () {
   Assert.reserveCodeRange(3000, 3999, "core");
-  var messages = Assert.messages;
-  var message = Assert.message;
-  var assert = Assert.assert;
+  let messages = Assert.messages;
+  let message = Assert.message;
+  let assert = Assert.assert;
   messages[3001] = "No Math Core spec provided.";
   messages[3002] = "No Math Core solution provided.";
   messages[3003] = "No Math Core spec value provided.";
@@ -367,13 +367,13 @@ export var Core = (function () {
   messages[3007] = "Invalid option value '%2' for option '%1'.";
   messages[3008] = "Internal error: %1";
 
-  var u = 1;
-  var k = 1000;
-  var c = Math.pow(10, -2);
-  var m = Math.pow(10, -3);
-  var mu = Math.pow(10, -6); // micro, \\mu
-  var n = Math.pow(10, -9);
-  var env = {
+  let u = 1;
+  let k = 1000;
+  let c = Math.pow(10, -2);
+  let m = Math.pow(10, -3);
+  let mu = Math.pow(10, -6); // micro, \\mu
+  let n = Math.pow(10, -9);
+  let env = {
     "g": { type: "unit", value: u, base: "g" },
     "s": { type: "unit", value: u, base: "s" },
     "m": { type: "unit", value: u, base: "m" },
@@ -510,7 +510,7 @@ export var Core = (function () {
       assert(spec, message(3001, [spec]));
       assert(solution != undefined, message(3002, [solution]));
       Assert.setCounter(1000000, message(3005));
-      var evaluator = makeEvaluator(spec);
+      let evaluator = makeEvaluator(spec);
       evaluator.evaluate(solution, function (err, val) {
         resume(null, val);
       });
@@ -520,12 +520,12 @@ export var Core = (function () {
     }
   }
   function evaluateVerbose(spec, solution, resume) {
-    var model;
+    let model;
     try {
       assert(spec, message(3001, [spec]));
       Assert.setCounter(1000000, message(3005));
-      var evaluator = makeEvaluator(spec);
-      var errorCode = 0, msg = "Normal completion", stack, location;
+      let evaluator = makeEvaluator(spec);
+      let errorCode = 0, msg = "Normal completion", stack, location;
       evaluator.evaluate(solution, function (err, val) {
         resume([], {
           result: val,
@@ -555,14 +555,14 @@ export var Core = (function () {
       resume([e.stack], undefined);
     }
     function parseErrorCode(e) {
-      var code = +e.slice(0, indexOf(e, ":"));
+      let code = +e.slice(0, indexOf(e, ":"));
       if (!isNaN(code)) {
         return code;
       }
       return 0;
     }
     function parseMessage(e) {
-      var code = parseErrorCode(e);
+      let code = parseErrorCode(e);
       if (code) {
         return e.slice(indexOf(e, ":")+2);
       }
@@ -570,12 +570,12 @@ export var Core = (function () {
     }
   }
   function translate(spec, solution, resume) {
-    var model;
+    let model;
     try {
       assert(spec, message(3001, [spec]));
       Assert.setCounter(1000000, message(3005));
-      var evaluator = makeEvaluator(spec);
-      var errorCode = 0, msg = "Normal completion", stack, location;
+      let evaluator = makeEvaluator(spec);
+      let errorCode = 0, msg = "Normal completion", stack, location;
       evaluator.evaluate(solution, function (err, val) {
         resume([], {
           result: val,
@@ -605,14 +605,14 @@ export var Core = (function () {
       resume([e.stack], undefined);
     }
     function parseErrorCode(e) {
-      var code = +e.slice(0, indexOf(e, ":"));
+      let code = +e.slice(0, indexOf(e, ":"));
       if (!isNaN(code)) {
         return code;
       }
       return 0;
     }
     function parseMessage(e) {
-      var code = parseErrorCode(e);
+      let code = parseErrorCode(e);
       if (code) {
         return e.slice(indexOf(e, ":")+2);
       }
@@ -620,21 +620,21 @@ export var Core = (function () {
     }
   }
   function makeEvaluator(spec) {
-    var method = spec.method;
-    var value = spec.value;
-    var options = Model.options = spec.options;
+    let method = spec.method;
+    let value = spec.value;
+    let options = Model.options = spec.options;
     Assert.setLocation("spec");
     validateOptions(options);
     Model.pushEnv(env);
-    var valueNode = value != undefined ? Model.create(value, "spec") : undefined;
+    let valueNode = value != undefined ? Model.create(value, "spec") : undefined;
     Model.popEnv();
-    var evaluate = function evaluate(solution, resume) {
+    let evaluate = function evaluate(solution, resume) {
       Assert.setLocation("user");
       assert(solution != undefined, message(3002));
       Model.pushEnv(env);
-      var solutionNode = Model.create(solution, "user");
+      let solutionNode = Model.create(solution, "user");
       Assert.setLocation("spec");
-      var result;
+      let result;
       switch (method) {
       case "translate":
         result = solutionNode.translate();
@@ -646,7 +646,7 @@ export var Core = (function () {
       Model.popEnv();
       resume(null, result);
     }
-    var outerResult = {
+    let outerResult = {
       evaluate: evaluate,
       model: valueNode,
     };
