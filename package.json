@@ -1,6 +1,8 @@
 {
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
@@ -13,5 +15,8 @@
   "scripts": {
     "build": "babel-node tools/build",
     "test": "npm run build && babel-node tests/test"
+  },
+  "engines": {
+    "node": "5.7.0"
   }
 }
