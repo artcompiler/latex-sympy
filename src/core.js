@@ -78,6 +78,7 @@ import {Model} from "./model.js";
       case Model.NONE:
       case Model.DEGREE:
       case Model.DOT:
+      case Model.SET:
         node = visit.unary(node, resume);
         break;
       case Model.COMMA:
@@ -100,17 +101,13 @@ import {Model} from "./model.js";
       case Model.RIGHTARROW:
         node = visit.equals(node, resume);
         break;
-      case Model.FORMAT:
-        // Only supported by normalizeSyntax
-        node = visit.format(node);
-        break;
       case Model.PAREN:
         node = visit.paren(node);
         break;
       default:
         if (visit.name !== "normalizeLiteral" &&
             visit.name !== "sort") {
-          assert(false, "Should not get here. Unhandled node operator " + node.op);
+          node = newNode(Model.VAR, ["INTERNAL ERROR Should not get here. Unhandled node operator " + node.op]);
         }
         break;
       }
@@ -123,7 +120,17 @@ import {Model} from "./model.js";
       if (words) {
         val = words[word];
       }
-      return val ? val : word;
+      if (!val) {
+        val = word;
+        if (val.charAt(0) === "\\") {
+          val = val.substring(1);
+        }
+        if (val.indexOf(".") >= 0) {
+          let i = val.indexOf(".");
+          val = val.substring(0, i) + " point " + val.substring(i+1);
+        }
+      }
+      return val;
     }
 
     function isWildcard(rule) {
@@ -136,7 +143,7 @@ import {Model} from "./model.js";
         if (rule.op === undefined || node.op === undefined) {
           return false;
         }
-        if (isWildcard(rule) ||           
+        if (isWildcard(rule) ||
            ast.intern(rule) === ast.intern(node)) {
           return true;
         }
@@ -231,7 +238,7 @@ import {Model} from "./model.js";
           }
           // Use first match for now.
           let pattern = patternsHash[ast.intern(matches[0])];
-           return expand(pattern, args);
+          return expand(pattern, args);
         },
         unary: function(node) {
           let args = [];
@@ -255,8 +262,10 @@ import {Model} from "./model.js";
             // This is a little bit of a hack to handle how subscripts are encoded
             // as compound variables.
             if (i > 0) {
-              str += " subscript ";
-              str += lookup(n.args[0]);
+              str += " sub ";
+              let v = translate(n, patterns, patternsHash);
+              assert(v.op === Model.VAR);
+              str += v.args[0];
             } else {
               str += lookup(n);
             }
@@ -267,12 +276,32 @@ import {Model} from "./model.js";
           };
         },
         comma: function(node) {
-          let args = [];
-          forEach(node.args, function (n) {
-            args = args.concat(translate(n, patterns, patternsHash));
+          let str = "";
+          forEach(node.args, function (n, i) {
+            let v = translate(n, patterns, patternsHash);
+            if (i > 0) {
+              str += " comma ";
+            }
+            str += v.args[0];
           });
-          let str = "list " + args;
-          return str;
+          return {
+            op: Model.VAR,
+            args: [str],
+          };
+          // let args = [];
+          // forEach(node.args, function (n) {
+          //   if (isLowerPrecedence(node, n)) {
+          //     n = newNode(Model.PAREN, [n]);
+          //   }
+          //   args = args.concat(translate(n, patterns, patternsHash));
+          // });
+          // let matches = match(patterns, node);
+          // if (matches.length === 0) {
+          //   return node;
+          // }
+          // // Use first match for now.
+          // let pattern = patternsHash[ast.intern(matches[0])];
+          // return expand(pattern, args);
         },
         equals: function(node) {
           let args = [];
@@ -316,7 +345,9 @@ import {Model} from "./model.js";
 
   Model.fn.translate = function (n1) {
     let n = translate(n1);
-    assert(n.op === Model.VAR, "Expecting var, got " + n.op);
+    if (!n || n.op !== Model.VAR) {
+      n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);
+    }
     return n.args[0];
   }
 

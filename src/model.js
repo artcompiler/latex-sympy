@@ -205,6 +205,7 @@ export let Model = (function () {
     APPROX: "approx",
     INTERVAL: "interval",
     LIST: "list",
+    SET: "set",
     EXISTS: "exists",
     IN: "in",
     FORALL: "forall",
@@ -284,7 +285,64 @@ export let Model = (function () {
     return node;
   }
 
+  function isInvisibleCharCode(c) {
+    return isControlCharCode(c);
+  }
+  function isWhitespaceCharCode(c) {
+    return (
+      c === 32 ||
+        c === 9  ||
+        c === 10 ||
+        c === 13
+    );
+  }
+  function isAlphaCharCode(c) {
+    return c >= 65 && c <= 90 ||
+      c >= 97 && c <= 122;
+  }
+  function isNumberCharCode(c) {
+    return (
+      c >= 48 && c <= 57
+    );
+  }
+  function isControlCharCode(c) {
+    return (
+      c >= 0x0001 && c <= 0x001F ||
+        c >= 0x007F && c <= 0x009F
+    );
+  }
+  function stripInvisible(src) {
+    var out = "";
+    var c, lastCharCode;
+    var curIndex = 0;
+    while(curIndex < src.length) {
+      while (curIndex < src.length && isInvisibleCharCode((c = src.charCodeAt(curIndex++)))) {
+        if (lastCharCode === 32) {
+          // Replace N invisible char with one space char.
+          continue;
+        }
+        c = 9;
+        lastCharCode = c;
+      }
+      if (c === 92) {
+        // Backslash. Keep next character.
+        out += String.fromCharCode(c);
+        c = src.charCodeAt(curIndex++);
+      } else if (c === 9) {
+        // Got an invisible character, check if separating numbers.
+        if (isNumberCharCode(out.charCodeAt(out.length - 1)) && isNumberCharCode(src.charCodeAt(curIndex))) {
+          // Erase the space.
+          c = src.charCodeAt(curIndex++);
+        }
+      }
+      out += String.fromCharCode(c);
+    }
+    return out;
+  }
+
+
   let parse = function parse(src, env) {
+    src = stripInvisible(src);
     // Define lexical tokens
     let TK_NONE = 0;
     let TK_ADD = '+'.charCodeAt(0);
@@ -426,7 +484,7 @@ export let Model = (function () {
 
     function matchThousandsSeparator(ch, last) {
       // Check separator and return if there is a match.
-      if (Model.option("allowThousandsSeparator") || Model.option("setThousandsSeparator")) {
+      if (true || Model.option("allowThousandsSeparator") || Model.option("setThousandsSeparator")) {
         let separators = Model.option("setThousandsSeparator");
         if (!separators) {
           // Use defaults.
@@ -923,7 +981,7 @@ export let Model = (function () {
       }
       e.lbrk = TK_LEFTBRACE;
       e.rbrk = TK_RIGHTBRACE;
-      return e;
+      return e; //newNode(Model.SET, [e]);
     }
     // Parse '[ expr ]'
     function bracketExpr() {
@@ -1322,7 +1380,7 @@ export let Model = (function () {
         let n = args[0].op === Model.ADD && args[0].args[1].op === Model.NUM 
           ? args[0].args[1] 
           : args[0];
-        assert(n.op === Model.NUM);
+        assert(n.op === Model.NUM || n.op === Model.VAR && n.args[0] === "?");
         let arg1;
         if (args[1].op === Model.DOT) {
           assert(args[1].args[0].op === Model.NUM);
@@ -1339,37 +1397,37 @@ export let Model = (function () {
           expr = arg1;
         }
       } else if (!args[0].lbrk &&
-          args[0].op === Model.NUM &&
-          args[0].numberFormat === "decimal") {
+          (args[0].op === Model.NUM && args[0].numberFormat === "decimal" ||
+           args[0].op === Model.VAR && args[0].args[0] === "?")) {
         // No lbrk so we are in the same number literal.
         if (args[1].lbrk === 40 && isInteger(args[1])) {
           n0 = args[0];
           n1 = args[1];
         } else if (!args[1].lbrk && args[1].op === Model.OVERLINE) {
-          // 3.\overline{12} --> 3.0+(0.12, repeating)
-          // 0.3\overline{12} --> 0.3+0.1*(.12, repeating)
+        //   // 3.\overline{12} --> 3.0+(0.12, repeating)
+        //   // 0.3\overline{12} --> 0.3+0.1*(.12, repeating)
           n0 = args[0];
-          n1 = args[1].args[0];
+          n1 = args[1]; //.args[0];
         } else if (!args[1].lbrk && args[1].op === Model.DOT) {
           // 3.\dot{1}\dot{2} --> 3.0+(0.12, repeating)
           // 0.3\overline{12} --> 0.3+0.1*(.12, repeating)
           n0 = args[0];
-          n1 = args[1].args[0];
+          n1 = args[1]; //.args[0];
         } else {
           return null;
         }
-        n1 = numberNode("." + n1.args[0]);
+        // n1 = numberNode("." + n1.args[0]);
         n1.isRepeating = true;
-        if (indexOf(n0.args[0], ".") >= 0) {
-          let decimalPlaces = n0.args[0].length - indexOf(n0.args[0], ".")- 1;
-          n1 = multiplyNode([n1, binaryNode(Model.POW, [numberNode("10"), numberNode("-" + decimalPlaces)])]);
-        }
-        if (n0.op === Model.NUM && +n0.args[0] === 0) {
-          // 0.\overline{..} or 0.00\overline{..}. Leading zero, so don't add it.
-          expr = n1;
-        } else {
+        // if (indexOf(n0.args[0], ".") >= 0) {
+        //   let decimalPlaces = n0.args[0].length - indexOf(n0.args[0], ".")- 1;
+        //   n1 = multiplyNode([n1, binaryNode(Model.POW, [numberNode("10"), numberNode("-" + decimalPlaces)])]);
+        // }
+        // if (n0.op === Model.NUM && +n0.args[0] === 0) {
+        //   // 0.\overline{..} or 0.00\overline{..}. Leading zero, so don't add it.
+        //   expr = n1;
+        // } else {
           expr = binaryNode(Model.ADD, [n0, n1]);
-        }
+        // }
         expr.numberFormat = "decimal";
         expr.isRepeating = true;
       } else {
@@ -1541,11 +1599,10 @@ export let Model = (function () {
       start();
       if (hd()) {
         let n = commaExpr();
-        if (n.op !== Model.COMMA &&
-            n.lbrk === TK_LEFTBRACE &&
+        if (n.lbrk === TK_LEFTBRACE &&
             n.rbrk === TK_RIGHTBRACE) {
           // Top level {..} is a set, so make a comma expr.
-          n = newNode(Model.COMMA, [n]);
+          n = newNode(Model.SET, [n]);
         }
         assert(!hd(), message(1003, [scan.pos(), scan.lexeme()]));
         return n;
@@ -1636,13 +1693,6 @@ export let Model = (function () {
         "\\dot": TK_DOT
       };
       let identifiers = keys(env);
-      function isAlphaCharCode(c) {
-        return c >= 65 && c <= 90 ||
-          c >= 97 && c <= 122;
-      }
-      function isNumberCharCode(c) {
-        return c >= 48 && c <= 57;
-      }
       // Start scanning for one token.
       function start(options) {
         if (!options) {

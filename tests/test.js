@@ -35,19 +35,21 @@ function run(fname) {
   let t0 = Date.now();
   console.log("Starting " + fname);
   test.tests.forEach(t => {
-    evaluator.evaluate(t[0], function (err, val) {
+    let src = t instanceof Array ? t[0] : t.source;
+    let expected = t instanceof Array ? t[1] : t.expected;
+    evaluator.evaluate(src, function (err, val) {
       if (err && err.length) {
         errs = errs.concat(error(err));
       }
       let result;
-      if (trim(t[1]) === trim(val)) {
+      if (trim(expected) === trim(val)) {
         result = "PASS";
         passCount++;
       } else {
         result = "FAIL";
         failCount++;
       }
-      console.log(result + ": " + t + " | " + JSON.stringify(val));
+      console.log(result + ": " + src + " | " + JSON.stringify(val));
     });
   });
   console.log("Test completed in " + (Date.now() - t0) + " ms");
@@ -55,3 +57,4 @@ function run(fname) {
 }
 run("./tests/data/gc57354.json");
 run("./tests/data/gc57449.json");
+run("./tests/data/gc58021.json");
