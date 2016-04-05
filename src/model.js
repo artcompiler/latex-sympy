@@ -484,7 +484,7 @@ export let Model = (function () {
 
     function matchThousandsSeparator(ch, last) {
       // Check separator and return if there is a match.
-      if (true || Model.option("allowThousandsSeparator") || Model.option("setThousandsSeparator")) {
+      if (Model.option("allowThousandsSeparator") || Model.option("setThousandsSeparator")) {
         let separators = Model.option("setThousandsSeparator");
         if (!separators) {
           // Use defaults.
@@ -1202,9 +1202,9 @@ export let Model = (function () {
     // Parse '1/2/3/4'
     function fractionExpr() {
       let t, node = subscriptExpr();
-      while ((t=hd())===TK_SLASH) {
+      while ((t=hd())===TK_SLASH || t === TK_COLON) {
         next();
-        node = newNode(Model.FRAC, [node, subscriptExpr()]);
+        node = newNode(tokenToOperator[t], [node, subscriptExpr()]);
         node.isFraction = isSimpleFraction(node);
       }
       return node;
@@ -1339,7 +1339,12 @@ export let Model = (function () {
       }
       //
       function isMultiplicative(t) {
-        return t === TK_MUL || t === TK_DIV || t === TK_SLASH; // / is only multiplicative for parsing
+        return (
+          t === TK_MUL ||
+          t === TK_DIV ||
+          t === TK_SLASH ||  // / is only multiplicative for parsing
+          t === TK_COLON
+        );
       }
     }
 
@@ -1517,7 +1522,7 @@ export let Model = (function () {
     //
     function isRelational(t) {
       return t === TK_LT || t === TK_LE || t === TK_GT || t === TK_GE ||
-             t === TK_IN || t === TK_TO || t === TK_COLON;
+             t === TK_IN || t === TK_TO;
     }
     // Parse 'x < y'
     function relationalExpr() {
@@ -1831,9 +1836,7 @@ export let Model = (function () {
         lexeme += ch;
         // All single character names are valid variable lexemes. Now we check
         // for longer matches against unit names. The longest one wins.
-        while (isAlphaCharCode(c) ||
-               c === "'".charCodeAt(0)) {
-          c = src.charCodeAt(curIndex++);
+        while (isAlphaCharCode((c=src.charCodeAt(curIndex++)))) {
           let ch = String.fromCharCode(c);
           let prefix = lexeme + ch;
           let match = some(identifiers, function (u) {
@@ -1843,11 +1846,12 @@ export let Model = (function () {
             break;
           }
           lexeme += ch;
+          c = src.charCodeAt(curIndex++);
         }
+        curIndex--;
         // Scan trailing primes ('). This handles single character identifier
         // with trailing primes.
-        while (c === "'".charCodeAt(0)) {
-          c = src.charCodeAt(curIndex++);
+        while ((c=src.charCodeAt(curIndex++)) === "'".charCodeAt(0)) {
           let ch = String.fromCharCode(c);
           lexeme += ch;
         }

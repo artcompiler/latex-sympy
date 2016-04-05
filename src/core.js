@@ -34,13 +34,16 @@ import {Model} from "./model.js";
       case Model.MUL:
       case Model.DIV:
       case Model.FRAC:
-      case Model.POW:
       case Model.LOG:
+      case Model.COLON:
         if (node.args.length === 1) {
           node = visit.unary(node, resume);
         } else {
           node = visit.binary(node, resume);
         }
+        break;
+      case Model.POW:
+        node = visit.exponent(node, resume);
         break;
       case Model.VAR:
       case Model.SUBSCRIPT:
@@ -97,7 +100,6 @@ import {Model} from "./model.js";
       case Model.GE:
       case Model.NE:
       case Model.APPROX:
-      case Model.COLON:
       case Model.RIGHTARROW:
         node = visit.equals(node, resume);
         break;
@@ -133,7 +135,17 @@ import {Model} from "./model.js";
       return val;
     }
 
-    function isWildcard(rule) {
+    function matchWildcard(rule, node) {
+      if (rule.op === Model.COLON &&
+          rule.args[0].op === Model.VAR && rule.args[0].args[0] === "?") {
+        assert(rule.args[1].op === Model.VAR);
+        switch (rule.args[1].args[0]) {
+        case "N":
+          return node.op === Model.NUM;
+        default:
+          return false;
+        }
+      }
       return rule.op === Model.VAR && rule.args[0] === "?";
     }
 
@@ -143,7 +155,7 @@ import {Model} from "./model.js";
         if (rule.op === undefined || node.op === undefined) {
           return false;
         }
-        if (isWildcard(rule) ||
+        if (matchWildcard(rule, node) ||
            ast.intern(rule) === ast.intern(node)) {
           return true;
         }
@@ -194,6 +206,7 @@ import {Model} from "./model.js";
       case Model.FRAC:
       case Model.DIV:
       case Model.MOD:
+      case Model.COLON:
         return 6;
       case Model.POW:
       case Model.LOG:
@@ -219,10 +232,21 @@ import {Model} from "./model.js";
       return visit(root, {
         name: "translate",
         numeric: function(node) {
-          return {
+          let args = [{
             op: Model.VAR,
             args: [lookup(node.args[0])]
-          };
+          }];
+          let matches = match(patterns, node);
+          if (matches.length === 0) {
+            return node;
+          }
+          // Use first match for now.
+          let pattern = patternsHash[ast.intern(matches[0])];
+          return expand(pattern, args);
+          // return {
+          //   op: Model.VAR,
+          //   args: [lookup(node.args[0])]
+          // };
         },
         binary: function(node) {
           let args = [];
@@ -256,6 +280,22 @@ import {Model} from "./model.js";
           let pattern = patternsHash[ast.intern(matches[0])];
           return expand(pattern, args);
         },
+        exponent: function(node) {
+          let args = [];
+          forEach(node.args, function (n) {
+            if (isLowerPrecedence(node, n)) {
+              n = newNode(Model.PAREN, [n]);
+            }
+            args = args.concat(translate(n, patterns, patternsHash));
+          });
+          let matches = match(patterns, node);
+          if (matches.length === 0) {
+            return node;
+          }
+          // Use first match for now.
+          let pattern = patternsHash[ast.intern(matches[0])];
+          return expand(pattern, args);
+        },
         variable: function(node) {
           let str = "";
           forEach(node.args, function (n, i) {
@@ -264,8 +304,9 @@ import {Model} from "./model.js";
             if (i > 0) {
               str += " sub ";
               let v = translate(n, patterns, patternsHash);
-              assert(v.op === Model.VAR);
+//              assert(v.op === Model.VAR);
               str += v.args[0];
+              str += " baseline ";
             } else {
               str += lookup(n);
             }
@@ -500,27 +541,49 @@ export let Core = (function () {
 
   function validateOption(p, v) {
     switch (p) {
+    case "field":
+      switch (v) {
+      case void 0: // undefined means use default
+      case "integer":
+      case "real":
+      case "complex":
+        break;
+      default:
+        assert(false, message(3007, [p, v]));
+        break;
+      }
+      break;
     case "decimalPlaces":
       if (v === void 0 || +v >= 0 && +v <= 20) {
         break;
       }
       assert(false, message(3007, [p, v]));
       break;
+    case "allowDecimal":
     case "allowInterval":
+    case "dontExpandPowers":
+    case "dontFactorDenominators":
+    case "dontFactorTerms":
+    case "dontConvertDecimalToFraction":
+    case "dontSimplifyImaginary":
+    case "ignoreOrder":
+    case "inverseResult":
+    case "requireThousandsSeparator":
     case "ignoreText":
+    case "ignoreTrailingZeros":
     case "allowThousandsSeparator":
+    case "compareSides":
     case "ignoreCoefficientOne":
-    case "setThousandsSeparator":
-      if (typeof v === "undefined" ||
-          v instanceof Array) {
+    case "strict":
+      if (typeof v === "undefined" || typeof v === "boolean") {
         break;
       }
       assert(false, message(3007, [p, v]));
       break;
-    case "words":
-    case "rules":
+    case "setThousandsSeparator":
       if (typeof v === "undefined" ||
-          typeof v === "object") {
+          typeof v === "string" && v.length === 1 ||
+          v instanceof Array) {
         break;
       }
       assert(false, message(3007, [p, v]));
@@ -532,6 +595,14 @@ export let Core = (function () {
         break;
       }
       assert(false, message(3007, [p, JSON.stringify(v)]));
+      break;
+    case "words":
+    case "rules":
+      if (typeof v === "undefined" ||
+          typeof v === "object") {
+        break;
+      }
+      assert(false, message(3007, [p, v]));
       break;
     default:
       assert(false, message(3006, [p]));
