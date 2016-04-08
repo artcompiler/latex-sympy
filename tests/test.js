@@ -27,16 +27,24 @@ function trim(str) {
 }
 function run(fname) {
   var test = JSON.parse(fs.readFileSync(fname, "utf8"));
-  let evaluator = Core.makeEvaluator({
-    method: "translate",
-    options: test.options,
-  });
   let passCount = 0, failCount = 0;
   let t0 = Date.now();
   console.log("Starting " + fname);
   test.tests.forEach(t => {
+    
     let src = t instanceof Array ? t[0] : t.source;
     let expected = t instanceof Array ? t[1] : t.expected;
+    let options;
+    if (t.options) {
+      // Add item options to global options.
+      options = Object.assign({}, test.options, t.options);
+    } else {
+      options = test.options;
+    }
+    let evaluator = Core.makeEvaluator({
+      method: "translate",
+      options: options,
+    });
     evaluator.evaluate(src, function (err, val) {
       if (err && err.length) {
         errs = errs.concat(error(err));
@@ -57,4 +65,4 @@ function run(fname) {
 }
 run("./tests/data/gc57354.json");
 run("./tests/data/gc57449.json");
-run("./tests/data/gc58021.json");
+run("./tests/data/gc80526.json");

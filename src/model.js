@@ -1250,7 +1250,7 @@ export let Model = (function () {
     }
 
     function multiplicativeExpr() {
-      let t, expr, explicitOperator = false, prevExplicitOperator, isFraction, args = [];
+      let t, expr, explicitOperator = false, isFraction, args = [];
       let n0;
       expr = fractionExpr();
       if (expr.op === Model.MUL && !expr.isBinomial) {
@@ -1267,7 +1267,6 @@ export let Model = (function () {
             t !== TK_RIGHTPAREN && t !== TK_RIGHTBRACKET &&
             t !== TK_RIGHTARROW && t !== TK_LT && t !== TK_VERTICALBAR &&
             t !== TK_NEWROW && t !== TK_NEWCOL && t !== TK_END) {
-        prevExplicitOperator = explicitOperator;  // In case we need to backup one operator
         explicitOperator = false;
         if (isMultiplicative(t)) {
           next();
@@ -1382,8 +1381,8 @@ export let Model = (function () {
       let expr, n0, n1;
       if (args[0].isRepeating) {
         // We already have a repeating decimal so append additional digits to it.
-        let n = args[0].op === Model.ADD && args[0].args[1].op === Model.NUM 
-          ? args[0].args[1] 
+        let n = args[0].op === Model.ADD && args[0].args[1].op === Model.NUM
+          ? args[0].args[1]
           : args[0];
         assert(n.op === Model.NUM || n.op === Model.VAR && n.args[0] === "?");
         let arg1;
@@ -1846,7 +1845,6 @@ export let Model = (function () {
             break;
           }
           lexeme += ch;
-          c = src.charCodeAt(curIndex++);
         }
         curIndex--;
         // Scan trailing primes ('). This handles single character identifier

@@ -146,7 +146,10 @@ import {Model} from "./model.js";
           return false;
         }
       }
-      return rule.op === Model.VAR && rule.args[0] === "?";
+      return (
+        rule.op === Model.VAR && rule.args[0] === "?" ||
+        rule.op === Model.MATRIX && node.op === Model.MATRIX
+      );
     }
 
     // ["? + ?", "? - ?"], "1 + 2"
@@ -254,7 +257,7 @@ import {Model} from "./model.js";
             if (isLowerPrecedence(node, n)) {
               n = newNode(Model.PAREN, [n]);
             }
-            args = args.concat(translate(n, patterns, patternsHash));              
+            args = args.concat(translate(n, patterns, patternsHash));
           });
           let matches = match(patterns, node);
           if (matches.length === 0) {
@@ -304,7 +307,6 @@ import {Model} from "./model.js";
             if (i > 0) {
               str += " sub ";
               let v = translate(n, patterns, patternsHash);
-//              assert(v.op === Model.VAR);
               str += v.args[0];
               str += " baseline ";
             } else {
@@ -317,32 +319,35 @@ import {Model} from "./model.js";
           };
         },
         comma: function(node) {
-          let str = "";
-          forEach(node.args, function (n, i) {
-            let v = translate(n, patterns, patternsHash);
-            if (i > 0) {
-              str += " comma ";
+          if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
+            let args = [];
+            forEach(node.args, function (n) {
+              if (isLowerPrecedence(node, n)) {
+                n = newNode(Model.PAREN, [n]);
+              }
+              args = args.concat(translate(n, patterns, patternsHash));
+            });
+            let matches = match(patterns, node);
+            if (matches.length === 0) {
+              return node;
             }
-            str += v.args[0];
-          });
-          return {
-            op: Model.VAR,
-            args: [str],
-          };
-          // let args = [];
-          // forEach(node.args, function (n) {
-          //   if (isLowerPrecedence(node, n)) {
-          //     n = newNode(Model.PAREN, [n]);
-          //   }
-          //   args = args.concat(translate(n, patterns, patternsHash));
-          // });
-          // let matches = match(patterns, node);
-          // if (matches.length === 0) {
-          //   return node;
-          // }
-          // // Use first match for now.
-          // let pattern = patternsHash[ast.intern(matches[0])];
-          // return expand(pattern, args);
+            // Use first match for now.
+            let pattern = patternsHash[ast.intern(matches[0])];
+            return expand(pattern, args);
+          } else {
+            let str = "";
+            forEach(node.args, function (n, i) {
+              let v = translate(n, patterns, patternsHash);
+              if (i > 0) {
+                str += " comma ";
+              }
+              str += v.args[0];
+            });
+            return {
+              op: Model.VAR,
+              args: [str],
+            };
+          }
         },
         equals: function(node) {
           let args = [];
@@ -383,13 +388,41 @@ import {Model} from "./model.js";
     });
     return visitor.translate(node, patterns, patternsHash);
   }
-
+  function trim(str) {
+    let i = 0;
+    let out = "";
+    for (; i < str.length; i++) {
+      switch (str.charAt(i)) {
+      case " ":
+      case "\t":
+      case "\n":
+        if (out.length === 0 || out.charAt(out.length-1) === " ") {
+          // Erase space at beginning and after other space.
+          continue;
+        }
+        out += " ";
+        break;
+      default:
+        out += str.charAt(i);
+        break;
+      }
+    }
+    while (out.charAt(out.length - 1) === " ") {
+      // Trim off trailing whitespace.
+      out = out.substring(0, out.length - 1);
+    }
+    while (out.lastIndexOf(" baseline") === out.length - " baseline".length) {
+      // Trim off trailing modifiers
+      out = out.substring(0, out.length - " baseline".length);
+    }
+    return out;
+  }
   Model.fn.translate = function (n1) {
     let n = translate(n1);
     if (!n || n.op !== Model.VAR) {
       n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);
     }
-    return n.args[0];
+    return trim(n.args[0]);
   }
 
   let option = Model.option = function option(p, v) {
