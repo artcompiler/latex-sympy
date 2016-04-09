@@ -25,10 +25,10 @@ Call the Mathspeak evaluator with a global options object constructed with http:
 Here is a example embedding:
 
     function run(options, obj) {
-      // obj -- {settings, latex}
+      // obj -- {settings, src}
       // opts -- object containing words and rules authored in http://www.graffiticode.com/L115 (e.g. ./tests/data/gc80526.json)
-      let latex = opt.latex;
-      options = Object.assign({}, options, obj.options);  // Merge item options into global options.
+      let src = opt.src;
+      options = Object.assign({}, options, obj.settings);  // Merge item options into global options.
       Core.translate(options, src, function (err, result) {
         // Receive result
       });
