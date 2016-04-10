@@ -22,7 +22,7 @@ Call the Mathspeak evaluator with a global options object constructed with Graff
 [NOTE: you can use the JSON objects in ./tests/data for the global options (e.g. gc80526.json)]
 
 
-Here is a example embedding:
+Here is an example embedding:
 
     function run(options, obj) {
       // obj -- {settings, src}
