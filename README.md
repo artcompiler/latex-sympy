@@ -17,7 +17,7 @@ A library for constructing math to speech translators.
 
 ##### Embedding API
 
-Call the Mathspeak evaluator with a global options object constructed with http://www.graffiticode.com/L115 and an object containing the LaTeX to translate and parsing settings.
+Call the Mathspeak evaluator with a global options object constructed with Graffiticode L115 (e.g.  http://www.graffiticode.com/item?id=80526+38905) and an object containing the LaTeX to translate and parsing settings.
 
 [NOTE: you can use the JSON objects in ./tests/data for the global options (e.g. gc80526.json)]
 
