@@ -31,7 +31,6 @@ function run(fname) {
   let t0 = Date.now();
   console.log("Starting " + fname);
   test.tests.forEach(t => {
-    
     let src = t instanceof Array ? t[0] : t.source;
     let expected = t instanceof Array ? t[1] : t.expected;
     let options;
@@ -41,14 +40,7 @@ function run(fname) {
     } else {
       options = test.options;
     }
-    let evaluator = Core.makeEvaluator({
-      method: "translate",
-      options: options,
-    });
-    evaluator.evaluate(src, function (err, val) {
-      if (err && err.length) {
-        errs = errs.concat(error(err));
-      }
+    Core.translate(options, src, function (err, val) {
       let result;
       if (trim(expected) === trim(val)) {
         result = "PASS";

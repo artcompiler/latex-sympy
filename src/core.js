@@ -411,7 +411,7 @@ import {Model} from "./model.js";
       // Trim off trailing whitespace.
       out = out.substring(0, out.length - 1);
     }
-    while (out.lastIndexOf(" baseline") === out.length - " baseline".length) {
+    while (out.lastIndexOf("baseline") !== -1 && out.lastIndexOf(" baseline") === out.length - " baseline".length) {
       // Trim off trailing modifiers
       out = out.substring(0, out.length - " baseline".length);
     }
@@ -651,71 +651,22 @@ export let Core = (function () {
       });
     }
   }
-  function evaluate(spec, solution, resume) {
+  function translate(options, solution, resume) {
+    let spec = {
+      method: "translate",
+      options: options
+    };
     try {
-      assert(spec, message(3001, [spec]));
-      assert(solution != undefined, message(3002, [solution]));
-      Assert.setCounter(1000000, message(3005));
       let evaluator = makeEvaluator(spec);
       evaluator.evaluate(solution, function (err, val) {
         resume(null, val);
       });
     } catch (e) {
-      trace(e + "\n" + e.stack);
+      console.log(e + "\n" + e.stack);
       resume(e.stack, undefined);
     }
   }
   function evaluateVerbose(spec, solution, resume) {
-    let model;
-    try {
-      assert(spec, message(3001, [spec]));
-      Assert.setCounter(1000000, message(3005));
-      let evaluator = makeEvaluator(spec);
-      let errorCode = 0, msg = "Normal completion", stack, location;
-      evaluator.evaluate(solution, function (err, val) {
-        resume([], {
-          result: val,
-          errorCode: errorCode,
-          message: msg,
-          stack: stack,
-          location: location,
-          toString: function () {
-            return this.errorCode + ": (" + location + ") " + msg + "\n" + this.stack;
-          }
-        });
-      });
-    } catch (e) {
-      if (!e.message) {
-        try {
-          // Internal error.
-          assert(false, message(3008, [e]));
-        } catch (x) {
-          e = x;
-        }
-      }
-      errorCode = parseErrorCode(e.message);
-      msg = parseMessage(e.message);
-      stack = e.stack;
-      location = e.location;
-      console.log("ERROR evaluateVerbose stack=" + stack);
-      resume([e.stack], undefined);
-    }
-    function parseErrorCode(e) {
-      let code = +e.slice(0, indexOf(e, ":"));
-      if (!isNaN(code)) {
-        return code;
-      }
-      return 0;
-    }
-    function parseMessage(e) {
-      let code = parseErrorCode(e);
-      if (code) {
-        return e.slice(indexOf(e, ":")+2);
-      }
-      return e;
-    }
-  }
-  function translate(spec, solution, resume) {
     let model;
     try {
       assert(spec, message(3001, [spec]));
@@ -801,7 +752,7 @@ export let Core = (function () {
 
   // Exports
   return {
-    evaluate: evaluate,
+    translate: translate,
     evaluateVerbose: evaluateVerbose,
     makeEvaluator: makeEvaluator,
     Model: Model,
