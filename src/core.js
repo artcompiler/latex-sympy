@@ -18,6 +18,21 @@ import {Model} from "./model.js";
     };
   }
 
+  function binaryNode(op, args, flatten) {
+    if (args.length < 2) {
+      return args[0];
+    }
+    var aa = [];
+    forEach(args, function(n) {
+      if (flatten && n.op === op) {
+        aa = aa.concat(n.args);
+      } else {
+        aa.push(n);
+      }
+    });
+    return newNode(op, aa);
+  }
+
   // The outer Visitor function provides a global scope for all visitors,
   // as well as dispatching to methods within a visitor.
   function Visitor(ast) {
@@ -31,7 +46,6 @@ import {Model} from "./model.js";
       case Model.SUB:
       case Model.PM:
       case Model.BACKSLASH: // set operator
-      case Model.MUL:
       case Model.DIV:
       case Model.FRAC:
       case Model.LOG:
@@ -42,8 +56,13 @@ import {Model} from "./model.js";
           node = visit.binary(node, resume);
         }
         break;
+      case Model.MUL:
+      case Model.TIMES:
+      case Model.COEFF:
+        node = visit.multiplicative(node, resume);
+        break;
       case Model.POW:
-        node = visit.exponent(node, resume);
+        node = visit.exponential(node, resume);
         break;
       case Model.VAR:
       case Model.SUBSCRIPT:
@@ -146,14 +165,18 @@ import {Model} from "./model.js";
           return false;
         }
       }
-      return (
+      let result = (
         rule.op === Model.VAR && rule.args[0] === "?" ||
         rule.op === Model.MATRIX && node.op === Model.MATRIX
       );
+      return result;
     }
 
     // ["? + ?", "? - ?"], "1 + 2"
     function match(rules, node) {
+      if (rules.length === 0 || node === undefined) {
+        return false;
+      }
       let matches = rules.filter(function (rule) {
         if (rule.op === undefined || node.op === undefined) {
           return false;
@@ -162,30 +185,58 @@ import {Model} from "./model.js";
            ast.intern(rule) === ast.intern(node)) {
           return true;
         }
-        return (
-          rule.op === node.op &&
-          rule.args.length === node.args.length &&
-          rule.args.every(function (arg, i) {
-            let result = match([arg], node.args[i]);
-            return result.length === 1;
-          })
-        );
+        if (rule.op === node.op) {
+          if (rule.args.length === node.args.length) {
+            // Same number of args, so see if each matches.
+            return rule.args.every(function (arg, i) {
+              let result = match([arg], node.args[i]);
+              return result.length === 1;
+            });
+          } else if (rule.args.length < node.args.length) {
+            // Different number of args, then see if there is a wildcard match.
+            let nargs = node.args.slice(1);
+            if (rule.args.length === 2) {
+              let result = (
+                match([rule.args[0]], node.args[0]) &&
+                  matchWildcard(rule.args[1], newNode(node.op, nargs))  // match rest of the node against original rules.
+              );
+              return result;
+            }
+          }
+        }
+        return false;
       });
       return matches;
     }
 
+    function expandBinary(str, args) {
+      let t = str;
+      forEach(args, function (arg, i) {
+        str = str.replace("%" + (i + 1), arg.args[0]);
+      });
+      if (args.length > 2) {
+        return expandBinary(t, [newNode(Model.VAR, [str])].concat(args.slice(2)));
+      }
+      return str;
+    }
+
     function expand(str, args) {
       if (str && args) {
-        forEach(args, function (arg, i) {
-          str = str.replace("%" + (i + 1), arg.args[0]);
-        });
+        let count = str.split("%").length - 1;
+        if (count === 2 && args.length > 2) {
+          str = expandBinary(str, args);
+        } else {
+          forEach(args, function (arg, i) {
+            str = str.replace("%" + (i + 1), arg.args[0]);
+          });
+        }
         return {
           op: Model.VAR,
           args: [str],
         };
       }
-      return "ERROR expand(): Unknown str " + str;
-    };
+      return "ERROR expand() " + tempalate;
+    }
 
     function getPrec(op) {
       switch (op) {
@@ -224,6 +275,106 @@ import {Model} from "./model.js";
       let p0 = getPrec(n0.op);
       let p1 = getPrec(n1.op);
       return p1 < p0;
+    }
+
+    function normalizeLiteral(root) {
+      if (!root || !root.args) {
+        assert(false, "Should not get here. Illformed node.");
+        return 0;
+      }
+      var nid = ast.intern(root);
+      if (root.normalizeLiteralNid === nid) {
+        return root;
+      }
+      var node = visit(root, {
+        name: "normalizeLiteral",
+        numeric: function (node) {
+          return node;
+        },
+        binary: function (node) {
+          var args = [];
+          forEach(node.args, function (n) {
+            args.push(normalizeLiteral(n));
+          });
+          return binaryNode(node.op, args);
+        },
+        multiplicative: function (node) {
+          var args = [];
+          var flatten = true;
+          forEach(node.args, function (n) {
+            if (n.isPolynomial) {
+              assert(args.length > 0);
+              args.push(binaryNode(Model.COEFF, [args.pop(), normalizeLiteral(n)], flatten));
+            } else if (n.isImplicit) {
+              assert(args.length > 0);
+              args.push(binaryNode(Model.MUL, [args.pop(), normalizeLiteral(n)], flatten));
+            } else {
+              args.push(normalizeLiteral(n));
+            }
+          });
+          // Only have explicit mul left, so convert to times.
+          var op = node.op === Model.MUL ? Model.TIMES : node.op;
+          return binaryNode(op, args, true);
+        },
+        unary: function(node) {
+          var args = [];
+          forEach(node.args, function (n) {
+            args.push(normalizeLiteral(n));
+          });
+          if (Model.option("ignoreOrder") && node.op === Model.SUB) {
+            assert(args.length === 1);
+            return negate(args[0]);
+          }
+          return newNode(node.op, args);
+        },
+        exponential: function (node) {
+          var args = [];
+          forEach(node.args, function (n) {
+            args.push(normalizeLiteral(n));
+          });
+          node.args = args;
+          return node;
+        },
+        variable: function(node) {
+          return node;
+        },
+        comma: function(node) {
+          var args = [];
+          forEach(node.args, function (n) {
+            args.push(normalizeLiteral(n));
+          });
+          node.args = args;
+          return node;
+        },
+        equals: function(node) {
+          var args = [];
+          forEach(node.args, function (n) {
+            args.push(normalizeLiteral(n));
+          });
+          if (option("ignoreOrder") &&
+              (node.op === Model.GT ||
+               node.op === Model.GE)) {
+            // Swap adjacent elements and reverse the operator.
+            assert(args.length === 2, "Internal error: comparisons have only two operands");
+            var t = args[0];
+            args[0] = args[1];
+            args[1] = t;
+            node.op = node.op === Model.GT ? Model.LT : Model.LE;
+            node.args = args;
+          } else {
+            node.args = args;
+          }
+          return node;
+        }
+      });
+      // // If the node has changed, normalizeLiteral again
+      // while (nid !== ast.intern(node)) {
+      //   nid = ast.intern(node);
+      //   node = normalizeLiteral(node);
+      // }
+      // node.normalizeLiteralNid = nid;
+      node.normalizeLiteralNid = ast.intern(node);
+      return node;
     }
 
     function translate(root, patterns, patternsHash) {
@@ -267,6 +418,22 @@ import {Model} from "./model.js";
           let pattern = patternsHash[ast.intern(matches[0])];
           return expand(pattern, args);
         },
+        multiplicative: function(node) {
+          let args = [];
+          forEach(node.args, function (n) {
+            if (isLowerPrecedence(node, n)) {
+              n = newNode(Model.PAREN, [n]);
+            }
+            args = args.concat(translate(n, patterns, patternsHash));
+          });
+          let matches = match(patterns, node);
+          if (matches.length === 0) {
+            return node;
+          }
+          // Use first match for now.
+          let pattern = patternsHash[ast.intern(matches[0])];
+          return expand(pattern, args);
+        },
         unary: function(node) {
           let args = [];
           forEach(node.args, function (n) {
@@ -283,7 +450,7 @@ import {Model} from "./model.js";
           let pattern = patternsHash[ast.intern(matches[0])];
           return expand(pattern, args);
         },
-        exponent: function(node) {
+        exponential: function(node) {
           let args = [];
           forEach(node.args, function (n) {
             if (isLowerPrecedence(node, n)) {
@@ -370,18 +537,29 @@ import {Model} from "./model.js";
       });
     }
 
+    this.normalizeLiteral = normalizeLiteral;
     this.translate = translate;
   }
 
+  function normalizeLiteral(node) {
+    let visitor = new Visitor(ast);
+    var prevLocation = Assert.location;
+    if (node.location) {
+      Assert.setLocation(node.location);
+    }
+    var result = visitor.normalizeLiteral(node);
+    Assert.setLocation(prevLocation);
+    return result;
+  }
+
   function translate(node) {
-    let ast = new Ast;
     let visitor = new Visitor(ast);
     let rules = Model.option("rules");
     let keys = Object.keys(rules);
     let patterns = [];
     let patternsHash = {};
     keys.forEach(function (key) {
-      let node = Model.create(key);
+      let node = normalizeLiteral(Model.create(key));
       patterns.push(node);
       let hash = ast.intern(node);
       patternsHash[hash] = rules[key];
@@ -418,7 +596,7 @@ import {Model} from "./model.js";
     return out;
   }
   Model.fn.translate = function (n1) {
-    let n = translate(n1);
+    let n = translate(normalizeLiteral(n1));
     if (!n || n.op !== Model.VAR) {
       n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);
     }

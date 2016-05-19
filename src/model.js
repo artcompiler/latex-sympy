@@ -168,7 +168,9 @@ export let Model = (function () {
   let OpStr = {
     ADD: "+",
     SUB: "-",
-    MUL: "times",
+    MUL: "mul",
+    TIMES: "times",
+    COEFF: "coeff",
     DIV: "div",
     FRAC: "frac",
     EQL: "=",
@@ -1250,8 +1252,8 @@ export let Model = (function () {
     }
 
     function multiplicativeExpr() {
-      let t, expr, explicitOperator = false, isFraction, args = [];
-      let n0;
+      var t, expr, explicitOperator = false, isFraction, args = [];
+      var n0;
       expr = fractionExpr();
       if (expr.op === Model.MUL && !expr.isBinomial) {
         // FIXME binomials and all other significant syntax should not be desugared
@@ -1281,33 +1283,49 @@ export let Model = (function () {
                expr.lbrk ||
                args[args.length-1].op !== Model.NUM ||
                args[args.length-1].lbrk ||
+               isRepeatingDecimal([args[args.length-1], expr]) ||
                expr.op !== Model.NUM, message(1010));
         if (isChemCore() && t === TK_LEFTPAREN && isVar(args[args.length-1], "M")) {
           // M(x) -> \M(x)
           args.pop();
           expr = unaryNode(Model.M, [expr]);
-        } else if (!explicitOperator && Model.option("ignoreCoefficientOne") &&
-                   args.length === 1 && isOneOrMinusOne(args[0])) {
-          // 1x -> x
-          if (isOne(args[0])) {
+        } else if (!explicitOperator) {
+          if (args.length > 0 &&
+              isMixedFraction(args[args.length-1], expr)) {
+            // 3 \frac{1}{2} -> 3 + \frac{1}{2}
+            t = args.pop();
+            if (isNeg(t)) {
+              expr = binaryNode(Model.MUL, [nodeMinusOne, expr]);
+            }
+            expr = binaryNode(Model.ADD, [t, expr]);
+            expr.isMixedFraction = true;
+          } else if (Model.option("ignoreCoefficientOne") &&
+                     args.length === 1 && isOneOrMinusOne(args[0]) &&
+                     isPolynomialTerm(args[0], expr)) {
+            // 1x -> x
+            if (isOne(args[0])) {
+              args.pop();
+            } else {
+              expr = negate(expr);
+            }
+          } else if (args.length > 0 &&
+                     (n0 = isRepeatingDecimal([args[args.length-1], expr]))) {
             args.pop();
+            expr = n0;
+          } else if (!isChemCore() && isPolynomialTerm(args[args.length-1], expr)) {
+            // 2x, -3y but not CH (in chem)
+            expr.isPolynomial = true;
+            var t = args.pop();
+            if (!t.isPolynomial) {
+              expr = binaryNode(Model.MUL, [t, expr]);
+              expr.isImplicit = t.isImplicit;
+              t.isImplicit = undefined;
+            }
           } else {
-            expr = negate(expr);
+            // 2(x), (y+1)z
+            expr.isImplicit = true;
           }
-        } else if (!explicitOperator && args.length > 0 &&
-                   isMixedFraction(args[args.length-1], expr)) {
-          // 3 \frac{1}{2} -> 3 + \frac{1}{2}
-          t = args.pop();
-          if (isNeg(t)) {
-            expr = binaryNode(Model.MUL, [nodeMinusOne, expr]);
-          }
-          expr = binaryNode(Model.ADD, [t, expr]);
-          expr.isMixedFraction = true;
-        } else if (!explicitOperator && args.length > 0 &&
-                   (n0 = isRepeatingDecimal([args[args.length-1], expr]))) {
-          args.pop();
-          expr = n0;
-        } else if (t === TK_MUL && args.length > 0 && explicitOperator &&
+        } else if (t === TK_MUL && args.length > 0 &&
                    isScientific([args[args.length-1], expr])) {
           // 1.2 \times 10 ^ {-3}
           t = args.pop();
@@ -1319,31 +1337,24 @@ export let Model = (function () {
         }
         if (expr.op === Model.MUL &&
             !expr.isScientific &&
-            !expr.isBinomial) {
+            !expr.isBinomial && args.length &&
+            !args[args.length-1].isImplicit &&
+            !args[args.length-1].isPolynomial &&
+            expr.isImplicit &&
+            expr.isPolynomial) {
           args = args.concat(expr.args);
         } else {
           args.push(expr);
         }
       }
-      if (args.length > 2) {
-        let arg0 = args.shift();
-        forEach(args, function (n) {
-          arg0 = multiplyNode([arg0, n]);
-        });
-        return arg0;
-      } else if (args.length > 1) {
+      if (args.length > 1) {
         return multiplyNode(args);
       } else {
         return args[0];
       }
       //
       function isMultiplicative(t) {
-        return (
-          t === TK_MUL ||
-          t === TK_DIV ||
-          t === TK_SLASH ||  // / is only multiplicative for parsing
-          t === TK_COLON
-        );
+        return t === TK_MUL || t === TK_DIV || t === TK_SLASH; // / is only multiplicative for parsing
       }
     }
 
@@ -1359,6 +1370,21 @@ export let Model = (function () {
       if (!n0.lbrk && !n1.lbrk &&
           n0.op === Model.NUM &&
           isSimpleFraction(n1)) {
+        return true;
+      }
+      return false;
+    }
+
+    function isPolynomialTerm(n0, n1) {
+      // 3x but not 3(x)
+      if (n0.op === Model.SUB && n0.args.length === 1) {
+        n0 = n0.args[0];
+      }
+      if (!n0.lbrk && !n1.lbrk &&
+          (n0.op === Model.NUM && isVar(n1) ||
+           isVar(n0) && n1.op === Model.NUM ||
+           n0.op === Model.NUM && n1.op === Model.NUM ||
+           isVar(n0) && isVar(n1))) {
         return true;
       }
       return false;

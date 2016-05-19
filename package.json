@@ -14,7 +14,8 @@
   },
   "scripts": {
     "build": "babel-node tools/build",
-    "test": "npm run build && babel-node tests/test"
+    "test": "npm run build && babel-node tests/test",
+    "debug": "npm run build && babel-node tests/debug"
   },
   "engines": {
     "node": "5.7.0"
