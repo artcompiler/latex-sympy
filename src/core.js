@@ -346,6 +346,14 @@ import {Model} from "./model.js";
           node.args = args;
           return node;
         },
+        paren: function(node) {
+          var args = [];
+          forEach(node.args, function (n) {
+            args.push(normalizeLiteral(n));
+          });
+          node.args = args;
+          return node;
+        },
         equals: function(node) {
           var args = [];
           forEach(node.args, function (n) {
@@ -404,10 +412,11 @@ import {Model} from "./model.js";
         },
         binary: function(node) {
           let args = [];
-          forEach(node.args, function (n) {
-            if (isLowerPrecedence(node, n)) {
-              n = newNode(Model.PAREN, [n]);
-            }
+          forEach(node.args, function (n, i) {
+//             if (isLowerPrecedence(node, n) ||
+//                 node.op === Model.SUB && i > 0) {
+//               n = newNode(Model.PAREN, [n]);
+//             }
             args = args.concat(translate(n, patterns, patternsHash));
           });
           let matches = match(patterns, node);
@@ -421,9 +430,9 @@ import {Model} from "./model.js";
         multiplicative: function(node) {
           let args = [];
           forEach(node.args, function (n) {
-            if (isLowerPrecedence(node, n)) {
-              n = newNode(Model.PAREN, [n]);
-            }
+            // if (isLowerPrecedence(node, n)) {
+            //   n = newNode(Model.PAREN, [n]);
+            // }
             args = args.concat(translate(n, patterns, patternsHash));
           });
           let matches = match(patterns, node);
@@ -437,9 +446,9 @@ import {Model} from "./model.js";
         unary: function(node) {
           let args = [];
           forEach(node.args, function (n) {
-            if (isLowerPrecedence(node, n)) {
-              n = newNode(Model.PAREN, [n]);
-            }
+            // if (isLowerPrecedence(node, n)) {
+            //   n = newNode(Model.PAREN, [n]);
+            // }
             args = args.concat(translate(n, patterns, patternsHash));
           });
           let matches = match(patterns, node);
@@ -453,9 +462,9 @@ import {Model} from "./model.js";
         exponential: function(node) {
           let args = [];
           forEach(node.args, function (n) {
-            if (isLowerPrecedence(node, n)) {
-              n = newNode(Model.PAREN, [n]);
-            }
+            // if (isLowerPrecedence(node, n)) {
+            //   n = newNode(Model.PAREN, [n]);
+            // }
             args = args.concat(translate(n, patterns, patternsHash));
           });
           let matches = match(patterns, node);
@@ -489,9 +498,9 @@ import {Model} from "./model.js";
           if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
             let args = [];
             forEach(node.args, function (n) {
-              if (isLowerPrecedence(node, n)) {
-                n = newNode(Model.PAREN, [n]);
-              }
+              // if (isLowerPrecedence(node, n)) {
+              //   n = newNode(Model.PAREN, [n]);
+              // }
               args = args.concat(translate(n, patterns, patternsHash));
             });
             let matches = match(patterns, node);
@@ -531,8 +540,18 @@ import {Model} from "./model.js";
         },
         paren: function(node) {
           assert (node.args.length === 1);
-          node = translate(node.args[0], patterns, patternsHash);
-          return node;
+          let args = [];
+          forEach(node.args, function (n) {
+            args = args.concat(translate(n, patterns, patternsHash));
+          });
+          let matches = match(patterns, node);
+          if (matches.length === 0) {
+            return node;
+          }
+          // Use first match for now.
+          let pattern = patternsHash[ast.intern(matches[0])];
+          return expand(pattern, args);
+//          return node;
         }
       });
     }

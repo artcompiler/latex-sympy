@@ -1022,8 +1022,11 @@ export let Model = (function () {
         // Make bracket tokens part of the node for comparision.
         e.args.push(numberNode(tk));
         e.args.push(numberNode(tk2));
-      } else if (e.op === Model.COMMA) {
-        e.op = Model.LIST;
+//      } else if (e.op === Model.COMMA) {
+//        e.op = Model.LIST;
+      }
+      if (tk === TK_LEFTPAREN) {
+        return newNode(Model.PAREN, [e]);
       }
       return e;
     }
