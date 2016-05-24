@@ -1412,28 +1412,30 @@ export let Model = (function () {
       // "3." "(..)"
       // "3." "\dot{..}"
       let expr, n0, n1;
-      if (args[0].isRepeating) {
-        // We already have a repeating decimal so append additional digits to it.
-        let n = args[0].op === Model.ADD && args[0].args[1].op === Model.NUM
-          ? args[0].args[1]
-          : args[0];
-        assert(n.op === Model.NUM || n.op === Model.VAR && n.args[0] === "?");
-        let arg1;
-        if (args[1].op === Model.DOT) {
-          assert(args[1].args[0].op === Model.NUM);
-          arg1 = numberNode(n.args[0] + args[1].args[0].args[0]);
-        } else {
-          assert(args[1].op === Model.NUM);
-          arg1 = numberNode(n.args[0] + args[1].args[0]);
-        }
-        arg1.isRepeating = true;
-        if (args[0].op === Model.ADD) {
-          args[0].args[1] = arg1;
-          expr = args[0];
-        } else {
-          expr = arg1;
-        }
-      } else if (!args[0].lbrk &&
+      // if (args[0].isRepeating) {
+      //   // We already have a repeating decimal so append additional digits to it.
+      //   let n = args[0].op === Model.ADD && args[0].args[1].op === Model.NUM
+      //     ? args[0].args[1]
+      //     : args[0];
+      //   console.log("isRepeating() n=" + JSON.stringify(n, null, 2));
+      //   assert(n.op === Model.NUM || n.op === Model.VAR && n.args[0] === "?");
+      //   let arg1;
+      //   if (args[1].op === Model.DOT) {
+      //     assert(args[1].args[0].op === Model.NUM);
+      //     arg1 = numberNode(n.args[0] + args[1].args[0].args[0]);
+      //   } else {
+      //     assert(args[1].op === Model.NUM);
+      //     arg1 = numberNode(n.args[0] + args[1].args[0]);
+      //   }
+      //   arg1.isRepeating = true;
+      //   if (args[0].op === Model.ADD) {
+      //     args[0].args[1] = arg1;
+      //     expr = args[0];
+      //   } else {
+      //     expr = arg1;
+      //   }
+      // } else
+      if (!args[0].lbrk &&
           (args[0].op === Model.NUM && args[0].numberFormat === "decimal" ||
            args[0].op === Model.VAR && args[0].args[0] === "?")) {
         // No lbrk so we are in the same number literal.
