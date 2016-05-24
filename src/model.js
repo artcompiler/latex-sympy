@@ -1173,6 +1173,7 @@ export let Model = (function () {
           if (hd()) {
             // Give $1 a higher precedence than ordinary multiplication.
             expr = multiplyNode([newNode(Model.VAR, ["$"]), postfixExpr()]);
+            expr.args[1].isPolynomial = true;
           } else {
             // Standalone "$". Probably not useful but we had a test case for it.
             expr = newNode(Model.VAR, ["$"]);
@@ -1241,7 +1242,7 @@ export let Model = (function () {
       if (n.op !== Model.VAR) {
         return false;
       }
-      return n === undefined ? true : n.args[0] === id;
+      return id === undefined ? true : n.args[0] === id;
     }
     // Parse 'a \times b', 'a * b'
     function isOneOrMinusOne(node) {
