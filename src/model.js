@@ -1324,6 +1324,8 @@ export let Model = (function () {
               expr = binaryNode(Model.MUL, [t, expr]);
               expr.isImplicit = t.isImplicit;
               t.isImplicit = undefined;
+            } else {
+              args.push(t);
             }
           } else {
             // 2(x), (y+1)z
@@ -1388,7 +1390,8 @@ export let Model = (function () {
           (n0.op === Model.NUM && isVar(n1) ||
            isVar(n0) && n1.op === Model.NUM ||
            n0.op === Model.NUM && n1.op === Model.NUM ||
-           isVar(n0) && isVar(n1))) {
+           isVar(n0) && isVar(n1) ||
+           n0.op === Model.MUL && n0.args[n0.args.length-1].isPolynomial && (isVar(n1) || n1.op === Model.NUM))) {
         return true;
       }
       return false;
