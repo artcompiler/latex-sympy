@@ -187,6 +187,9 @@ export let Model = (function () {
     ARCSIN: "arcsin",
     ARCCOS: "arccos",
     ARCTAN: "arctan",
+    ARCSEC: "arcsec",
+    ARCCOT: "arccot",
+    ARCCSC: "arccsc",
     LOG: "log",
     LN: "ln",
     LG: "lg",
@@ -256,12 +259,15 @@ export let Model = (function () {
   OpToLaTeX[OpStr.SIN] = "\\sin";
   OpToLaTeX[OpStr.COS] = "\\cos";
   OpToLaTeX[OpStr.TAN] = "\\tan";
-  OpToLaTeX[OpStr.ARCSIN] = "\\arcsin";
-  OpToLaTeX[OpStr.ARCCOS] = "\\arccos";
-  OpToLaTeX[OpStr.ARCTAN] = "\\arctan";
   OpToLaTeX[OpStr.SEC] = "\\sec";
   OpToLaTeX[OpStr.COT] = "\\cot";
   OpToLaTeX[OpStr.CSC] = "\\csc";
+  OpToLaTeX[OpStr.ARCSIN] = "\\arcsin";
+  OpToLaTeX[OpStr.ARCCOS] = "\\arccos";
+  OpToLaTeX[OpStr.ARCTAN] = "\\arctan";
+  OpToLaTeX[OpStr.ARCSEC] = "\\arcsec";
+  OpToLaTeX[OpStr.ARCCOT] = "\\arccot";
+  OpToLaTeX[OpStr.ARCCSC] = "\\arccsc";
   OpToLaTeX[OpStr.LN] = "\\ln";
   OpToLaTeX[OpStr.COMMA] = ",";
   OpToLaTeX[OpStr.M] = "\\M";
@@ -418,6 +424,9 @@ export let Model = (function () {
     let TK_APPROX = 0x12E;
     let TK_ABS = 0x12F;
     let TK_DOT = 0x130;
+    let TK_ARCSEC = 0x131;
+    let TK_ARCCSC = 0x132;
+    let TK_ARCCOT = 0x133;
     let T0 = TK_NONE, T1 = TK_NONE;
     // Define mapping from token to operator
     let tokenToOperator = {};
@@ -808,6 +817,9 @@ export let Model = (function () {
       case TK_SIN:
       case TK_COS:
       case TK_TAN:
+      case TK_SEC:
+      case TK_COT:
+      case TK_CSC:
         next();
         let t;
         args = [];
@@ -833,9 +845,9 @@ export let Model = (function () {
       case TK_ARCSIN:
       case TK_ARCCOS:
       case TK_ARCTAN:
-      case TK_SEC:
-      case TK_COT:
-      case TK_CSC:
+      case TK_ARCSEC:
+      case TK_ARCCOT:
+      case TK_ARCCSC:
         next();
         args = [];
         // Collect exponents if there are any
@@ -1003,31 +1015,23 @@ export let Model = (function () {
         e = newNode(Model.COMMA, []);
       } else {
         e = commaExpr();
-        if (Model.option("allowInterval")) {
-          // (..], [..], [..), (..)
-          eat(tk2 = hd() === TK_RIGHTPAREN ? TK_RIGHTPAREN : TK_RIGHTBRACKET);
-        } else {
-          // (..), [..]
-          eat(tk2 = tk === TK_LEFTPAREN ? TK_RIGHTPAREN : TK_RIGHTBRACKET);
-        }
+        // (..], [..], [..), (..)
+        eat(tk2 = hd() === TK_RIGHTPAREN ? TK_RIGHTPAREN : TK_RIGHTBRACKET);
+      }
+      // intervals: (1, 3), [1, 3], [1, 3), (1, 3]
+      if (e.args.length === 2 &&
+          (tk === TK_LEFTPAREN || tk === TK_LEFTBRACKET) &&
+          (tk2 === TK_RIGHTPAREN || tk2 === TK_RIGHTBRACKET)) {
+        // Make bracket tokens part of the node for comparision.
+        //e.args.push(numberNode(tk));
+        //e.args.push(numberNode(tk2));
+        e = newNode(Model.PAREN, [e]);
+      } else if (tk === TK_LEFTPAREN) {
+        e = newNode(Model.PAREN, [e]);
       }
       // Save the brackets as attributes on the node for later use.
       e.lbrk = tk;
       e.rbrk = tk2;
-      // intervals: (1, 3), [1, 3], [1, 3), (1, 3]
-      if (Model.option("allowInterval") && e.args.length === 2 &&
-          (tk === TK_LEFTPAREN || tk === TK_LEFTBRACKET) &&
-          (tk2 === TK_RIGHTPAREN || tk2 === TK_RIGHTBRACKET)) {
-        e.op = Model.INTERVAL;
-        // Make bracket tokens part of the node for comparision.
-        e.args.push(numberNode(tk));
-        e.args.push(numberNode(tk2));
-//      } else if (e.op === Model.COMMA) {
-//        e.op = Model.LIST;
-      }
-      if (tk === TK_LEFTPAREN) {
-        return newNode(Model.PAREN, [e]);
-      }
       return e;
     }
     // Parse 'x^2'
@@ -1680,6 +1684,9 @@ export let Model = (function () {
         "\\arcsin": TK_ARCSIN,
         "\\arccos": TK_ARCCOS,
         "\\arctan": TK_ARCTAN,
+        "\\arcsec": TK_ARCSEC,
+        "\\arccot": TK_ARCCOT,
+        "\\arccsc": TK_ARCCSC,
         "\\ln": TK_LN,
         "\\lg": TK_LG,
         "\\log": TK_LOG,

@@ -72,12 +72,15 @@ import {Model} from "./model.js";
       case Model.SIN:
       case Model.COS:
       case Model.TAN:
-      case Model.ARCSIN:
-      case Model.ARCCOS:
-      case Model.ARCTAN:
       case Model.SEC:
       case Model.CSC:
       case Model.COT:
+      case Model.ARCSIN:
+      case Model.ARCCOS:
+      case Model.ARCTAN:
+      case Model.ARCSEC:
+      case Model.ARCCSC:
+      case Model.ARCCOT:
       case Model.PERCENT:
       case Model.M:
       case Model.ABS:
@@ -108,7 +111,6 @@ import {Model} from "./model.js";
       case Model.VEC:
       case Model.ROW:
       case Model.COL:
-      case Model.INTERVAL:
       case Model.LIST:
         node = visit.comma(node, resume);
         break;
@@ -123,6 +125,7 @@ import {Model} from "./model.js";
         node = visit.equals(node, resume);
         break;
       case Model.PAREN:
+      case Model.INTERVAL:
         node = visit.paren(node);
         break;
       default:
@@ -537,7 +540,7 @@ import {Model} from "./model.js";
           return expand(pattern, args);
         },
         paren: function(node) {
-          assert (node.args.length === 1);
+          //assert (node.args.length === 1);
           let args = [];
           forEach(node.args, function (n) {
             args = args.concat(translate(n, patterns, patternsHash));
@@ -545,11 +548,20 @@ import {Model} from "./model.js";
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
+          } else if (matches.length > 1) {
+            var t = matches;
+            // Find the one that has matching brackets.
+            matches = matches.filter((n) => {
+              return n.lbrk === node.lbrk && n.rbrk === node.rbrk;
+            });
+            if (matches.length === 0) {
+              // Restore original matches.
+              matches = t;
+            }
           }
           // Use first match for now.
           let pattern = patternsHash[ast.intern(matches[0])];
           return expand(pattern, args);
-//          return node;
         }
       });
     }

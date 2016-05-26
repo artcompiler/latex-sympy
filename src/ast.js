@@ -117,10 +117,6 @@ export let Ast = (function () {
     let count = node.args.length;
     let args = "";
     let args_nids = [ ];
-//    if (node.lbrk && node.lbrk !== "{".charCodeAt(0)) {
-//      args += String.fromCharCode(node.lbrk);
-//      args += String.fromCharCode(node.rbrk);
-//    }
     for (let i=0; i < count; i++) {
       args += " ";
       if (typeof node.args[i] === "string") {
@@ -128,6 +124,11 @@ export let Ast = (function () {
       } else {
         args += args_nids[i] = this.intern(node.args[i]);
       }
+    }
+    if (node.lbrk && node.lbrk !== "{".charCodeAt(0)) {
+      // Make brackets part of the key.
+      args += String.fromCharCode(node.lbrk);
+      args += String.fromCharCode(node.rbrk);
     }
     let key = op + count + args;
     let nid = this.nodeMap[key];
