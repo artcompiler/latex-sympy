@@ -238,6 +238,7 @@ export let Model = (function () {
     BACKSLASH: "backslash",
     MATHBF: "mathbf",
     DOT: "dot",
+    MATHFIELD: "mathfield",
     NONE: "none"
   };
 
@@ -427,6 +428,7 @@ export let Model = (function () {
     let TK_ARCSEC = 0x131;
     let TK_ARCCSC = 0x132;
     let TK_ARCCOT = 0x133;
+    let TK_MATHFIELD = 0x134;
     let T0 = TK_NONE, T1 = TK_NONE;
     // Define mapping from token to operator
     let tokenToOperator = {};
@@ -485,6 +487,7 @@ export let Model = (function () {
     tokenToOperator[TK_BACKSLASH] = OpStr.BACKSLASH;
     tokenToOperator[TK_MATHBF] = OpStr.MATHBF;
     tokenToOperator[TK_DOT] = OpStr.DOT;
+    tokenToOperator[TK_MATHFIELD] = OpStr.MATHFIELD;
 
     function newNode(op, args) {
       return {
@@ -653,7 +656,7 @@ export let Model = (function () {
     let nodeOne = numberNode("1");
     let nodeMinusOne = unaryNode(Model.SUB, [numberNode("1")]);
     let nodeNone = newNode(Model.NONE, [numberNode("0")]);
-    let nodeEmpty = newNode(Model.VAR, ["0"]);
+    let nodeEmpty = newNode(Model.VAR, [""]);
 
     //
     // PARSER
@@ -929,6 +932,9 @@ export let Model = (function () {
       case TK_DOT:
         next();
         return newNode(Model.DOT, [braceExpr()]);
+      case TK_MATHFIELD:
+        next();
+        return newNode(Model.MATHFIELD, [braceExpr()]);
       case TK_OVERSET:
       case TK_UNDERSET:
         next();
@@ -1736,7 +1742,8 @@ export let Model = (function () {
         "\\backslash": TK_BACKSLASH,
         "\\mathbf": TK_MATHBF,
         "\\abs": TK_ABS,
-        "\\dot": TK_DOT
+        "\\dot": TK_DOT,
+        "\\MathQuillMathField": TK_MATHFIELD
       };
       let identifiers = keys(env);
       // Start scanning for one token.

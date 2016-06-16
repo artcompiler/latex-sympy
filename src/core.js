@@ -103,6 +103,7 @@ import {Model} from "./model.js";
       case Model.NONE:
       case Model.DEGREE:
       case Model.DOT:
+      case Model.MATHFIELD:
       case Model.SET:
         node = visit.unary(node, resume);
         break;
