@@ -2,6 +2,7 @@
  * Copyright 2016 Art Compiler LLC. All Rights Reserved.
  *
  */
+import {version} from "./version.js";
 import {every, forEach, keys, indexOf} from "./backward.js";
 import {Assert, assert, message} from "./assert.js";
 import {Ast} from "./ast.js";
