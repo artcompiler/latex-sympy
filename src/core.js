@@ -7,6 +7,7 @@ import {every, forEach, keys, indexOf} from "./backward.js";
 import {Assert, assert, message} from "./assert.js";
 import {Ast} from "./ast.js";
 import {Model} from "./model.js";
+import {rules} from "./rules.js";
 
 (function (ast) {
 

@@ -1,6 +1,8 @@
 import fs from "fs";
 import {execSync} from "child_process";
 
+let id = "455162";  // Current best rule set
+
 function rmdir(path) {
   try { var files = fs.readdirSync(path); }
   catch(e) { return; }
@@ -37,6 +39,12 @@ function clean() {
   cldir("./lib");
 }
 
+function rules() {
+  exec("wget http://www.graffiticode.com/data?id=" + id + " -O data.txt");
+  var data = JSON.parse(fs.readFileSync("data.txt", "utf8"));
+  fs.writeFileSync("lib/rules.js", "var rules=" + JSON.stringify(data.options), "utf8");
+}
+
 function compile() {
   console.log("Compiling...");
   exec("babel src --out-dir lib");
@@ -50,6 +58,7 @@ function bundle() {
 function build() {
   let t0 = Date.now();
   clean();
+  rules();
   compile();
   bundle();
   console.log("Build completed in " + (Date.now() - t0) + " ms");
