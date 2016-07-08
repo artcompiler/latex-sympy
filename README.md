@@ -24,11 +24,12 @@ Call the Mathspeak evaluator with a global options object constructed with Graff
 
 Here is an example embedding:
 
-    function run(options, obj) {
+    function run(opts, obj) {
+      // opts -- object containing words and rules authored in http://www.graffiticode.com/L115 (./tests/data/gc80526.json).
+      //         If !opt === true, then Mathspeak Core.translate will provide a default set of rules.
       // obj -- {settings, src}
-      // opts -- object containing words and rules authored in http://www.graffiticode.com/L115 (e.g. ./tests/data/gc80526.json)
-      let src = opt.src;
-      options = Object.assign({}, options, obj.settings);  // Merge item options into global options.
+      let src = obj.src;
+      let options = Object.assign({}, opts, obj.settings);  // Merge item options into global options.
       Core.translate(options, src, function (err, result) {
         // Receive result
       });
