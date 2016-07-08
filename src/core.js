@@ -862,6 +862,13 @@ export let Core = (function () {
     }
   }
   function translate(options, solution, resume) {
+    if (!options) {
+      options = {};
+    }
+    if (!options.rules) {
+      options.words = rules.words;
+      options.rules = rules.rules;
+    }
     let spec = {
       method: "translate",
       options: options

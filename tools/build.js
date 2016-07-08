@@ -40,9 +40,9 @@ function clean() {
 }
 
 function rules() {
-  exec("wget http://www.graffiticode.com/data?id=" + id + " -O data.txt");
+  exec('curl -L "http://www.graffiticode.com/data?id=' + id + '" -o "data.txt"');
   var data = JSON.parse(fs.readFileSync("data.txt", "utf8"));
-  fs.writeFileSync("lib/rules.js", "var rules=" + JSON.stringify(data.options), "utf8");
+  fs.writeFileSync("src/rules.js", "export var rules=" + JSON.stringify(data.options), "utf8");
 }
 
 function compile() {
