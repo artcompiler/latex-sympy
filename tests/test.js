@@ -56,3 +56,4 @@ function run(fname) {
   console.log(passCount + " PASSED, " + failCount + " FAILED");
 }
 run("./tests/data/gc358949.json");
+run("./tests/data/default.json");
