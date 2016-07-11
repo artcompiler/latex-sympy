@@ -47,12 +47,14 @@ function rules() {
 
 function compile() {
   console.log("Compiling...");
-  exec("babel src --out-dir lib");
+  exec("babel --plugins transform-es2015-modules-amd src --out-dir lib");
 }
 
 function bundle() {
   console.log("Bundling...");
-  exec("browserify lib/core.js > build/mathspeak.js");
+  exec("mv ./lib/core.js ./build/mathspeak.js");
+  exec("mv ./lib/* ./build");
+//  exec("browserify lib/core.js -o build/mathspeak.js -t [babelify --presets [es2015, stage-0]]");
 }
 
 function build() {
