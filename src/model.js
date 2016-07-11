@@ -721,7 +721,7 @@ export let Model = (function () {
     }
 
     function primaryExpr() {
-      let t, e, tk, op, base, args, expr1, expr2;
+      let t, node, tk, op, base, args, expr1, expr2;
       switch ((tk=hd())) {
       case 'A'.charCodeAt(0):
       case 'a'.charCodeAt(0):
@@ -733,7 +733,7 @@ export let Model = (function () {
           next({oneCharToken: true});
           args.push(primaryExpr());   // {op:VAR, args:["Fe", "2"]}
         }
-        e = newNode(Model.VAR, args);
+        node = newNode(Model.VAR, args);
         if (isChemCore()) {
           if (hd() === TK_LEFTBRACE && lookahead() === TK_RIGHTBRACE) {
             // C_2{}^3 -> C_2^3
@@ -743,15 +743,15 @@ export let Model = (function () {
         }
         break;
       case TK_NUM:
-        e = numberNode(lexeme());
+        node = numberNode(lexeme());
         next();
         break;
       case TK_LEFTBRACKET:
       case TK_LEFTPAREN:
-        e = parenExpr(tk);
+        node = parenExpr(tk);
         break;
       case TK_LEFTBRACE:
-        e = braceExpr();
+        node = braceExpr();
         break;
       case TK_BEGIN:
         next();
@@ -760,24 +760,24 @@ export let Model = (function () {
         eat(TK_END);
         braceExpr();
         if (indexOf(figure.args[0], "matrix") >= 0) {
-          e = newNode(Model.MATRIX, [tbl]);
+          node = newNode(Model.MATRIX, [tbl]);
         } else {
           assert(false, "Unrecognized LaTeX name");
         }
         break;
       case TK_VERTICALBAR:
-        e = absExpr();
+        node = absExpr();
         break;
       case TK_ABS:
         next();
-        let e = unaryNode(Model.ABS, [braceExpr()]);
+        node = unaryNode(Model.ABS, [braceExpr()]);
         break;
       case TK_FRAC:
         next();
         expr1 = braceExpr();
         expr2 = braceExpr();
-        e = newNode(Model.FRAC, [expr1, expr2]);
-        e.isFraction = isSimpleFraction(e);
+        node = newNode(Model.FRAC, [expr1, expr2]);
+        node.isFraction = isSimpleFraction(node);
         break;
       case TK_BINOM:
         next();
@@ -792,8 +792,8 @@ export let Model = (function () {
           ]),
           nodeMinusOne
         ]);
-        e = binaryNode(Model.MUL, [num, den]);
-        e.isBinomial = true;
+        node = binaryNode(Model.MUL, [num, den]);
+        node.isBinomial = true;
         break;
       case TK_SQRT:
         next();
@@ -801,11 +801,11 @@ export let Model = (function () {
         case TK_LEFTBRACKET:
           let root = bracketExpr();
           base = braceExpr();
-          e = newNode(Model.SQRT, [base, root]);
+          node = newNode(Model.SQRT, [base, root]);
           break;
         case TK_LEFTBRACE:
           base = braceExpr();
-          e = newNode(Model.SQRT, [base, newNode(Model.NUM, ["2"])]);
+          node = newNode(Model.SQRT, [base, newNode(Model.NUM, ["2"])]);
           break;
         default:
           assert(false, message(1001, ["{ or (", String.fromCharCode(hd())]));
@@ -815,7 +815,7 @@ export let Model = (function () {
       case TK_VEC:
         next();
         let name = braceExpr();
-        e = newNode(Model.VEC, [name]);
+        node = newNode(Model.VEC, [name]);
         break;
       case TK_SIN:
       case TK_COS:
@@ -954,10 +954,10 @@ export let Model = (function () {
         return newNode(Model.VAR, ["?"]);
       default:
         assert(!Model.option("strict"), message(1006, [tokenToOperator[tk]]));
-        e = nodeEmpty;
+        node = nodeEmpty;
         break;
       }
-      return e;
+      return node;
     }
     // Parse '1 & 2 & 3 \\ a & b & c'
     function matrixExpr( ) {
@@ -990,18 +990,18 @@ export let Model = (function () {
     }
     // Parse '{ expr }'
     function braceExpr() {
-      let e;
+      let node;
       eat(TK_LEFTBRACE);
       if (hd() === TK_RIGHTBRACE) {
         eat(TK_RIGHTBRACE);
-        e = newNode(Model.COMMA, []);
+        node = newNode(Model.COMMA, []);
       } else {
-        e = commaExpr();
+        node = commaExpr();
         eat(TK_RIGHTBRACE);
       }
-      e.lbrk = TK_LEFTBRACE;
-      e.rbrk = TK_RIGHTBRACE;
-      return e; //newNode(Model.SET, [e]);
+      node.lbrk = TK_LEFTBRACE;
+      node.rbrk = TK_RIGHTBRACE;
+      return node;
     }
     // Parse '[ expr ]'
     function bracketExpr() {

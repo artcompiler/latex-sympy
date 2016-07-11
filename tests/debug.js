@@ -1,5 +1,5 @@
 import fs from "fs";
-import {Core} from "../build/cjs/mathspeak.js";
+import {Core} from "../lib/core.js";
 function trim(str) {
   let i = 0;
   let out = "";
@@ -55,5 +55,4 @@ function run(fname) {
   console.log("Test completed in " + (Date.now() - t0) + " ms");
   console.log(passCount + " PASSED, " + failCount + " FAILED");
 }
-run("./tests/data/gc358949.json");
-run("./tests/data/default.json");
+run("./tests/data/debug.json");

@@ -35,8 +35,10 @@ function exec(cmd, args) {
 
 function clean() {
   console.log("Cleaning...");
-  cldir("./build");
-  cldir("./lib");
+  cldir("./build/amd");
+  cldir("./build/cjs");
+  cldir("./lib/amd");
+  cldir("./lib/cjs");
 }
 
 function rules() {
@@ -47,14 +49,17 @@ function rules() {
 
 function compile() {
   console.log("Compiling...");
-  exec("babel --plugins transform-es2015-modules-amd src --out-dir lib");
+  exec("babel --plugins transform-es2015-modules-amd src --out-dir lib/amd");
+  exec("babel src --out-dir lib/cjs");
 }
 
 function bundle() {
   console.log("Bundling...");
-  exec("mv ./lib/core.js ./build/mathspeak.js");
-  exec("mv ./lib/* ./build");
-//  exec("browserify lib/core.js -o build/mathspeak.js -t [babelify --presets [es2015, stage-0]]");
+  // FIXME optimize me.
+  exec("mv ./lib/amd/core.js ./build/amd/mathspeak.js");
+  exec("mv ./lib/amd/* ./build/amd");
+  exec("mv ./lib/cjs/core.js ./build/cjs/mathspeak.js");
+  exec("mv ./lib/cjs/* ./build/cjs");
 }
 
 function build() {
