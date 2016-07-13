@@ -35,31 +35,26 @@ function exec(cmd, args) {
 
 function clean() {
   console.log("Cleaning...");
-  cldir("./build/amd");
-  cldir("./build/cjs");
-  cldir("./lib/amd");
-  cldir("./lib/cjs");
+  cldir("./build");
+  cldir("./lib");
 }
 
 function rules() {
-  exec('curl -L "http://www.graffiticode.com/data?id=' + id + '" -o "data.txt"');
-  var data = JSON.parse(fs.readFileSync("data.txt", "utf8"));
+  console.log("Fetching...");
+  exec('curl -L "http://www.graffiticode.com/data?id=' + id + '" -o "./build/data.txt"');
+  var data = JSON.parse(fs.readFileSync("./build/data.txt", "utf8"));
   fs.writeFileSync("src/rules.js", "export var rules=" + JSON.stringify(data.options), "utf8");
+  exec("rm build/data.txt");
 }
 
 function compile() {
   console.log("Compiling...");
-  exec("babel --plugins transform-es2015-modules-amd src --out-dir lib/amd");
-  exec("babel src --out-dir lib/cjs");
+  exec("babel src --out-dir lib");
 }
 
 function bundle() {
   console.log("Bundling...");
-  // FIXME optimize me.
-  exec("mv ./lib/amd/core.js ./build/amd/mathspeak.js");
-  exec("mv ./lib/amd/* ./build/amd");
-  exec("mv ./lib/cjs/core.js ./build/cjs/mathspeak.js");
-  exec("mv ./lib/cjs/* ./build/cjs");
+  exec("browserify ./lib/core.js -s mathspeak > ./build/mathspeak.js");
 }
 
 function build() {

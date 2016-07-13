@@ -1,5 +1,5 @@
 import fs from "fs";
-import {Core} from "../build/cjs/mathspeak.js";
+import {Core} from "../build/mathspeak.js";
 function trim(str) {
   let i = 0;
   let out = "";
