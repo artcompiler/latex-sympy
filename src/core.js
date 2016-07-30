@@ -52,6 +52,7 @@ import {rules} from "./rules.js";
       case Model.FRAC:
       case Model.LOG:
       case Model.COLON:
+      case Model.FUNC:
         if (node.args.length === 1) {
           node = visit.unary(node, resume);
         } else {
@@ -167,6 +168,8 @@ import {rules} from "./rules.js";
         switch (rule.args[1].args[0]) {
         case "N":
           return node.op === Model.NUM;
+        case "V":
+          return node.op === Model.VAR;
         default:
           return false;
         }
@@ -417,10 +420,6 @@ import {rules} from "./rules.js";
         binary: function(node) {
           let args = [];
           forEach(node.args, function (n, i) {
-//             if (isLowerPrecedence(node, n) ||
-//                 node.op === Model.SUB && i > 0) {
-//               n = newNode(Model.PAREN, [n]);
-//             }
             args = args.concat(translate(n, patterns, patternsHash));
           });
           let matches = match(patterns, node);
@@ -432,19 +431,16 @@ import {rules} from "./rules.js";
           return expand(pattern, args);
         },
         multiplicative: function(node) {
-          let args = [];
-          forEach(node.args, function (n) {
-            // if (isLowerPrecedence(node, n)) {
-            //   n = newNode(Model.PAREN, [n]);
-            // }
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
-          // Use first match for now.
           let pattern = patternsHash[ast.intern(matches[0])];
+          let args = [];
+          forEach(node.args, function (n) {
+            args = args.concat(translate(n, patterns, patternsHash));
+          });
+          // Use first match for now.
           return expand(pattern, args);
         },
         unary: function(node) {
