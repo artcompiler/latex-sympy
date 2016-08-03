@@ -182,11 +182,11 @@ import {rules} from "./rules.js";
     }
 
     // ["? + ?", "? - ?"], "1 + 2"
-    function match(rules, node) {
-      if (rules.length === 0 || node === undefined) {
+    function match(patterns, node) {
+      if (patterns.size === 0 || node === undefined) {
         return false;
       }
-      let matches = rules.filter(function (rule) {
+      let matches = patterns.filter(function (rule) {
         if (rule.op === undefined || node.op === undefined) {
           return false;
         }
@@ -229,7 +229,8 @@ import {rules} from "./rules.js";
       return str;
     }
 
-    function expand(str, args) {
+    function expand(template, args) {
+      let str = template.str;
       if (str && args) {
         let count = str.split("%").length - 1;
         if (count === 2 && args.length > 2) {
@@ -244,7 +245,7 @@ import {rules} from "./rules.js";
           args: [str],
         };
       }
-      return "ERROR expand() " + tempalate;
+      return "ERROR expand() " + JSON.stringify(str);
     }
 
     function getPrec(op) {
@@ -292,9 +293,9 @@ import {rules} from "./rules.js";
         return 0;
       }
       var nid = ast.intern(root);
-      if (root.normalizeLiteralNid === nid) {
-        return root;
-      }
+      // if (root.normalizeLiteralNid === nid) {
+      //   return root;
+      // }
       var node = visit(root, {
         name: "normalizeLiteral",
         numeric: function (node) {
@@ -388,12 +389,14 @@ import {rules} from "./rules.js";
       //   node = normalizeLiteral(node);
       // }
       // node.normalizeLiteralNid = nid;
-      node.normalizeLiteralNid = ast.intern(node);
+      // node.normalizeLiteralNid = ast.intern(node);
       return node;
     }
 
-    function translate(root, patterns, patternsHash) {
+    function translate(root, rules) {
       // Translate math from LaTeX to English.
+      // rules = {ptrn: tmpl, ...};
+      let patterns = [...rules.keys()];
       if (!root || !root.args) {
         assert(false, "Should not get here. Illformed node.");
         return 0;
@@ -410,70 +413,64 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let pattern = patternsHash[ast.intern(matches[0])];
-          return expand(pattern, args);
-          // return {
-          //   op: Model.VAR,
-          //   args: [lookup(node.args[0])]
-          // };
+          let template = rules.get(matches[0]);
+          return expand(template, args);
         },
         binary: function(node) {
-          let args = [];
-          forEach(node.args, function (n, i) {
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          let pattern = patternsHash[ast.intern(matches[0])];
-          return expand(pattern, args);
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          let args = [];
+          forEach(node.args, function (n, i) {
+            args = args.concat(translate(n, argRules));
+          });
+          return expand(template, args);
         },
         multiplicative: function(node) {
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
-          let pattern = patternsHash[ast.intern(matches[0])];
-          let args = [];
-          forEach(node.args, function (n) {
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
           // Use first match for now.
-          return expand(pattern, args);
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          let args = [];
+          forEach(node.args, function (n, i) {
+            args = args.concat(translate(n, argRules));
+          });
+          return expand(template, args);
         },
         unary: function(node) {
-          let args = [];
-          forEach(node.args, function (n) {
-            // if (isLowerPrecedence(node, n)) {
-            //   n = newNode(Model.PAREN, [n]);
-            // }
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          let pattern = patternsHash[ast.intern(matches[0])];
-          return expand(pattern, args);
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          let args = [];
+          forEach(node.args, function (n, i) {
+            args = args.concat(translate(n, argRules));
+          });
+          return expand(template, args);
         },
         exponential: function(node) {
-          let args = [];
-          forEach(node.args, function (n) {
-            // if (isLowerPrecedence(node, n)) {
-            //   n = newNode(Model.PAREN, [n]);
-            // }
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          let pattern = patternsHash[ast.intern(matches[0])];
-          return expand(pattern, args);
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          let args = [];
+          forEach(node.args, function (n, i) {
+            args = args.concat(translate(n, argRules));
+          });
+          return expand(template, args);
         },
         variable: function(node) {
           let str = "";
@@ -482,7 +479,7 @@ import {rules} from "./rules.js";
             // as compound variables.
             if (i > 0) {
               str += " sub ";
-              let v = translate(n, patterns, patternsHash);
+              let v = translate(n, rules);
               str += v.args[0];
               str += " baseline ";
             } else {
@@ -496,60 +493,78 @@ import {rules} from "./rules.js";
         },
         comma: function(node) {
           if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
-            let args = [];
-            forEach(node.args, function (n) {
-              // if (isLowerPrecedence(node, n)) {
-              //   n = newNode(Model.PAREN, [n]);
-              // }
-              args = args.concat(translate(n, patterns, patternsHash));
-            });
             let matches = match(patterns, node);
             if (matches.length === 0) {
               return node;
             }
             // Use first match for now.
-            let pattern = patternsHash[ast.intern(matches[0])];
-            return expand(pattern, args);
-          } else {
-            let str = "";
+            let template = rules.get(matches[0]);
+            let args = [];
+            let argRules = getRulesForArgs(template, rules);
             forEach(node.args, function (n, i) {
-              let v = translate(n, patterns, patternsHash);
-              if (i > 0) {
-                str += " comma ";
-              }
-              str += v.args[0];
+              args = args.concat(translate(n, argRules));
             });
-            return {
-              op: Model.VAR,
-              args: [str],
-            };
+            return expand(template, args);
+          } else {
+            // let str = "";
+            // forEach(node.args, function (n, i) {
+            //   let v = translate(n, rules);
+            //   if (i > 0) {
+            //     str += " comma ";
+            //   }
+            //   str += v.args[0];
+            // });
+            // return {
+            //   op: Model.VAR,
+            //   args: [str],
+            // };
+            let matches = match(patterns, node);
+            if (matches.length === 0) {
+              return node;
+            }
+            // Use first match for now.
+            let template = rules.get(matches[0]);
+            let argRules = getRulesForArgs(template, rules);
+            let args = [];
+            forEach(node.args, function (n, i) {
+              args = args.concat(translate(n, argRules));
+            });
+            return expand(template, args);
           }
         },
         equals: function(node) {
-          let args = [];
-          forEach(node.args, function (n) {
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
+          // let matches = match(patterns, node);
+          // if (matches.length === 0) {
+          //   return node;
+          // }
+          // // Use first match for now.
+          // let template = rules.get(matches[0]);
+          // let args = [];
+          // forEach(node.args, function (n, i) {
+          //   args = args.concat(translate(n, rules));
+          // });
+          // return expand(template, args);
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
-          let pattern = patternsHash[ast.intern(matches[0])];
-          return expand(pattern, args);
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          let args = [];
+          forEach(node.args, function (n, i) {
+            args = args.concat(translate(n, argRules));
+          });
+          return expand(template, args);
         },
         paren: function(node) {
           //assert (node.args.length === 1);
-          let args = [];
-          forEach(node.args, function (n) {
-            args = args.concat(translate(n, patterns, patternsHash));
-          });
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           } else if (matches.length > 1) {
+            // Have more than one match, so compare brackets
             var t = matches;
-            // Find the one that has matching brackets.
             matches = matches.filter((n) => {
               return n.lbrk === node.lbrk && n.rbrk === node.rbrk;
             });
@@ -559,8 +574,13 @@ import {rules} from "./rules.js";
             }
           }
           // Use first match for now.
-          let pattern = patternsHash[ast.intern(matches[0])];
-          return expand(pattern, args);
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          let args = [];
+          forEach(node.args, function (n) {
+            args = args.concat(translate(n, argRules));
+          });
+          return expand(template, args);
         }
       });
     }
@@ -580,19 +600,64 @@ import {rules} from "./rules.js";
     return result;
   }
 
-  function translate(node) {
-    let visitor = new Visitor(ast);
-    let rules = Model.option("rules");
+  function dumpRules(rules) {
+    let str = "";
+    for (var [key, val] of rules) {
+      str += JSON.stringify(key, null, 2) + " --> " + JSON.stringify(val, null, 2) + "\n";
+    }
+    return str;
+  }
+
+  function getRulesForArgs(template, rules) {
+    // Use first match for now.
+    return mergeMaps(template.rules, rules);
+  }
+
+  function mergeMaps(m1, m2) {
+    let map = new Map();
+    if (m1) {
+      for (var [key, value] of m1) {
+        map.set(key, value);
+      }
+    }
+    for (var [key, value] of m2) {
+      if (!map.has(key)) {
+        map.set(key, value);
+      }
+    }
+    return map;
+  }
+
+  function compileRules(rules) {
     let keys = Object.keys(rules);
-    let patterns = [];
-    let patternsHash = {};
+    let compiledRules = new Map();
     keys.forEach(function (key) {
-      let node = normalizeLiteral(Model.create(key));
-      patterns.push(node);
-      let hash = ast.intern(node);
-      patternsHash[hash] = rules[key];
+      let pattern = normalizeLiteral(Model.create(key));  // Parse and normalize.
+      let t = rules[key];
+      let template;
+      if (typeof t === "string") {
+        template = {
+          str: t,
+          rules: null,
+        }
+      } else {
+        assert(Object.keys(t).length === 1);
+        let key = Object.keys(t)[0];
+        let val = t[key];
+        template = {
+          str: key,
+          rules: compileRules(val),
+        }
+      }
+      compiledRules.set(pattern, template);
     });
-    return visitor.translate(node, patterns, patternsHash);
+    return compiledRules;
+  }
+
+  function translate(node, rules) {
+    let visitor = new Visitor(ast);
+    let compiledRules = compileRules(rules);
+    return visitor.translate(node, compiledRules);
   }
   function trim(str) {
     let i = 0;
@@ -624,7 +689,8 @@ import {rules} from "./rules.js";
     return out;
   }
   Model.fn.translate = function (n1) {
-    let n = translate(normalizeLiteral(n1));
+    let rules = Model.option("rules");
+    let n = translate(normalizeLiteral(n1), rules);
     if (!n || n.op !== Model.VAR) {
       n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);
     }

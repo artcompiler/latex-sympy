@@ -1032,7 +1032,7 @@ export let Model = (function () {
         //e.args.push(numberNode(tk));
         //e.args.push(numberNode(tk2));
         e = newNode(Model.PAREN, [e]);
-      } else if (tk === TK_LEFTPAREN) {
+      } else if (tk === TK_LEFTPAREN || tk === TK_LEFTBRACKET) {
         e = newNode(Model.PAREN, [e]);
       }
       // Save the brackets as attributes on the node for later use.
