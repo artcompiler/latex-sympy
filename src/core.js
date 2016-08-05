@@ -506,30 +506,30 @@ import {rules} from "./rules.js";
             });
             return expand(template, args);
           } else {
-            // let str = "";
-            // forEach(node.args, function (n, i) {
-            //   let v = translate(n, rules);
-            //   if (i > 0) {
-            //     str += " comma ";
-            //   }
-            //   str += v.args[0];
-            // });
-            // return {
-            //   op: Model.VAR,
-            //   args: [str],
-            // };
-            let matches = match(patterns, node);
-            if (matches.length === 0) {
-              return node;
-            }
-            // Use first match for now.
-            let template = rules.get(matches[0]);
-            let argRules = getRulesForArgs(template, rules);
-            let args = [];
+            let str = "";
             forEach(node.args, function (n, i) {
-              args = args.concat(translate(n, argRules));
+              let v = translate(n, rules);
+              if (i > 0) {
+                str += " comma ";
+              }
+              str += v.args[0];
             });
-            return expand(template, args);
+            return {
+              op: Model.VAR,
+              args: [str],
+            };
+            // let matches = match(patterns, node);
+            // if (matches.length === 0) {
+            //   return node;
+            // }
+            // // Use first match for now.
+            // let template = rules.get(matches[0]);
+            // let argRules = getRulesForArgs(template, rules);
+            // let args = [];
+            // forEach(node.args, function (n, i) {
+            //   args = args.concat(translate(n, argRules));
+            // });
+            // return expand(template, args);
           }
         },
         equals: function(node) {

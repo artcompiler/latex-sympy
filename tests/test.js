@@ -55,5 +55,4 @@ function run(fname) {
   console.log("Test completed in " + (Date.now() - t0) + " ms");
   console.log(passCount + " PASSED, " + failCount + " FAILED");
 }
-//run("./tests/data/gc358949.json");
 run("./tests/data/default.json");

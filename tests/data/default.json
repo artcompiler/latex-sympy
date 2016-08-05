@@ -2,6 +2,30 @@
   "tests": [
     {
       "score": 1,
+      "source": "f(10)",
+      "actual": "apply function f to 10",
+      "expected": "apply function f to 10"
+    },
+    {
+      "score": 1,
+      "source": "f(g(x))=b^{\\log_b{x}}",
+      "actual": "apply function f to apply function g to x equals b super log base b of x",
+      "expected": "apply function f to apply function g to x equals b super log base b of x"
+    },
+    {
+      "score": 1,
+      "source": "20^{\\circ}",
+      "actual": "20 degrees",
+      "expected": "20 degrees"
+    },
+    {
+      "score": 1,
+      "source": "20\\degree",
+      "actual": "20 degrees",
+      "expected": "20 degrees"
+    },
+    {
+      "score": 1,
       "source": "\\tan\\pi",
       "actual": "tangent pi",
       "expected": "tangent pi"
@@ -15,8 +39,8 @@
     {
       "score": 1,
       "source": "\\left[\\right]",
-      "actual": "",
-      "expected": ""
+      "actual": "left bracket right bracket",
+      "expected": "left bracket right bracket"
     },
     {
       "score": 1,
@@ -117,38 +141,38 @@
     {
       "score": 1,
       "source": "((20 * 45 * 10)cm - 900 cm) \\div (45 * 10 cm)",
-      "actual": "left paren left paren 20 times 45 times 10 right paren cm minus 900 cm right paren divided by left paren 45 times 10 cm right paren",
-      "expected": "left paren left paren 20 times 45 times 10 right paren cm minus 900 cm right paren divided by left paren 45 times 10 cm right paren"
+      "actual": "left parenthesis left parenthesis 20 times 45 times 10 right parenthesis cm minus 900 cm right parenthesis divided by left parenthesis 45 times 10 cm right parenthesis",
+      "expected": "left parenthesis left parenthesis 20 times 45 times 10 right parenthesis cm minus 900 cm right parenthesis divided by left parenthesis 45 times 10 cm right parenthesis"
     },
     {
       "score": 1,
       "source": "(1,28),(28,1)",
-      "actual": "left paren 1 comma 28 right paren comma left paren 28 comma 1 right paren",
-      "expected": "left paren 1 comma 28 right paren comma left paren 28 comma 1 right paren"
+      "actual": "left parenthesis 1 comma 28 right parenthesis comma left parenthesis 28 comma 1 right parenthesis",
+      "expected": "left parenthesis 1 comma 28 right parenthesis comma left parenthesis 28 comma 1 right parenthesis"
     },
     {
       "score": 1,
       "source": "384 oz+9oz-(48oz+11oz)",
-      "actual": "384 oz plus 9 oz minus left paren 48 oz plus 11 oz right paren",
-      "expected": "384 oz plus 9 oz minus left paren 48 oz plus 11 oz right paren"
+      "actual": "384 oz plus 9 oz minus left parenthesis 48 oz plus 11 oz right parenthesis",
+      "expected": "384 oz plus 9 oz minus left parenthesis 48 oz plus 11 oz right parenthesis"
     },
     {
       "score": 1,
       "source": "(2+.5)(9+12)",
-      "actual": "left paren 2 plus point 5 right paren left paren 9 plus 12 right paren",
-      "expected": "left paren 2 plus point 5 right paren left paren 9 plus 12 right paren"
+      "actual": "left parenthesis 2 plus point 5 right parenthesis left parenthesis 9 plus 12 right parenthesis",
+      "expected": "left parenthesis 2 plus point 5 right parenthesis left parenthesis 9 plus 12 right parenthesis"
     },
     {
       "score": 1,
       "source": "(2+.5)\\times(9+12)",
-      "actual": "left paren 2 plus point 5 right paren times left paren 9 plus 12 right paren",
-      "expected": "left paren 2 plus point 5 right paren times left paren 9 plus 12 right paren"
+      "actual": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis",
+      "expected": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis"
     },
     {
       "score": 1,
       "source": "(2+.5)*(9+12)",
-      "actual": "left paren 2 plus point 5 right paren times left paren 9 plus 12 right paren",
-      "expected": "left paren 2 plus point 5 right paren times left paren 9 plus 12 right paren"
+      "actual": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis",
+      "expected": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis"
     },
     {
       "score": 1,
@@ -207,8 +231,8 @@
     {
       "score": 1,
       "source": "f'''(y)=\\frac{df''(y)}{dy}",
-      "actual": "f''' left paren y right paren equals start fraction d f'' left paren y right paren over d y end fraction",
-      "expected": "f''' left paren y right paren equals start fraction d f'' left paren y right paren over d y end fraction"
+      "actual": "apply function f''' to y equals start fraction d f'' left parenthesis y right parenthesis over d y end fraction",
+      "expected": "apply function f''' to y equals start fraction d f'' left parenthesis y right parenthesis over d y end fraction"
     },
     {
       "score": 1,
@@ -225,7 +249,7 @@
     {
       "score": 1,
       "source": "\\ln x=\\int_1^x\\frac{dt}{t}",
-      "actual": "natural log base x equals the definite integral on the interval from 1 to x of start fraction d t over t end fraction",
+      "actual": "natural log of x equals the definite integral on the interval from 1 to x of start fraction d t over t end fraction",
       "expected": "natural log of x equals the definite integral on the interval from 1 to x of start fraction d t over t end fraction"
     },
     {
@@ -237,8 +261,8 @@
     {
       "score": 1,
       "source": "\\log_2(x)=\\frac{\\log_{10}(x)}{\\log_{10}(2)}",
-      "actual": "log sub 2 base left paren x right paren equals start fraction log sub ten base left paren x right paren over log sub ten base left paren 2 right paren end fraction",
-      "expected": "log sub 2 base left paren x right paren equals start fraction log sub ten base left paren x right paren over log sub ten base left paren 2 right paren end fraction"
+      "actual": "log base 2 of left parenthesis x right parenthesis equals start fraction log base ten of left parenthesis x right parenthesis over log base ten of left parenthesis 2 right parenthesis end fraction",
+      "expected": "log base 2 of left parenthesis x right parenthesis equals start fraction log base ten of left parenthesis x right parenthesis over log base ten of left parenthesis 2 right parenthesis end fraction"
     },
     {
       "score": 1,
@@ -282,8 +306,8 @@
     {
       "score": 1,
       "source": "T^(x^a+y^b)",
-      "actual": "upper t super left paren x super a baseline plus y super b baseline right paren",
-      "expected": "upper t super left paren x super a baseline plus y super b baseline right paren"
+      "actual": "upper t super left parenthesis x super a baseline plus y super b baseline right parenthesis",
+      "expected": "upper t super left parenthesis x super a baseline plus y super b baseline right parenthesis"
     },
     {
       "score": 1,
@@ -306,7 +330,7 @@
     {
       "score": 1,
       "source": "y^{a^b_c}\\ne y^{a^bc}",
-      "actual": "y super a super b sub c baseline baseline baseline not equals y super a super b baseline c",
+      "actual": "y super a super b sub c baseline baseline baseline not equal to y super a super b baseline c",
       "expected": "y super a super b sub c baseline baseline baseline not equal to y super a super b baseline c"
     },
     {
@@ -402,8 +426,8 @@
     {
       "score": 1,
       "source": "\\frac{d^2y}{dx^2}+(ax^2+bx+c)y=0",
-      "actual": "start fraction d squared y over d x squared end fraction plus left paren a x squared plus b x plus c right paren y equals 0",
-      "expected": "start fraction d squared y over d x squared end fraction plus left paren a x squared plus b x plus c right paren y equals 0"
+      "actual": "start fraction d squared y over d x squared end fraction plus left parenthesis a x squared plus b x plus c right parenthesis y equals 0",
+      "expected": "start fraction d squared y over d x squared end fraction plus left parenthesis a x squared plus b x plus c right parenthesis y equals 0"
     },
     {
       "score": 1,
@@ -426,14 +450,14 @@
     {
       "score": 1,
       "source": "\\frac{\\frac{x}{y}}{z}\\ne\\frac{x}{\\frac{y}{z}}",
-      "actual": "start fraction start fraction x over y end fraction over z end fraction not equals start fraction x over start fraction y over z end fraction end fraction",
+      "actual": "start fraction start fraction x over y end fraction over z end fraction not equal to start fraction x over start fraction y over z end fraction end fraction",
       "expected": "start fraction start fraction x over y end fraction over z end fraction not equal to start fraction x over start fraction y over z end fraction end fraction"
     },
     {
       "score": 1,
       "source": "\\frac{\\frac{(1-x)\\frac{d}{dx}(2x)-2x\\frac{d}{dx}(1-x)}{(1-x)^2}}{1+(\\frac{2x}{1-x})^2}",
-      "actual": "start fraction start fraction left paren 1 minus x right paren start fraction d over d x end fraction left paren 2 x right paren minus 2 x start fraction d over d x end fraction left paren 1 minus x right paren over left paren 1 minus x right paren squared end fraction over 1 plus left paren start fraction 2 x over 1 minus x end fraction right paren squared end fraction",
-      "expected": "start fraction start fraction left paren 1 minus x right paren start fraction d over d x end fraction left paren 2 x right paren minus 2 x start fraction d over d x end fraction left paren 1 minus x right paren over left paren 1 minus x right paren squared end fraction over 1 plus left paren start fraction 2 x over 1 minus x end fraction right paren squared end fraction"
+      "actual": "start fraction start fraction left parenthesis 1 minus x right parenthesis start fraction d over d x end fraction left parenthesis 2 x right parenthesis minus 2 x start fraction d over d x end fraction left parenthesis 1 minus x right parenthesis over left parenthesis 1 minus x right parenthesis squared end fraction over 1 plus left parenthesis start fraction 2 x over 1 minus x end fraction right parenthesis squared end fraction",
+      "expected": "start fraction start fraction left parenthesis 1 minus x right parenthesis start fraction d over d x end fraction left parenthesis 2 x right parenthesis minus 2 x start fraction d over d x end fraction left parenthesis 1 minus x right parenthesis over left parenthesis 1 minus x right parenthesis squared end fraction over 1 plus left parenthesis start fraction 2 x over 1 minus x end fraction right parenthesis squared end fraction"
     },
     {
       "score": 1,
@@ -510,14 +534,14 @@
     {
       "score": 1,
       "source": "d=\\sqrt{(3/(X-x)^3)-(Y-y)^3}",
-      "actual": "d equals start root left paren start fraction 3 over left paren upper x minus x right paren cubed end fraction right paren minus left paren upper y minus y right paren cubed end root",
-      "expected": "d equals start root left paren start fraction 3 over left paren upper x minus x right paren cubed end fraction right paren minus left paren upper y minus y right paren cubed end root"
+      "actual": "d equals start root left parenthesis start fraction 3 over left parenthesis upper x minus x right parenthesis cubed end fraction right parenthesis minus left parenthesis upper y minus y right parenthesis cubed end root",
+      "expected": "d equals start root left parenthesis start fraction 3 over left parenthesis upper x minus x right parenthesis cubed end fraction right parenthesis minus left parenthesis upper y minus y right parenthesis cubed end root"
     },
     {
       "score": 1,
       "source": "d=\\sqrt{(X-x)^2-(Y-y)^2}",
-      "actual": "d equals start root left paren upper x minus x right paren squared minus left paren upper y minus y right paren squared end root",
-      "expected": "d equals start root left paren upper x minus x right paren squared minus left paren upper y minus y right paren squared end root"
+      "actual": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root",
+      "expected": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root"
     },
     {
       "score": 1,
@@ -603,7 +627,7 @@
     {
       "score": 1,
       "source": "x \\ne 10",
-      "actual": "x not equals 10",
+      "actual": "x not equal to 10",
       "expected": "x not equal to 10"
     },
     {
@@ -621,8 +645,8 @@
     {
       "score": 1,
       "source": "d=\\sqrt{(X-x)^2-(Y-y)^2}",
-      "actual": "d equals start root left paren upper x minus x right paren squared minus left paren upper y minus y right paren squared end root",
-      "expected": "d equals start root left paren upper x minus x right paren squared minus left paren upper y minus y right paren squared end root"
+      "actual": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root",
+      "expected": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root"
     },
     {
       "score": 1,
