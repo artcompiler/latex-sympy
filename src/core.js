@@ -506,44 +506,21 @@ import {rules} from "./rules.js";
             });
             return expand(template, args);
           } else {
-            let str = "";
+            let matches = match(patterns, node);
+            if (matches.length === 0) {
+              return node;
+            }
+            // Use first match for now.
+            let template = rules.get(matches[0]);
+            let argRules = getRulesForArgs(template, rules);
+            let args = [];
             forEach(node.args, function (n, i) {
-              let v = translate(n, rules);
-              if (i > 0) {
-                str += " comma ";
-              }
-              str += v.args[0];
+              args = args.concat(translate(n, argRules));
             });
-            return {
-              op: Model.VAR,
-              args: [str],
-            };
-            // let matches = match(patterns, node);
-            // if (matches.length === 0) {
-            //   return node;
-            // }
-            // // Use first match for now.
-            // let template = rules.get(matches[0]);
-            // let argRules = getRulesForArgs(template, rules);
-            // let args = [];
-            // forEach(node.args, function (n, i) {
-            //   args = args.concat(translate(n, argRules));
-            // });
-            // return expand(template, args);
+            return expand(template, args);
           }
         },
         equals: function(node) {
-          // let matches = match(patterns, node);
-          // if (matches.length === 0) {
-          //   return node;
-          // }
-          // // Use first match for now.
-          // let template = rules.get(matches[0]);
-          // let args = [];
-          // forEach(node.args, function (n, i) {
-          //   args = args.concat(translate(n, rules));
-          // });
-          // return expand(template, args);
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
