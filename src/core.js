@@ -879,7 +879,7 @@ export let Core = (function () {
         resume(null, val);
       });
     } catch (e) {
-      console.log(e + "\n" + e.stack);
+      console.log("translate() ERROR: " + e.stack);
       resume(e.stack, undefined);
     }
   }
@@ -947,6 +947,10 @@ export let Core = (function () {
       assert(solution != undefined, message(3002));
       Model.pushEnv(env);
       let solutionNode = Model.create(solution, "user");
+      if (!solutionNode) {
+        resume(["ERROR"], null);
+        return;
+      }
       Assert.setLocation("spec");
       let result;
       switch (method) {

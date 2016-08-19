@@ -130,7 +130,11 @@ export let Model = (function () {
     if (typeof node === "string") {
       // Got a string, so parse it into a node
       let parser = parse(node, Model.env);
-      node = parser.expr();
+      try {
+        node = parser.expr();
+      } catch (x) {
+        return null;
+      }
     } else {
       // Make a deep copy of the node
       node = JSON.parse(JSON.stringify(node));
