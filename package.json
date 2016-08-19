@@ -14,9 +14,9 @@
     "babel-plugin-transform-es2015-modules-amd": "^6.8.0"
   },
   "scripts": {
-    "build": "babel-node tools/build",
-    "test": "npm run build && babel-node tests/test",
-    "debug": "npm run build && babel-node tests/debug"
+    "build": "./node_modules/babel-cli/bin/babel-node.js tools/build",
+    "test": "npm run build && ./node_modules/babel-cli/bin/babel-node.js tests/test",
+    "debug": "npm run build && ./node_modules/babel-cli/bin/babel-node.js tests/debug"
   },
   "engines": {
     "node": "5.7.0"
