@@ -54,7 +54,7 @@ function compile() {
 
 function bundle() {
   console.log("Bundling...");
-  exec("browserify ./lib/core.js -s mathspeak > ./build/mathspeak.js");
+  exec("browserify ./lib/core.js -s spokenmath > ./build/spokenmath.js");
 }
 
 function build() {
