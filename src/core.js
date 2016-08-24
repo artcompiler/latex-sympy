@@ -53,6 +53,7 @@ import {rules} from "./rules.js";
       case Model.LOG:
       case Model.COLON:
       case Model.FUNC:
+      case Model.TYPE:
         if (node.args.length === 1) {
           node = visit.unary(node, resume);
         } else {
@@ -162,6 +163,17 @@ import {rules} from "./rules.js";
     }
 
     function matchWildcard(rule, node) {
+      if (rule.op === Model.TYPE &&
+          rule.args[0].op === Model.VAR) {
+        switch (rule.args[0].args[0]) {
+        case "number":
+          return node.op === Model.NUM;
+        case "variable":
+          return node.op === Model.VAR;
+        default:
+          return false;
+        }
+      }
       if (rule.op === Model.COLON &&
           rule.args[0].op === Model.VAR && rule.args[0].args[0] === "?") {
         assert(rule.args[1].op === Model.VAR);
@@ -329,10 +341,6 @@ import {rules} from "./rules.js";
           forEach(node.args, function (n) {
             args.push(normalizeLiteral(n));
           });
-          if (Model.option("ignoreOrder") && node.op === Model.SUB) {
-            assert(args.length === 1);
-            return negate(args[0]);
-          }
           return newNode(node.op, args);
         },
         exponential: function (node) {
@@ -486,10 +494,15 @@ import {rules} from "./rules.js";
               str += lookup(n);
             }
           });
-          return {
-            op: Model.VAR,
-            args: [str]
-          };
+          let matches = match(patterns, node);
+          let args = [newNode(Model.VAR, [str])];
+          if (matches.length === 0) {
+            return args[0];
+          }
+          // Use first match for now.
+          let template = rules.get(matches[0]);
+          let argRules = getRulesForArgs(template, rules);
+          return expand(template, args);
         },
         comma: function(node) {
           if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
