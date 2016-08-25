@@ -162,35 +162,62 @@ import {rules} from "./rules.js";
       return val;
     }
 
-    function matchWildcard(rule, node) {
-      if (rule.op === Model.TYPE &&
-          rule.args[0].op === Model.VAR) {
-        switch (rule.args[0].args[0]) {
+    let types = {
+      "functionName": [
+        "f",
+        "g",
+      ],
+      "functionComposition": [
+        "(\\type{functionName}+\\type{functionName})",
+        "(\\type{functionName}-\\type{functionName})",
+        "(\\type{functionName}\\cdot\\type{functionName})",
+        "(\\frac{\\type{functionName}}{\\type{functionName}})",
+      ],
+      "function": [
+        "\\type{functionComposition}",
+        "\\type{functionName}",
+        "\\type{function}^{?}",
+      ],
+    };
+
+    function matchType(pattern, node) {
+      if (pattern.op === Model.TYPE &&
+          pattern.args[0].op === Model.VAR) {
+        let name = pattern.args[0].args[0];
+        switch (name) {
         case "number":
           return node.op === Model.NUM;
         case "variable":
           return node.op === Model.VAR;
         default:
-          return false;
+          let type = types[name];
+          if (type) {
+            assert(type instanceof Array);
+            return type.some(function (pattern) {
+              // FIXME pre-compile types.
+              let matches = match([normalizeLiteral(Model.create(pattern))], node);
+              return matches.length > 0;
+            });
+          }
         }
-      }
-      if (rule.op === Model.COLON &&
-          rule.args[0].op === Model.VAR && rule.args[0].args[0] === "?") {
-        assert(rule.args[1].op === Model.VAR);
-        switch (rule.args[1].args[0]) {
+        return false;
+      } else if (pattern.op === Model.COLON &&
+          pattern.args[0].op === Model.VAR && pattern.args[0].args[0] === "?") {
+        // This is a legacy case that can be removed when all content is updated.
+        assert(pattern.args[1].op === Model.VAR);
+        switch (pattern.args[1].args[0]) {
         case "N":
           return node.op === Model.NUM;
         case "V":
           return node.op === Model.VAR;
         default:
-          return false;
         }
+        return false;
       }
-      let result = (
-        rule.op === Model.VAR && rule.args[0] === "?" ||
-        rule.op === Model.MATRIX && node.op === Model.MATRIX
+      return (
+        pattern.op === Model.VAR && pattern.args[0] === "?" ||
+        pattern.op === Model.MATRIX && node.op === Model.MATRIX
       );
-      return result;
     }
 
     // ["? + ?", "? - ?"], "1 + 2"
@@ -198,28 +225,28 @@ import {rules} from "./rules.js";
       if (patterns.size === 0 || node === undefined) {
         return false;
       }
-      let matches = patterns.filter(function (rule) {
-        if (rule.op === undefined || node.op === undefined) {
+      let matches = patterns.filter(function (pattern) {
+        if (pattern.op === undefined || node.op === undefined) {
           return false;
         }
-        if (matchWildcard(rule, node) ||
-           ast.intern(rule) === ast.intern(node)) {
+        if (ast.intern(pattern) === ast.intern(node) ||
+            matchType(pattern, node)) {
           return true;
         }
-        if (rule.op === node.op) {
-          if (rule.args.length === node.args.length) {
+        if (pattern.op === node.op) {
+          if (pattern.args.length === node.args.length) {
             // Same number of args, so see if each matches.
-            return rule.args.every(function (arg, i) {
+            return pattern.args.every(function (arg, i) {
               let result = match([arg], node.args[i]);
               return result.length === 1;
             });
-          } else if (rule.args.length < node.args.length) {
+          } else if (pattern.args.length < node.args.length) {
             // Different number of args, then see if there is a wildcard match.
             let nargs = node.args.slice(1);
-            if (rule.args.length === 2) {
+            if (pattern.args.length === 2) {
               let result = (
-                match([rule.args[0]], node.args[0]) &&
-                  matchWildcard(rule.args[1], newNode(node.op, nargs))  // match rest of the node against original rules.
+                match([pattern.args[0]], node.args[0]) &&
+                  matchType(pattern.args[1], newNode(node.op, nargs))  // match rest of the node against original patterns.
               );
               return result;
             }
@@ -404,6 +431,15 @@ import {rules} from "./rules.js";
     function translate(root, rules) {
       // Translate math from LaTeX to English.
       // rules = {ptrn: tmpl, ...};
+      let globalRules;
+      if (rules instanceof Array) {
+        if (rules.length === 1) {
+          rules = rules[0];
+        } else {
+          rules = mergeMaps(rules[1], rules[0]);
+        }
+      }
+      globalRules = rules;
       let patterns = [...rules.keys()];
       if (!root || !root.args) {
         assert(false, "Should not get here. Illformed node.");
@@ -431,10 +467,10 @@ import {rules} from "./rules.js";
           }
           // Use first match for now.
           let template = rules.get(matches[0]);
-          let argRules = getRulesForArgs(template, rules);
+          let argRules = getRulesForArgs(template);
           let args = [];
           forEach(node.args, function (n, i) {
-            args = args.concat(translate(n, argRules));
+            args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         },
@@ -448,7 +484,7 @@ import {rules} from "./rules.js";
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
-            args = args.concat(translate(n, argRules));
+            args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         },
@@ -462,7 +498,7 @@ import {rules} from "./rules.js";
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
-            args = args.concat(translate(n, argRules));
+            args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         },
@@ -476,7 +512,7 @@ import {rules} from "./rules.js";
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
-            args = args.concat(translate(n, argRules));
+            args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         },
@@ -501,7 +537,6 @@ import {rules} from "./rules.js";
           }
           // Use first match for now.
           let template = rules.get(matches[0]);
-          let argRules = getRulesForArgs(template, rules);
           return expand(template, args);
         },
         comma: function(node) {
@@ -515,7 +550,7 @@ import {rules} from "./rules.js";
             let args = [];
             let argRules = getRulesForArgs(template, rules);
             forEach(node.args, function (n, i) {
-              args = args.concat(translate(n, argRules));
+              args = args.concat(translate(n, [globalRules, argRules]));
             });
             return expand(template, args);
           } else {
@@ -528,7 +563,7 @@ import {rules} from "./rules.js";
             let argRules = getRulesForArgs(template, rules);
             let args = [];
             forEach(node.args, function (n, i) {
-              args = args.concat(translate(n, argRules));
+              args = args.concat(translate(n, [globalRules, argRules]));
             });
             return expand(template, args);
           }
@@ -543,7 +578,7 @@ import {rules} from "./rules.js";
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
-            args = args.concat(translate(n, argRules));
+            args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         },
@@ -568,7 +603,7 @@ import {rules} from "./rules.js";
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n) {
-            args = args.concat(translate(n, argRules));
+            args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         }
@@ -600,10 +635,12 @@ import {rules} from "./rules.js";
 
   function getRulesForArgs(template, rules) {
     // Use first match for now.
-    return mergeMaps(template.rules, rules);
+//    return mergeMaps(template.rules, rules);
+    return template.rules;
   }
 
   function mergeMaps(m1, m2) {
+    // m1 shadows m2.
     let map = new Map();
     if (m1) {
       for (var [key, value] of m1) {
