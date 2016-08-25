@@ -162,25 +162,8 @@ import {rules} from "./rules.js";
       return val;
     }
 
-    let types = {
-      "functionName": [
-        "f",
-        "g",
-      ],
-      "functionComposition": [
-        "(\\type{functionName}+\\type{functionName})",
-        "(\\type{functionName}-\\type{functionName})",
-        "(\\type{functionName}\\cdot\\type{functionName})",
-        "(\\frac{\\type{functionName}}{\\type{functionName}})",
-      ],
-      "function": [
-        "\\type{functionComposition}",
-        "\\type{functionName}",
-        "\\type{function}^{?}",
-      ],
-    };
-
     function matchType(pattern, node) {
+      let types = Model.option("types");
       if (pattern.op === Model.TYPE &&
           pattern.args[0].op === Model.VAR) {
         let name = pattern.args[0].args[0];
@@ -749,6 +732,9 @@ import {rules} from "./rules.js";
       case "strict":
         opt = undefined;
         break;
+      case "types":
+        opt = {};
+        break;
       default:
         opt = false;
         break;
@@ -930,6 +916,7 @@ export let Core = (function () {
       break;
     case "words":
     case "rules":
+    case "types":
       if (typeof v === "undefined" ||
           typeof v === "object") {
         break;
@@ -957,6 +944,7 @@ export let Core = (function () {
     if (!options.rules) {
       options.words = rules.words;
       options.rules = rules.rules;
+      options.types = rules.types;
     }
     let spec = {
       method: "translate",
