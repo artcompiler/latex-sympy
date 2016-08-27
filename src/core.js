@@ -252,6 +252,7 @@ import {rules} from "./rules.js";
     }
 
     function expand(template, args) {
+      // Use first matched template for now.
       let str = template.str;
       if (str && args) {
         let count = str.split("%").length - 1;
@@ -411,6 +412,26 @@ import {rules} from "./rules.js";
       return node;
     }
 
+    function matchedTemplate(rules, matches) {
+      let templates = [];
+      matches.forEach(function (m) {
+        templates = templates.concat(rules.get(m));
+      });
+      let matchedTemplates = [];
+      templates.forEach(function (t) {
+        if(!t.context || Model.option("NoParens") && t.context === "NoParens") {
+          matchedTemplates.push(t);
+        }
+      });
+      assert(matchedTemplates.length > 0);
+      if (matchedTemplates.length === 0) {
+        // Make one up.
+        matchedTemplates.push({str: "%1"});
+      }
+      // Use first match.
+      return matchedTemplates[0];
+    }
+
     function translate(root, rules) {
       // Translate math from LaTeX to English.
       // rules = {ptrn: tmpl, ...};
@@ -440,7 +461,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           return expand(template, args);
         },
         binary: function(node) {
@@ -449,7 +470,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           let argRules = getRulesForArgs(template);
           let args = [];
           forEach(node.args, function (n, i) {
@@ -463,7 +484,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
@@ -477,7 +498,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
@@ -491,7 +512,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
@@ -519,7 +540,7 @@ import {rules} from "./rules.js";
             return args[0];
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           return expand(template, args);
         },
         comma: function(node) {
@@ -529,7 +550,7 @@ import {rules} from "./rules.js";
               return node;
             }
             // Use first match for now.
-            let template = rules.get(matches[0]);
+            let template = matchedTemplate(rules, matches);
             let args = [];
             let argRules = getRulesForArgs(template, rules);
             forEach(node.args, function (n, i) {
@@ -542,7 +563,7 @@ import {rules} from "./rules.js";
               return node;
             }
             // Use first match for now.
-            let template = rules.get(matches[0]);
+            let template = matchedTemplate(rules, matches);
             let argRules = getRulesForArgs(template, rules);
             let args = [];
             forEach(node.args, function (n, i) {
@@ -557,7 +578,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n, i) {
@@ -582,7 +603,7 @@ import {rules} from "./rules.js";
             }
           }
           // Use first match for now.
-          let template = rules.get(matches[0]);
+          let template = matchedTemplate(rules, matches);
           let argRules = getRulesForArgs(template, rules);
           let args = [];
           forEach(node.args, function (n) {
@@ -618,7 +639,6 @@ import {rules} from "./rules.js";
 
   function getRulesForArgs(template, rules) {
     // Use first match for now.
-//    return mergeMaps(template.rules, rules);
     return template.rules;
   }
 
@@ -637,33 +657,50 @@ import {rules} from "./rules.js";
     }
     return map;
   }
-
+  function compileTemplate(template) {
+    let compiledTemplate;
+    if (template instanceof Array) {
+      compiledTemplate = [];
+      template.forEach(function (t) {
+        compiledTemplate = compiledTemplate.concat(compileTemplate(t));
+      });
+    } else {
+      if (typeof template === "string") {
+        // "%1"
+        compiledTemplate = [{
+          str: template,
+        }];
+      } else {
+        // {"%1": {"?": "%1"}}
+        // [cntx1 "%1", cntx2 {"%1": {?: "%1"}}] --> [{context: "cntx1", str: "%1"},...]
+        let context, str, rules;
+        if (template.options) {
+          context = template.options.NoParens ? "NoParens" : undefined;
+          str = template.value;
+        } else {
+          str = Object.keys(template)[0];
+          assert(str !== "options");
+          rules = compileRules(template[str]);
+        }
+        compiledTemplate = [{
+          context: context,
+          str: str,
+          rules: rules,
+        }];
+      }
+    }
+    return compiledTemplate;
+  }
   function compileRules(rules) {
     let keys = Object.keys(rules);
     let compiledRules = new Map();
     keys.forEach(function (key) {
       let pattern = normalizeLiteral(Model.create(key));  // Parse and normalize.
-      let t = rules[key];
-      let template;
-      if (typeof t === "string") {
-        template = {
-          str: t,
-          rules: null,
-        }
-      } else {
-        assert(Object.keys(t).length === 1);
-        let key = Object.keys(t)[0];
-        let val = t[key];
-        template = {
-          str: key,
-          rules: compileRules(val),
-        }
-      }
+      let template = compileTemplate(rules[key]);
       compiledRules.set(pattern, template);
     });
     return compiledRules;
   }
-
   function translate(node, rules) {
     let visitor = new Visitor(ast);
     let compiledRules = compileRules(rules);
@@ -877,6 +914,7 @@ export let Core = (function () {
       }
       assert(false, message(3007, [p, v]));
       break;
+    case "NoParens":
     case "allowDecimal":
     case "allowInterval":
     case "dontExpandPowers":
