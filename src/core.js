@@ -162,6 +162,134 @@ import {rules} from "./rules.js";
       return val;
     }
 
+    function normalizeFormatObject(fmt) {
+      // Normalize the fmt object to an array of objects
+      var list = [];
+      switch (fmt.op) {
+      case Model.VAR:
+        list.push({
+          code: fmt.args[0]
+        });
+        break;
+      case Model.MUL:
+        var code = "";
+        var length = undefined;  // undefined and zero have different meanings.
+        forEach(fmt.args, function (f) {
+          if (f.op === Model.VAR) {
+            code += f.args[0];
+          } else if (f.op === Model.NUM) {
+            length = +f.args[0];
+          }
+        });
+        list.push({
+          code: code,
+          length: length
+        });
+        break;
+      case Model.COMMA:
+        forEach(fmt.args, function (f) {
+          list = list.concat(normalizeFormatObject(f));
+        });
+        break;
+      }
+      return list;
+    }
+
+    function checkNumberType(fmt, node) {
+      var fmtList = normalizeFormatObject(fmt);
+      return fmtList.some(function (f) {
+        var code = f.code;
+        var length = f.length;
+        switch (code) {
+        case "integer":
+          if (node.numberFormat === "integer") {
+            if (length === undefined || length === node.args[0].length) {
+              // If there is no size or if the size matches the value...
+              return true;
+            }
+          }
+          break;
+        case "decimal":
+          if (node.numberFormat === "decimal" &&
+              node.isRepeating) {
+            if (length === undefined) {
+              return true;
+            } else {
+              // Repeating is infinite.
+              return false;
+            }
+          }
+          if (node.numberFormat === "decimal") {
+            if (length === undefined ||
+                length === 0 && indexOf(node.args[0], ".") === -1 ||
+                length === node.args[0].substring(indexOf(node.args[0], ".") + 1).length) {
+              // If there is no size or if the size matches the value...
+              return true;
+            }
+          }
+          break;
+        case "number":
+          if (node.numberFormat === "decimal" &&
+              node.isRepeating) {
+            if (length === undefined) {
+              return true;
+            } else {
+              // Repeating is infinite.
+              return false;
+            }
+          }
+          if (node.numberFormat === "integer" ||
+              node.numberFormat === "decimal") {
+            var brk = indexOf(node.args[0], ".");
+            if (length === undefined ||
+                length === 0 && brk === -1 ||
+                brk >= 0 && length === node.args[0].substring(brk + 1).length) {
+              // If there is no size or if the size matches the value...
+              return true;
+            }
+          }
+          break;
+        case "scientific":
+          if (node.isScientific) {
+            var coeff = node.args[0].args[0];
+            if (length === undefined ||
+                length === 0 && indexOf(coeff, ".") === -1 ||
+                length === coeff.substring(indexOf(coeff, ".") + 1).length) {
+              // If there is no size or if the size matches the value...
+              return true;
+            }
+          }
+          break;
+        case "fraction":
+          if (node.isFraction ||
+              node.isMixedFraction) {
+            return true;
+          }
+          break;
+        case "simpleFraction":
+        case "nonMixedFraction": // deprecated
+          if (node.isFraction) {
+            return true;
+          }
+          break;
+        case "mixedFraction":
+          if (node.isMixedFraction) {
+            return true;
+          }
+          break;
+        case "fractionOrDecimal":
+          if (node.isFraction ||
+              node.isMixedFraction ||
+              node.numberFormat === "decimal") {
+            return true;
+          }
+          break;
+        default:
+          assert(false, message(2015, [code]));
+          break;
+        }
+      });
+    }
     function matchType(pattern, node) {
       let types = Model.option("types");
       if (pattern.op === Model.TYPE &&
@@ -169,7 +297,14 @@ import {rules} from "./rules.js";
         let name = pattern.args[0].args[0];
         switch (name) {
         case "number":
-          return node.op === Model.NUM;
+        case "integer":
+        case "decimal":
+        case "scientific":
+        case "fraction":
+        case "simpleFraction":
+        case "mixedFraction":
+        case "fractionOrDecimal":
+          return checkNumberType(pattern.args[0], node);
         case "variable":
           return node.op === Model.VAR;
         default:
@@ -229,7 +364,8 @@ import {rules} from "./rules.js";
             if (pattern.args.length === 2) {
               let result = (
                 match([pattern.args[0]], node.args[0]) &&
-                  matchType(pattern.args[1], newNode(node.op, nargs))  // match rest of the node against original patterns.
+                  matchType(pattern.args[1], newNode(node.op, nargs))
+                    // match rest of the node against original patterns.
               );
               return result;
             }
@@ -256,7 +392,9 @@ import {rules} from "./rules.js";
       let str = template.str;
       if (str && args) {
         let count = str.split("%").length - 1;
-        if (count === 2 && args.length > 2) {
+        if (str.indexOf("%%") >= 0) {
+          str = str.replace("%%", args[0].args[0]);
+        } else if (count === 2 && args.length > 2) {
           str = expandBinary(str, args);
         } else {
           forEach(args, function (arg, i) {
@@ -329,7 +467,8 @@ import {rules} from "./rules.js";
           forEach(node.args, function (n) {
             args.push(normalizeLiteral(n));
           });
-          return binaryNode(node.op, args);
+          node.args = args;
+          return node;
         },
         multiplicative: function (node) {
           var args = [];
@@ -345,7 +484,11 @@ import {rules} from "./rules.js";
           });
           // Only have explicit mul left, so convert to times.
           var op = node.op === Model.MUL ? Model.TIMES : node.op;
-          return binaryNode(op, args, true);
+          var n = binaryNode(op, args, true);
+          n.isScientific = node.isScientific;
+          n.isMixedFraction = node.isMixedFraction;
+          n.isBinomial = node.isBinomial;
+          return n;
         },
         unary: function(node) {
           var args = [];
@@ -412,26 +555,48 @@ import {rules} from "./rules.js";
       return node;
     }
 
-    function matchedTemplate(rules, matches) {
+    function matchedTemplate(rules, matches, arity) {
       let templates = [];
       matches.forEach(function (m) {
         templates = templates.concat(rules.get(m));
       });
       let matchedTemplates = [];
       templates.forEach(function (t) {
-        if(!t.context || Model.option("NoParens") && t.context === "NoParens") {
+        if((!t.context || Model.option("NoParens") && t.context === "NoParens") &&
+           arity >= paramCount(t)) {  // Some args might be elided.
           matchedTemplates.push(t);
         }
       });
-      assert(matchedTemplates.length > 0);
+      //assert(matchedTemplates.length > 0);
       if (matchedTemplates.length === 0) {
         // Make one up.
-        matchedTemplates.push({str: "%1"});
+        matchedTemplates.push({str: "missing template %1"});
       }
       // Use first match.
       return matchedTemplates[0];
+      function paramCount(template) {
+        // Parse out the number of params in the template.
+        assert(typeof template.str === "string");
+        let a = template.str.split("%");
+        let nn = a.filter(n => {
+          return !isNaN(+n[0])
+        });
+        return nn.length === 0 ? 0 : +nn.sort()[nn.length-1][0];
+      }
     }
-
+    function getNodeArgsForTemplate(node, template) {
+      // Parse out the number of params in the template.
+      assert(typeof template.str === "string");
+      let str = template.str;
+      if (str.indexOf("%%") >= 0) {
+        return [node];
+      }
+      let a = str.split("%");
+      let nn = a.filter(n => {
+        return n[0] === "%" || !isNaN(+n[0])
+      });
+      return node.args;
+    }
     function translate(root, rules) {
       // Translate math from LaTeX to English.
       // rules = {ptrn: tmpl, ...};
@@ -461,7 +626,7 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, 1);
           return expand(template, args);
         },
         binary: function(node) {
@@ -469,11 +634,11 @@ import {rules} from "./rules.js";
           if (matches.length === 0) {
             return node;
           }
-          // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, node.args.length);
           let argRules = getRulesForArgs(template);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
-          forEach(node.args, function (n, i) {
+          forEach(nodeArgs, function (n, i) {
             args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
@@ -484,10 +649,11 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, node.args.length);
           let argRules = getRulesForArgs(template, rules);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
-          forEach(node.args, function (n, i) {
+          forEach(nodeArgs, function (n, i) {
             args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
@@ -498,10 +664,11 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, node.args.length);
           let argRules = getRulesForArgs(template, rules);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
-          forEach(node.args, function (n, i) {
+          forEach(nodeArgs, function (n, i) {
             args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
@@ -512,10 +679,11 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, node.args.length);
           let argRules = getRulesForArgs(template, rules);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
-          forEach(node.args, function (n, i) {
+          forEach(nodeArgs, function (n, i) {
             args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
@@ -540,7 +708,7 @@ import {rules} from "./rules.js";
             return args[0];
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, 1);
           return expand(template, args);
         },
         comma: function(node) {
@@ -550,10 +718,11 @@ import {rules} from "./rules.js";
               return node;
             }
             // Use first match for now.
-            let template = matchedTemplate(rules, matches);
+            let template = matchedTemplate(rules, matches, node.args.length);
             let args = [];
             let argRules = getRulesForArgs(template, rules);
-            forEach(node.args, function (n, i) {
+            let nodeArgs = getNodeArgsForTemplate(node, template);
+            forEach(nodeArgs, function (n, i) {
               args = args.concat(translate(n, [globalRules, argRules]));
             });
             return expand(template, args);
@@ -563,10 +732,11 @@ import {rules} from "./rules.js";
               return node;
             }
             // Use first match for now.
-            let template = matchedTemplate(rules, matches);
+            let template = matchedTemplate(rules, matches, node.args.length);
             let argRules = getRulesForArgs(template, rules);
+            let nodeArgs = getNodeArgsForTemplate(node, template);
             let args = [];
-            forEach(node.args, function (n, i) {
+            forEach(nodeArgs, function (n, i) {
               args = args.concat(translate(n, [globalRules, argRules]));
             });
             return expand(template, args);
@@ -578,10 +748,11 @@ import {rules} from "./rules.js";
             return node;
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, node.args.length);
           let argRules = getRulesForArgs(template, rules);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
-          forEach(node.args, function (n, i) {
+          forEach(nodeArgs, function (n, i) {
             args = args.concat(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
@@ -603,11 +774,13 @@ import {rules} from "./rules.js";
             }
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches);
+          let template = matchedTemplate(rules, matches, 1);
           let argRules = getRulesForArgs(template, rules);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
-          forEach(node.args, function (n) {
-            args = args.concat(translate(n, [globalRules, argRules]));
+          forEach(nodeArgs, function (n) {
+//            args = args.concat(translate(n, [globalRules, argRules]));
+            args.push(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
         }
