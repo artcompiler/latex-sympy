@@ -474,9 +474,7 @@ import {rules} from "./rules.js";
           var args = [];
           var flatten = true;
           forEach(node.args, function (n) {
-            if (n.isPolynomial && args.length > 0) {
-              args.push(binaryNode(Model.COEFF, [args.pop(), normalizeLiteral(n)], flatten));
-            } else if (n.isImplicit && args.length > 0) {
+            if ((n.isPolynomial || n.isImplicit) && args.length > 0) {
               args.push(binaryNode(Model.MUL, [args.pop(), normalizeLiteral(n)], flatten));
             } else {
               args.push(normalizeLiteral(n));
