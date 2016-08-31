@@ -912,51 +912,65 @@ export let Core = (function () {
       method: "translate",
       options: options
     };
-    try {
-      let evaluator = makeEvaluator(spec);
-      evaluator.evaluate(solution, function (err, val) {
-        resume(null, val);
-      });
-    } catch (e) {
-      console.log("translate() ERROR: " + e.stack);
-      resume(e.stack, undefined);
-    }
+    let evaluator = makeEvaluator(spec, resume);
+    evaluator.evaluate(solution, resume);
   }
-  function evaluateVerbose(spec, solution, resume) {
-    let model;
+  function makeEvaluator(spec, resume) {
+    let valueNode;
+    let method = spec.method;
+    let value = spec.value;
+    let options = Model.options = spec.options;
+    let pendingError;
     try {
-      assert(spec, message(3001, [spec]));
-      Assert.setCounter(1000000, message(3005));
-      let evaluator = makeEvaluator(spec);
-      let errorCode = 0, msg = "Normal completion", stack, location;
-      evaluator.evaluate(solution, function (err, val) {
-        resume([], {
-          result: val,
-          errorCode: errorCode,
-          message: msg,
-          stack: stack,
-          location: location,
-          toString: function () {
-            return this.errorCode + ": (" + location + ") " + msg + "\n" + this.stack;
-          }
-        });
-      });
+      Assert.setLocation("spec");
+      validateOptions(options);
+      Model.pushEnv(env);
+      valueNode = value != undefined ? Model.create(value, "spec") : undefined;
+      Model.popEnv();
     } catch (e) {
-      if (!e.message) {
-        try {
-          // Internal error.
-          assert(false, message(3008, [e]));
-        } catch (x) {
-          e = x;
-        }
-      }
-      errorCode = parseErrorCode(e.message);
-      msg = parseMessage(e.message);
-      stack = e.stack;
-      location = e.location;
-      console.log("ERROR evaluateVerbose stack=" + stack);
-      resume([e.stack], undefined);
+      pendingError = e;
     }
+    let evaluate = function evaluate(solution, resume) {
+      try {
+        if (pendingError) {
+          throw pendingError;
+        }
+        Assert.setLocation("user");
+        assert(solution != undefined, message(3002));
+        Model.pushEnv(env);
+        let solutionNode = Model.create(solution, "user");
+        assert(solutionNode, message(3008, ["invalid input"]));
+        Assert.setLocation("spec");
+        let result;
+        switch (method) {
+        case "translate":
+          result = solutionNode.translate();
+          break;
+        default:
+          assert(false, message(3004, [method]));
+          break;
+        }
+        Model.popEnv();
+        resume(null, result);
+      } catch (e) {
+        let message = e.message;
+        resume({
+          result: null,
+          errorCode: parseErrorCode(message),
+          message: parseMessage(message),
+          stack: e.stack,
+          location: e.location,
+          model: null,  // Unused, for now.
+          toString: function () {
+            return this.errorCode + ": (" + this.location + ") " + this.message + "\n" + this.stack;
+          },
+        }, solution);  // If error, return the original text.
+      }
+    };
+    return {
+      evaluate: evaluate,
+      model: valueNode,
+    };
     function parseErrorCode(e) {
       let code = +e.slice(0, indexOf(e, ":"));
       if (!isNaN(code)) {
@@ -972,49 +986,10 @@ export let Core = (function () {
       return e;
     }
   }
-  function makeEvaluator(spec) {
-    let method = spec.method;
-    let value = spec.value;
-    let options = Model.options = spec.options;
-    Assert.setLocation("spec");
-    validateOptions(options);
-    Model.pushEnv(env);
-    let valueNode = value != undefined ? Model.create(value, "spec") : undefined;
-    Model.popEnv();
-    let evaluate = function evaluate(solution, resume) {
-      Assert.setLocation("user");
-      assert(solution != undefined, message(3002));
-      Model.pushEnv(env);
-      let solutionNode = Model.create(solution, "user");
-      if (!solutionNode) {
-        resume(["ERROR"], null);
-        return;
-      }
-      Assert.setLocation("spec");
-      let result;
-      switch (method) {
-      case "translate":
-        result = solutionNode.translate();
-        break;
-      default:
-        assert(false, message(3004, [method]));
-        break;
-      }
-      Model.popEnv();
-      resume(null, result);
-    }
-    let outerResult = {
-      evaluate: evaluate,
-      model: valueNode,
-    };
-    return outerResult;
-  }
 
   // Exports
   return {
     translate: translate,
-    evaluateVerbose: evaluateVerbose,
-    makeEvaluator: makeEvaluator,
     Model: Model,
     Ast: Ast
   };

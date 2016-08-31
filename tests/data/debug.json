@@ -2,7 +2,7 @@
   "tests": [
     {
       "score": 1,
-      "source": "\\tan\\pi",
+      "source": ";",
       "actual": "tangent pi",
       "expected": "tangent pi"
     },

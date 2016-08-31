@@ -42,6 +42,9 @@ function run(fname) {
     }
     Core.translate(options, src, function (err, val) {
       let result;
+      if (err) {
+        console.log(err.message);
+      }
       if (trim(expected) === trim(val)) {
         result = "PASS";
         passCount++;
