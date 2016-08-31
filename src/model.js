@@ -230,7 +230,7 @@ export let Model = (function () {
     COL: "col",
     COLON: "colon",
     MATRIX: "matrix",
-    FORMAT: "format",
+    TYPE: "type",
     OVERSET: "overset",
     UNDERSET: "underset",
     OVERLINE: "overline",
@@ -415,7 +415,7 @@ export let Model = (function () {
     let TK_ARCCOS = 0x124;
     let TK_ARCTAN = 0x125;
     let TK_DIV = 0x126;
-    let TK_FORMAT = 0x127;
+    let TK_TYPE = 0x127;
     let TK_OVERLINE = 0x128;
     let TK_OVERSET = 0x129;
     let TK_UNDERSET = 0x12A;
@@ -480,7 +480,7 @@ export let Model = (function () {
     tokenToOperator[TK_NEWROW] = OpStr.ROW;
     tokenToOperator[TK_NEWCOL] = OpStr.COL;
     tokenToOperator[TK_COLON] = OpStr.COLON;
-    tokenToOperator[TK_FORMAT] = OpStr.FORMAT;
+    tokenToOperator[TK_TYPE] = OpStr.TYPE;
     tokenToOperator[TK_OVERLINE] = OpStr.OVERLINE;
     tokenToOperator[TK_OVERSET] = OpStr.OVERSET;
     tokenToOperator[TK_UNDERSET] = OpStr.UNDERSET;
@@ -746,6 +746,10 @@ export let Model = (function () {
         node = numberNode(lexeme());
         next();
         break;
+      case TK_TYPE:
+        node = newNode(Model.TYPE, [newNode(Model.VAR, [lexeme()])]);
+        next();
+        break;
       case TK_LEFTBRACKET:
       case TK_LEFTPAREN:
         node = parenExpr(tk);
@@ -923,9 +927,6 @@ export let Model = (function () {
       case TK_M:
         next();
         return newNode(Model.M, [multiplicativeExpr()]);
-      case TK_FORMAT:
-        next();
-        return newNode(Model.FORMAT, [braceExpr()]);
       case TK_OVERLINE:
         next();
         return newNode(Model.OVERLINE, [braceExpr()]);
@@ -1735,7 +1736,7 @@ export let Model = (function () {
         "\\lvert": TK_VERTICALBAR,
         "\\rvert": TK_VERTICALBAR,
         "\\mid": TK_VERTICALBAR,
-        "\\format": TK_FORMAT,
+        "\\type": TK_TYPE,
         "\\overline": TK_OVERLINE,
         "\\overset": TK_OVERSET,
         "\\underset": TK_UNDERSET,
@@ -1930,7 +1931,7 @@ export let Model = (function () {
         let tk = lexemeToToken[lexeme];
         if (tk === void 0) {
           tk = TK_VAR;   // e.g. \\theta
-        } else if (tk === TK_TEXT) {
+        } else if (tk === TK_TEXT || tk === TK_TYPE) {
           c = src.charCodeAt(curIndex++);
           // Skip whitespace before '{'
           while (c && c !== "{".charCodeAt(0)) {
@@ -1950,10 +1951,13 @@ export let Model = (function () {
             }
             c = src.charCodeAt(curIndex++);
           }
-          if (!lexeme || Model.option("ignoreText")) {
-            tk = null;   // treat as whitespace
-          } else {
-            tk = TK_VAR; // treat as variable
+          if (tk !== TK_TYPE) {
+            // Not a type, so convert to a var.
+            if (!lexeme || Model.option("ignoreText")) {
+              tk = null;   // treat as whitespace
+            } else {
+              tk = TK_VAR; // treat as variable
+            }
           }
         }
         return tk;
