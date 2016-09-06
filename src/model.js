@@ -182,21 +182,21 @@ export let Model = (function () {
     SQRT: "sqrt",
     VEC: "vec",
     PM: "pm",
-    SIN: "sin",
-    COS: "cos",
-    TAN: "tan",
-    SEC: "sec",
-    COT: "cot",
-    CSC: "csc",
-    ARCSIN: "arcsin",
-    ARCCOS: "arccos",
-    ARCTAN: "arctan",
-    ARCSEC: "arcsec",
-    ARCCOT: "arccot",
-    ARCCSC: "arccsc",
-    LOG: "log",
-    LN: "ln",
-    LG: "lg",
+    // SIN: "sin",
+    // COS: "cos",
+    // TAN: "tan",
+    // SEC: "sec",
+    // COT: "cot",
+    // CSC: "csc",
+    // ARCSIN: "arcsin",
+    // ARCCOS: "arccos",
+    // ARCTAN: "arctan",
+    // ARCSEC: "arcsec",
+    // ARCCOT: "arccot",
+    // ARCCSC: "arccsc",
+    // LOG: "log",
+    // LN: "ln",
+    // LG: "lg",
     VAR: "var",
     NUM: "num",
     CST: "cst",
@@ -261,19 +261,19 @@ export let Model = (function () {
   OpToLaTeX[OpStr.POW] = "^";
   OpToLaTeX[OpStr.SUBSCRIPT] = "_";
   OpToLaTeX[OpStr.PM] = "\\pm";
-  OpToLaTeX[OpStr.SIN] = "\\sin";
-  OpToLaTeX[OpStr.COS] = "\\cos";
-  OpToLaTeX[OpStr.TAN] = "\\tan";
-  OpToLaTeX[OpStr.SEC] = "\\sec";
-  OpToLaTeX[OpStr.COT] = "\\cot";
-  OpToLaTeX[OpStr.CSC] = "\\csc";
-  OpToLaTeX[OpStr.ARCSIN] = "\\arcsin";
-  OpToLaTeX[OpStr.ARCCOS] = "\\arccos";
-  OpToLaTeX[OpStr.ARCTAN] = "\\arctan";
-  OpToLaTeX[OpStr.ARCSEC] = "\\arcsec";
-  OpToLaTeX[OpStr.ARCCOT] = "\\arccot";
-  OpToLaTeX[OpStr.ARCCSC] = "\\arccsc";
-  OpToLaTeX[OpStr.LN] = "\\ln";
+  // OpToLaTeX[OpStr.SIN] = "\\sin";
+  // OpToLaTeX[OpStr.COS] = "\\cos";
+  // OpToLaTeX[OpStr.TAN] = "\\tan";
+  // OpToLaTeX[OpStr.SEC] = "\\sec";
+  // OpToLaTeX[OpStr.COT] = "\\cot";
+  // OpToLaTeX[OpStr.CSC] = "\\csc";
+  // OpToLaTeX[OpStr.ARCSIN] = "\\arcsin";
+  // OpToLaTeX[OpStr.ARCCOS] = "\\arccos";
+  // OpToLaTeX[OpStr.ARCTAN] = "\\arctan";
+  // OpToLaTeX[OpStr.ARCSEC] = "\\arcsec";
+  // OpToLaTeX[OpStr.ARCCOT] = "\\arccot";
+  // OpToLaTeX[OpStr.ARCCSC] = "\\arccsc";
+  // OpToLaTeX[OpStr.LN] = "\\ln";
   OpToLaTeX[OpStr.COMMA] = ",";
   OpToLaTeX[OpStr.M] = "\\M";
   OpToLaTeX[OpStr.BINOM] = "\\binom";
@@ -447,18 +447,18 @@ export let Model = (function () {
     tokenToOperator[TK_UNDERSCORE] = OpStr.SUBSCRIPT;
     tokenToOperator[TK_MUL] = OpStr.MUL;
     tokenToOperator[TK_DIV] = OpStr.DIV;
-    tokenToOperator[TK_SIN] = OpStr.SIN;
-    tokenToOperator[TK_COS] = OpStr.COS;
-    tokenToOperator[TK_TAN] = OpStr.TAN;
-    tokenToOperator[TK_ARCSIN] = OpStr.ARCSIN;
-    tokenToOperator[TK_ARCCOS] = OpStr.ARCCOS;
-    tokenToOperator[TK_ARCTAN] = OpStr.ARCTAN;
-    tokenToOperator[TK_SEC] = OpStr.SEC;
-    tokenToOperator[TK_COT] = OpStr.COT;
-    tokenToOperator[TK_CSC] = OpStr.CSC;
-    tokenToOperator[TK_LN] = OpStr.LN;
-    tokenToOperator[TK_LG] = OpStr.LG;
-    tokenToOperator[TK_LOG] = OpStr.LOG;
+    // tokenToOperator[TK_SIN] = OpStr.SIN;
+    // tokenToOperator[TK_COS] = OpStr.COS;
+    // tokenToOperator[TK_TAN] = OpStr.TAN;
+    // tokenToOperator[TK_ARCSIN] = OpStr.ARCSIN;
+    // tokenToOperator[TK_ARCCOS] = OpStr.ARCCOS;
+    // tokenToOperator[TK_ARCTAN] = OpStr.ARCTAN;
+    // tokenToOperator[TK_SEC] = OpStr.SEC;
+    // tokenToOperator[TK_COT] = OpStr.COT;
+    // tokenToOperator[TK_CSC] = OpStr.CSC;
+    // tokenToOperator[TK_LN] = OpStr.LN;
+    // tokenToOperator[TK_LG] = OpStr.LG;
+    // tokenToOperator[TK_LOG] = OpStr.LOG;
     tokenToOperator[TK_EQL] = OpStr.EQL;
     tokenToOperator[TK_COMMA] = OpStr.COMMA;
     tokenToOperator[TK_TEXT] = OpStr.TEXT;
@@ -825,74 +825,74 @@ export let Model = (function () {
         let name = braceExpr();
         node = newNode(Model.VEC, [name]);
         break;
-      case TK_SIN:
-      case TK_COS:
-      case TK_TAN:
-      case TK_SEC:
-      case TK_COT:
-      case TK_CSC:
-        next();
-        let t;
-        args = [];
-        // Collect exponents if there are any
-        while ((t=hd())===TK_CARET) {
-          next({oneCharToken: true});
-          args.push(unaryExpr());
-        }
-        if (args.length === 1 && isMinusOne(args[0])) {
-          // Special case for sin^{-1} and friends.
-          op = "arc" + tokenToOperator[tk];
-          args = [];
-        } else {
-          op = tokenToOperator[tk];
-        }
-        args.unshift(newNode(op, [postfixExpr()]));
-        if (args.length > 1) {
-          return newNode(Model.POW, args);
-        } else {
-          return args[0];
-        }
-        break;
-      case TK_ARCSIN:
-      case TK_ARCCOS:
-      case TK_ARCTAN:
-      case TK_ARCSEC:
-      case TK_ARCCOT:
-      case TK_ARCCSC:
-        next();
-        args = [];
-        // Collect exponents if there are any
-        while ((t=hd())===TK_CARET) {
-          next({oneCharToken: true});
-          args.push(unaryExpr());
-        }
-        args.unshift(newNode(tokenToOperator[tk], [primaryExpr()]));
-        if (args.length > 1) {
-          return newNode(Model.POW, args);
-        } else {
-          return args[0];
-        }
-        break;
-      case TK_LN:
-        next();
-        return newNode(Model.LOG, [newNode(Model.VAR, ["e"]), primaryExpr()]);
-      case TK_LG:
-        next();
-        return newNode(Model.LOG, [newNode(Model.NUM, ["10"]), primaryExpr()]);
-      case TK_LOG:
-        next();
-        args = [];
-        // Collect the subscript if there is one
-        if ((t=hd())===TK_UNDERSCORE) {
-          next({oneCharToken:true});
-          args.push(primaryExpr());
-        } else {
-          args.push(newNode(Model.VAR, ["e"]));    // default to natural log
-        }
-        args.push(primaryExpr());
-        // Finish the log function
-        return newNode(Model.LOG, args);
-        break;
+      // case TK_SIN:
+      // case TK_COS:
+      // case TK_TAN:
+      // case TK_SEC:
+      // case TK_COT:
+      // case TK_CSC:
+      //   next();
+      //   let t;
+      //   args = [];
+      //   // Collect exponents if there are any
+      //   while ((t=hd())===TK_CARET) {
+      //     next({oneCharToken: true});
+      //     args.push(unaryExpr());
+      //   }
+      //   if (args.length === 1 && isMinusOne(args[0])) {
+      //     // Special case for sin^{-1} and friends.
+      //     op = "arc" + tokenToOperator[tk];
+      //     args = [];
+      //   } else {
+      //     op = tokenToOperator[tk];
+      //   }
+      //   args.unshift(newNode(op, [postfixExpr()]));
+      //   if (args.length > 1) {
+      //     return newNode(Model.POW, args);
+      //   } else {
+      //     return args[0];
+      //   }
+      //   break;
+      // case TK_ARCSIN:
+      // case TK_ARCCOS:
+      // case TK_ARCTAN:
+      // case TK_ARCSEC:
+      // case TK_ARCCOT:
+      // case TK_ARCCSC:
+      //   next();
+      //   args = [];
+      //   // Collect exponents if there are any
+      //   while ((t=hd())===TK_CARET) {
+      //     next({oneCharToken: true});
+      //     args.push(unaryExpr());
+      //   }
+      //   args.unshift(newNode(tokenToOperator[tk], [primaryExpr()]));
+      //   if (args.length > 1) {
+      //     return newNode(Model.POW, args);
+      //   } else {
+      //     return args[0];
+      //   }
+      //   break;
+      // case TK_LN:
+      //   next();
+      //   return newNode(Model.LOG, [newNode(Model.VAR, ["e"]), primaryExpr()]);
+      // case TK_LG:
+      //   next();
+      //   return newNode(Model.LOG, [newNode(Model.NUM, ["10"]), primaryExpr()]);
+      // case TK_LOG:
+      //   next();
+      //   args = [];
+      //   // Collect the subscript if there is one
+      //   if ((t=hd())===TK_UNDERSCORE) {
+      //     next({oneCharToken:true});
+      //     args.push(primaryExpr());
+      //   } else {
+      //     args.push(newNode(Model.VAR, ["e"]));    // default to natural log
+      //   }
+      //   args.push(primaryExpr());
+      //   // Finish the log function
+      //   return newNode(Model.LOG, args);
+      //   break;
       case TK_LIM:
         next();
         args = [];
@@ -1686,21 +1686,21 @@ export let Model = (function () {
         "\\sqrt": TK_SQRT,
         "\\vec": TK_VEC,
         "\\pm": TK_PM,
-        "\\sin": TK_SIN,
-        "\\cos": TK_COS,
-        "\\tan": TK_TAN,
-        "\\sec": TK_SEC,
-        "\\cot": TK_COT,
-        "\\csc": TK_CSC,
-        "\\arcsin": TK_ARCSIN,
-        "\\arccos": TK_ARCCOS,
-        "\\arctan": TK_ARCTAN,
-        "\\arcsec": TK_ARCSEC,
-        "\\arccot": TK_ARCCOT,
-        "\\arccsc": TK_ARCCSC,
-        "\\ln": TK_LN,
-        "\\lg": TK_LG,
-        "\\log": TK_LOG,
+        // "\\sin": TK_SIN,
+        // "\\cos": TK_COS,
+        // "\\tan": TK_TAN,
+        // "\\sec": TK_SEC,
+        // "\\cot": TK_COT,
+        // "\\csc": TK_CSC,
+        // "\\arcsin": TK_ARCSIN,
+        // "\\arccos": TK_ARCCOS,
+        // "\\arctan": TK_ARCTAN,
+        // "\\arcsec": TK_ARCSEC,
+        // "\\arccot": TK_ARCCOT,
+        // "\\arccsc": TK_ARCCSC,
+        // "\\ln": TK_LN,
+        // "\\lg": TK_LG,
+        // "\\log": TK_LOG,
         "\\left": null,  // whitespace
         "\\right": null,
         "\\big": null,
