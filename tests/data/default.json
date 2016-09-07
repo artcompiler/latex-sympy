@@ -1,861 +1,1084 @@
 {
   "options": {
     "words": {
-      "A": "upper a",
-      "B": "upper b",
-      "C": "upper c",
-      "D": "upper d",
-      "E": "upper e",
-      "F": "upper f",
-      "G": "upper g",
-      "H": "upper h",
-      "I": "upper i",
-      "J": "upper j",
-      "K": "upper k",
-      "L": "upper l",
-      "M": "upper m",
-      "N": "upper n",
-      "O": "upper o",
-      "P": "upper p",
-      "Q": "upper q",
-      "R": "upper r",
-      "S": "upper s",
-      "T": "upper t",
-      "U": "upper u",
-      "V": "upper v",
-      "W": "upper w",
-      "X": "upper x",
-      "Y": "upper y",
-      "Z": "upper z",
-      "\\Alpha": "upper alpha",
-      "\\Beta": "upper beta",
-      "\\Gamma": "upper gamma",
-      "\\Delta": "upper delta",
-      "\\Epsilon": "upper epsilon",
-      "\\Zeta": "upper zeta",
-      "\\Eta": "upper eta",
-      "\\Theta": "upper theta",
-      "\\Iota": "upper iota",
-      "\\Kappa": "upper kappa",
-      "\\Lambda": "upper lambda",
-      "\\Mu": "upper mu",
-      "\\Nu": "upper nu",
-      "\\Xi": "upper xi",
-      "\\Omicron": "upper omicron",
-      "\\Pi": "upper pi",
-      "\\Rho": "upper rho",
-      "\\Sigma": "upper sigma",
-      "\\Tau": "upper tau",
-      "\\Upsilon": "upper upsilon",
-      "\\Phi": "upper phi",
-      "\\Chi": "upper chi",
-      "\\Psi": "upper psi",
-      "\\Omega": "upper omega",
       "kg": "kilograms",
       "km": "kilometers",
       "\\ldots": "ellipsis",
       "\\infty": "infinity",
       "\\sum": "sigma summation",
       "\\measuredangle": "measure of angle",
-      "\\cong": "congruent"
+      "\\cong": "congruent",
+      "\\sin": "sine",
+      "\\cos": "cosine",
+      "\\tan": "tangent",
+      "\\csc": "cosecant",
+      "\\sec": "secant",
+      "\\cot": "cotangent",
+      "\\sinh": "hyperbolic sine",
+      "\\cosh": "hyperbolic cosine",
+      "\\tanh": "hyperbolic tangent",
+      "\\csch": "hyperbolic cosecant",
+      "\\sech": "hyperbolic secant",
+      "\\coth": "hyperbolic cotangent",
+      "\\ln": "natural log",
+      "\\log": "log",
+      "\\lg": "log"
+    },
+    "types": {
+      "functionName": [
+        "f",
+        "g",
+        "h",
+        "F",
+        "G",
+        "H",
+        "\\ln",
+        "\\lg",
+        "\\log",
+        "\\sin",
+        "\\cos",
+        "\\tan",
+        "\\csc",
+        "\\sec",
+        "\\cot",
+        "\\sinh",
+        "\\cosh",
+        "\\tanh",
+        "\\csch",
+        "\\sech",
+        "\\coth"
+      ],
+      "functionComposition": [
+        "(\\type{functionName}+\\type{functionName})",
+        "(\\type{functionName}-\\type{functionName})",
+        "(\\type{functionName}\\cdot\\type{functionName})",
+        "(\\type{simpleFractionExtended})"
+      ],
+      "function": [
+        "\\type{function}^{?}",
+        "\\type{functionComposition}",
+        "\\type{functionName}"
+      ],
+      "functionCall": [
+        "\\type{function}(?)",
+        "\\type{function}[?]",
+        "\\type{variable}(\\type{number})",
+        "\\type{variable}(\\type{variable})",
+        "\\type{variable}(?,?)",
+        "\\type{variable}[\\type{number}]",
+        "\\type{variable}[\\type{variable}]",
+        "\\type{variable}[?,?]"
+      ],
+      "commonFraction": [
+        "\\frac{\\type{integer}}{2}",
+        "\\frac{\\type{integer}}{3}",
+        "\\frac{\\type{integer}}{4}",
+        "\\frac{\\type{integer}}{5}",
+        "\\frac{\\type{integer}}{6}",
+        "\\frac{\\type{integer}}{7}",
+        "\\frac{\\type{integer}}{8}",
+        "\\frac{\\type{integer}}{9}",
+        "\\frac{\\type{integer}}{10}"
+      ],
+      "simpleExpression": [
+        "\\type{commonFraction}",
+        "\\type{function}(?)",
+        "\\type{function}[?]",
+        "\\type{number}",
+        "-\\type{variable}",
+        "\\type{variable}",
+        "\\type{number}\\degrees",
+        "\\type{variable}\\degrees",
+        "\\type{variable}",
+        "\\type{variable}\\type{variable}",
+        "\\type{number}\\type{variable}"
+      ],
+      "simpleFractionPart": [
+        "-\\type{commonFraction}",
+        "\\type{simpleExpression}",
+        "\\type{commonFraction}"
+      ],
+      "simpleFractionExtended": [
+        "\\frac{\\type{simpleFractionPart}}{\\type{simpleFractionPart}}"
+      ],
+      "simpleNumericExponent": [
+        "\\type{number}",
+        "\\type{commonFraction}"
+      ],
+      "simpleExponent": [
+        "\\type{simpleNumericExponent}",
+        "\\type{variable}"
+      ]
     },
     "rules": {
-      "?=?=?": "%1 and %2",
-      "?, ?": "%1 comma %2",
-      "?:V(?)": {
-        "apply function %1 to %2": {
-          "(?)": "%1"
+      "\\type{variable}_{?}": [
+        "%1 sub %2"
+      ],
+      "?, ?": [
+        "%1 comma %2"
+      ],
+      "\\type{commonFraction}": [
+        {
+          "%%": {
+            "\\frac{1}{2}": "1 half",
+            "\\frac{\\type{integer}}{2}": "%1 halves",
+            "\\frac{1}{3}": "1 third",
+            "\\frac{\\type{integer}}{3}": "%1 thirds",
+            "\\frac{1}{4}": "1 fourth",
+            "\\frac{\\type{integer}}{4}": "%1 fouths",
+            "\\frac{1}{5}": "1 fifth",
+            "\\frac{\\type{integer}}{5}": "%1 fifths",
+            "\\frac{1}{6}": "1 sixth",
+            "\\frac{\\type{integer}}{6}": "%1 sixths",
+            "\\frac{1}{7}": "1 seventh",
+            "\\frac{\\type{integer}}{7}": "%1 sevenths",
+            "\\frac{1}{8}": "1 eighth",
+            "\\frac{\\type{integer}}{8}": "%1 eighths",
+            "\\frac{1}{9}": "1 ninths",
+            "\\frac{\\type{integer}}{9}": "%1 ninths",
+            "\\frac{1}{10}": "1 tenths",
+            "\\frac{\\type{integer}}{10}": "%1 tenths"
+          }
         }
-      },
-      "? \\degree": "%1 degrees",
-      "? \\in ?": "%1 in %2",
-      "?^\\prime": "%1 prime",
-      "\\sum ?": "summation %1",
-      "{}": "left brace right brace",
-      "[]": "left bracket right bracket",
-      "{?}": "start set %1 end set",
-      "[?,?]": "left bracket %1 right bracket",
-      "(?,?]": "left parenthesis %1 right bracket",
-      "[?,?)": "left bracket %1 right parenthesis",
-      "|?|": "start absolute value %1 end absolute value",
-      "? \\rightarrow ?": "%1 right arrow %2",
-      "\\text{?}, ?": "%1 %2",
-      "?\\'": "%1 prime",
-      "?\\overline{?}": "%1 modifying above %2 with bar",
-      "?:N+\\frac{?:N}{?:N}": "%1 and %2",
-      "\\int_?^? ?": "the definite integral on the interval from %1 to %2 of %3",
-      "\\int ?": "the indefinite integral %1",
-      "? \\text{dx}": "with respect to x of %1",
-      "?:?": "the ratio of %1 to %2",
-      "?\\ne?": "%1 not equal to %2",
-      "?+?": "%1 plus %2",
-      "?-?": "%1 minus %2",
-      "?*?": "%1 times %2",
-      "1/2": "one half",
-      "?:N/2": "%1 halves",
-      "1/3": "one third",
-      "?:N/3": "%1 thirds",
-      "1/4": "one quarter",
-      "?:N/4": "%1 quarters",
-      "1/5": "one fifth",
-      "?:N/5": "%1 fifths",
-      "1/6": "one sixth",
-      "?:N/6": "%1 sixths",
-      "1/7": "one seventh",
-      "?:N/7": "%1 sevenths",
-      "1/8": "one eighth",
-      "?:N/8": "%1 eighths",
-      "1/9": "one nineth",
-      "?:N/9": "%1 nineths",
-      "?/?": "start fraction %1 over %2 end fraction",
-      "?^2": "%1 squared",
-      "?^3": "%1 cubed",
-      "?^{?:N}": "%1 to the power of %2",
-      "?^?": "%1 super %2 baseline",
-      "?<?": "%1 is less than %2",
-      "?<=?": "%1 is less than or equal to %2",
-      "?>?": "%1 is greater than %2",
-      "?>=?": "%1 is greater than or equal to %2",
-      "?=?": "%1 equals %2",
-      "?\\approx?": "%1 almost equals %2",
-      "-?": "negative %1",
-      "?!": "%1 factorial",
-      "?%": "%1 percent",
-      "? \\pm ?": "%1 plus or minus %2",
-      "? \\ne ?": "%1 not equal to %2",
-      "? \\div ?": "%1 divided by %2",
-      "\\sqrt{?-?}": "start root %1 end root",
-      "\\sqrt{?}": "start root %1 end root",
-      "\\sqrt[?]{?}": "root index %2 start root %1 end root",
-      "\\ln{?}": "natural log of %2",
-      "\\lg{?}": "log base ten of %2",
-      "\\log_{e}{?}": "natural log of %2",
-      "\\log_{?}{?}": "log base %1 of %2",
-      "\\sin{?}": "sine %1",
-      "\\cos{?}": "cosine %1",
-      "\\tan{?}": "tangent %1",
-      "\\csc{?}": "cosecant %1",
-      "\\sec{?}": "secant %1",
-      "\\cot{?}": "cotangent %1",
-      "\\sin^{-1}{?}": "arcsine %1",
-      "\\cos^{-1}{?}": "arccosine %1",
-      "\\tan^{-1}{?}": "arctangent %1",
-      "\\csc^{-1}{?}": "arccosecant %1",
-      "\\sec^{-1}{?}": "arcsecant %1",
-      "\\cot^{-1}{?}": "arccotangent %1",
-      "?^? ?": "%1 %2",
-      "? ?^?": "%1 %2",
-      "? (?)": "%1 %2",
-      "(?) ?": "%1 %2",
-      "(?)": "left parenthesis %1 right parenthesis",
-      "[?]": "left bracket %1 right bracket",
-      "{?} ?": "%1 %2",
-      "? ?": "%1 %2",
-      "?": "%1 "
+      ],
+      "\\type{simpleFractionExtended}": [
+        "%1 over %2"
+      ],
+      "\\frac{?}{?}": [
+        "the fraction with numerator %1 and denominator %2"
+      ],
+      "?^{-1}": [
+        "%1 inverse"
+      ],
+      "?^{0}": [
+        "%1 to the 0 power"
+      ],
+      "?^{2}": [
+        "%1 squared"
+      ],
+      "?^{3}": [
+        "%1 cubed"
+      ],
+      "\\type{function}^{\\type{integer}}": [
+        "%2th power of %1"
+      ],
+      "?^\\type{integer}": [
+        "%1 to the %2th power"
+      ],
+      "?^\\type{variable}": [
+        "%1 to the %2th power"
+      ],
+      "?^{-\\type{integer}}": [
+        "%1 to the %2 power"
+      ],
+      "?^{\\type{decimal}}": [
+        "%1 raised to the %2 power"
+      ],
+      "?^{\\type{simpleExponent}}^{2}": [
+        "%1 raised to the %2 power"
+      ],
+      "?^{\\type{simpleExponent}}^{3}": [
+        "%1 raised to the %2 power"
+      ],
+      "?^{\\type{simpleNumericExponent}\\type{variable}}^{2}": [
+        "%1 raised to the %2 power"
+      ],
+      "?^{\\type{simpleNumericExponent}\\type{variable}}^{3}": [
+        "%1 raised to the %2 power"
+      ],
+      "?^?^?": [
+        "%1 raised to the exponent %2 end exponent"
+      ],
+      "?^?": [
+        "%1 raised to the %2 power"
+      ],
+      "\\sqrt{\\type{simpleExpression}}": [
+        "square root of %1"
+      ],
+      "\\sqrt[3]{\\type{simpleExpression}}": [
+        "cube root of %1"
+      ],
+      "\\sqrt[\\type{integer}]{\\type{simpleExpression}}": [
+        "%2th root of %1"
+      ],
+      "\\sqrt{?}": [
+        {
+          "options": {
+            "EndRoot": true
+          },
+          "value": "square root of %1 end root"
+        },
+        "square root of %1"
+      ],
+      "\\sqrt[3]{?}": [
+        {
+          "options": {
+            "EndRoot": true
+          },
+          "value": "cube root of %1 end root"
+        },
+        "cube root of %1"
+      ],
+      "\\sqrt[\\type{integer}]{?}": [
+        {
+          "options": {
+            "EndRoot": true
+          },
+          "value": "%2th root of %1 end root"
+        },
+        "%2th root of %1"
+      ],
+      "\\sqrt[?]{?}": [
+        {
+          "options": {
+            "EndRoot": true
+          },
+          "value": "%2th root of %1 end root"
+        },
+        "%2th root of %1"
+      ],
+      "\\type{function}(?)": [
+        "%1 of %2"
+      ],
+      "\\type{function}[?]": [
+        "%1 of %2"
+      ],
+      "\\ln{?}": [
+        "natural log %2"
+      ],
+      "\\lg{?}": [
+        "log base ten of %2"
+      ],
+      "\\log_{e}{?}": [
+        "natural log of %2"
+      ],
+      "\\log_{?}{?}": [
+        "log base %1 of %2"
+      ],
+      "\\sin ?": [
+        "sine %2"
+      ],
+      "\\cos{?}": [
+        "cosine %2"
+      ],
+      "\\tan{?}": [
+        "tangent %2"
+      ],
+      "\\csc{?}": [
+        "cosecant %2"
+      ],
+      "\\sec{?}": [
+        "secant %2"
+      ],
+      "\\cot{?}": [
+        "cotangent %2"
+      ],
+      "\\sin^{-1}{?}": [
+        "inverse sine %2"
+      ],
+      "\\cos^{-1}{?}": [
+        "inverse cosine %2"
+      ],
+      "\\tan^{-1}{?}": [
+        "inverse tangent %2"
+      ],
+      "\\csc^{-1}{?}": [
+        "inverse cosecant %2"
+      ],
+      "\\sec^{-1}{?}": [
+        "inverse secant %2"
+      ],
+      "\\cot^{-1}{?}": [
+        "inverse cotangent %2"
+      ],
+      "\\sinh^{-1}{?}": [
+        "inverse hyperbolic sine %2"
+      ],
+      "\\cosh^{-1}{?}": [
+        "inverse hyperbolic cosine %2"
+      ],
+      "\\tanh^{-1}{?}": [
+        "inverse hyperbolic tangent %2"
+      ],
+      "\\csch^{-1}{?}": [
+        "inverse hyperbolic cosecant %2"
+      ],
+      "\\sech^{-1}{?}": [
+        "inverse hyperbolic secant %2"
+      ],
+      "\\coth^{-1}{?}": [
+        "inverse hyperbolic cotangent %2"
+      ],
+      "\\type{mixedFraction}": [
+        "%1 and %2"
+      ],
+      "\\type{scientific}": [
+        "%1 times %2"
+      ],
+      "\\type{fraction}": [
+        "%1 over %2"
+      ],
+      "\\type{integer}": [
+        "%1"
+      ],
+      "\\type{decimal}": [
+        "%1"
+      ],
+      "\\type{number}": [
+        "%1"
+      ],
+      "?(?)": [
+        "%1 times %2"
+      ],
+      "(?)?": [
+        "%1 times %2"
+      ],
+      "(?)(?)": [
+        "%1 times %2"
+      ],
+      "? \\degree": [
+        "%1 degrees"
+      ],
+      "? \\in ?": [
+        "%1 in %2"
+      ],
+      "?^\\prime": [
+        "%1 prime"
+      ],
+      "?'": [
+        "%1 prime"
+      ],
+      "\\sum ?": [
+        "summation %1"
+      ],
+      "{}": [
+        "left brace right brace"
+      ],
+      "[]": [
+        "left bracket right bracket"
+      ],
+      "{?}": [
+        "start set %1 end set"
+      ],
+      "[?,?]": [
+        "left bracket %1 right bracket"
+      ],
+      "(?,?]": [
+        "left parenthesis %1 right bracket"
+      ],
+      "[?,?)": [
+        "left bracket %1 right parenthesis"
+      ],
+      "|?|": [
+        "start absolute value %1 end absolute value"
+      ],
+      "? \\rightarrow ?": [
+        "%1 right arrow %2"
+      ],
+      "\\text{?}, ?": [
+        "%1 %2"
+      ],
+      "?\\'": [
+        "%1 prime"
+      ],
+      "?\\overline{?}": [
+        "%1 modifying above %2 with bar"
+      ],
+      "?:N+\\frac{?:N}{?:N}": [
+        "%1 and %2"
+      ],
+      "\\int_?^? ?": [
+        "definite integral on the interval from %1 to %2 of %3"
+      ],
+      "\\int ?": [
+        "indefinite integral %1"
+      ],
+      "? \\text{dx}": [
+        "with respect to x of %1"
+      ],
+      "?:?": [
+        "ratio of %1 to %2"
+      ],
+      "?\\ne?": [
+        "%1 not equal to %2"
+      ],
+      "?+?": [
+        "%1 plus %2"
+      ],
+      "?-?": [
+        "%1 minus %2"
+      ],
+      "?*?": [
+        "%1 times %2"
+      ],
+      "?<?": [
+        "%1 is less than %2"
+      ],
+      "?<=?": [
+        "%1 is less than or equal to %2"
+      ],
+      "?>?": [
+        "%1 is greater than %2"
+      ],
+      "?>=?": [
+        "%1 is greater than or equal to %2"
+      ],
+      "?=?": [
+        "%1 equals %2"
+      ],
+      "?\\approx?": [
+        "%1 almost equals %2"
+      ],
+      "-?": [
+        "negative %1"
+      ],
+      "?!": [
+        "%1 factorial"
+      ],
+      "?%": [
+        "%1 percent"
+      ],
+      "? \\pm ?": [
+        "%1 plus or minus %2"
+      ],
+      "? \\ne ?": [
+        "%1 not equal to %2"
+      ],
+      "? \\div ?": [
+        "%1 divided by %2"
+      ],
+      "\\overline{?}": [
+        "line segment %1"
+      ],
+      "?^? ?": [
+        "%1 %2"
+      ],
+      "? ?^?": [
+        "%1 %2"
+      ],
+      "[\\type{simpleExpression}]": [
+        "%1"
+      ],
+      "(\\type{simpleExpression})": [
+        "%1"
+      ],
+      "(?)": [
+        "open paren %1 close paren"
+      ],
+      "[?]": [
+        "open bracket %1 close bracket"
+      ],
+      "{?} ?": [
+        "%1 %2"
+      ],
+      "? ?": [
+        "%1 %2"
+      ],
+      "?": [
+        "%1 "
+      ]
     }
   },
   "tests": [
     {
       "score": 1,
-      "source": "x=y=z",
-      "actual": "x equals y and y equals z",
-      "expected": "x equals y and y equals z"
+      "source": "\\ln x",
+      "actual": "natural log x",
+      "expected": "natural log x"
     },
     {
       "score": 1,
-      "source": "f(10)",
-      "actual": "apply function f to 10",
-      "expected": "apply function f to 10"
+      "source": "\\ln(x+y)",
+      "actual": "natural log of open paren x plus y close paren",
+      "expected": "natural log of open paren x plus y close paren"
     },
     {
       "score": 1,
-      "source": "f(g(x))=b^{\\log_b{x}}",
-      "actual": "apply function f to apply function g to x equals b super log base b of x",
-      "expected": "apply function f to apply function g to x equals b super log base b of x"
+      "source": "\\log x",
+      "actual": "log x",
+      "expected": "log x"
     },
     {
       "score": 1,
-      "source": "20^{\\circ}",
-      "actual": "20 degrees",
-      "expected": "20 degrees"
+      "source": "\\log(x+y)",
+      "actual": "log of open paren x plus y close paren",
+      "expected": "log of open paren x plus y close paren"
+    },
+    {
+      "score": -1,
+      "source": "\\log_b x",
+      "actual": "log x",
+      "expected": "log base b of x"
+    },
+    {
+      "score": -1,
+      "source": "\\log_b(x+y)",
+      "actual": "log times open paren x plus y close paren",
+      "expected": "log base b of open paren x plus y close paren"
     },
     {
       "score": 1,
-      "source": "20\\degree",
-      "actual": "20 degrees",
-      "expected": "20 degrees"
+      "source": "\\sin^{-1} x",
+      "actual": "inverse sine x",
+      "expected": "inverse sine x"
     },
     {
       "score": 1,
-      "source": "\\tan\\pi",
-      "actual": "tangent pi",
-      "expected": "tangent pi"
+      "source": "\\sin^4 x",
+      "actual": "4th power of sine x",
+      "expected": "4th power of sine x"
     },
     {
       "score": 1,
-      "source": "\\cos^{-1}\\pi",
-      "actual": "arccosine pi",
-      "expected": "arccosine pi"
+      "source": "\\sin^4 (2x+1)",
+      "actual": "4th power of sine of open paren 2 x plus 1 close paren",
+      "expected": "4th power of sine of open paren 2 x plus 1 close paren"
     },
     {
       "score": 1,
-      "source": "\\left[\\right]",
-      "actual": "left bracket right bracket",
-      "expected": "left bracket right bracket"
+      "source": "\\sin^3 x",
+      "actual": "sine cubed x",
+      "expected": "sine cubed x"
     },
     {
       "score": 1,
-      "source": "\\tau",
-      "actual": "tau",
-      "expected": "tau"
+      "source": "\\sin^2 x",
+      "actual": "sine squared x",
+      "expected": "sine squared x"
     },
     {
       "score": 1,
-      "source": "\\csc^{-1} 0",
-      "actual": "arccosecant 0",
-      "expected": "arccosecant 0"
+      "source": "f[x]",
+      "actual": "f of x",
+      "expected": "f of x"
     },
     {
       "score": 1,
-      "source": "x \\in y",
-      "actual": "x in y",
-      "expected": "x in y"
+      "source": "g(x,y)",
+      "actual": "g of open paren x comma y close paren",
+      "expected": "g of open paren x comma y close paren"
     },
     {
       "score": 1,
-      "source": "[x,y]",
-      "actual": "left bracket x comma y right bracket",
-      "expected": "left bracket x comma y right bracket"
+      "source": "g(x,y,z)",
+      "actual": "g of open paren x comma y comma z close paren",
+      "expected": "g of open paren x comma y comma z close paren"
+    },
+    {
+      "score": -1,
+      "source": "f_1(x)",
+      "actual": "f times x",
+      "expected": "f sub 1 of x"
     },
     {
       "score": 1,
-      "source": "\\left{\\right}",
-      "actual": "left brace right brace",
-      "expected": "left brace right brace"
+      "source": "(f+g)(x)",
+      "actual": "open paren f plus g close paren of x",
+      "expected": "open paren f plus g close paren of x"
     },
     {
       "score": 1,
-      "source": "\\sin^{-1} 0",
-      "actual": "arcsine 0",
-      "expected": "arcsine 0"
+      "source": "(f-g)(x)",
+      "actual": "open paren f minus g close paren of x",
+      "expected": "open paren f minus g close paren of x"
+    },
+    {
+      "score": -1,
+      "source": "(f \\cdot g)(x)",
+      "actual": "open paren f times g close paren of x",
+      "expected": "open paren f dot g close paren of x"
     },
     {
       "score": 1,
-      "source": "x''",
-      "actual": "x''",
-      "expected": "x''"
+      "source": "(\\frac{f}{g})(x)",
+      "actual": "open paren f over g close paren of x",
+      "expected": "open paren f over g close paren of x"
+    },
+    {
+      "score": -1,
+      "source": "(f+g)'(x)",
+      "actual": "natural log '",
+      "expected": "open paren f plus g close paren prime of x"
+    },
+    {
+      "score": -1,
+      "source": "(f+g)''(x)",
+      "actual": "natural log ''",
+      "expected": "open paren f plus g close paren double prime of x"
     },
     {
       "score": 1,
-      "source": "\\cot^{-1} 0",
-      "actual": "arccotangent 0",
-      "expected": "arccotangent 0"
+      "source": "f^{-1}(x)",
+      "actual": "f inverse of x",
+      "expected": "f inverse of x"
     },
     {
       "score": 1,
-      "source": "x'",
-      "actual": "x'",
-      "expected": "x'"
+      "source": "f^{2}(x)",
+      "actual": "f squared of x",
+      "expected": "f squared of x"
     },
     {
       "score": 1,
-      "source": "\\cot 0",
-      "actual": "cotangent 0",
-      "expected": "cotangent 0"
+      "source": "f^{3}(x)",
+      "actual": "f cubed of x",
+      "expected": "f cubed of x"
+    },
+    {
+      "score": -1,
+      "source": "f^{4}(x)",
+      "actual": "4th power of f of x",
+      "expected": "f to the 4th power of x"
     },
     {
       "score": 1,
-      "source": "H \\xrightarrow 2 H",
-      "actual": "upper h xrightarrow 2 upper h",
-      "expected": "upper h xrightarrow 2 upper h"
+      "source": "f^{n}(x)",
+      "actual": "f to the n th power of x",
+      "expected": "f to the n th power of x"
     },
     {
       "score": 1,
-      "source": "\\sec^{-1} 0",
-      "actual": "arcsecant 0",
-      "expected": "arcsecant 0"
+      "source": "f(g(h(x)))",
+      "actual": "f of g of h of x",
+      "expected": "f of g of h of x"
     },
     {
       "score": 1,
-      "source": "\\tan^{-1} 0",
-      "actual": "arctangent 0",
-      "expected": "arctangent 0"
+      "source": "\\sin x",
+      "actual": "sine x",
+      "expected": "sine x"
     },
     {
       "score": 1,
-      "source": "0.\\overline{3} x",
-      "actual": "0 point modifying above 3 with bar x",
-      "expected": "0 point modifying above 3 with bar x"
+      "source": "\\sin(x)",
+      "actual": "sine of x",
+      "expected": "sine of x"
     },
     {
       "score": 1,
-      "source": "2xy",
-      "actual": "2 x y",
-      "expected": "2 x y"
+      "source": "\\cos x",
+      "actual": "cosine x",
+      "expected": "cosine x"
     },
     {
       "score": 1,
-      "source": "\\$100+\\$3",
-      "actual": "$ 100 plus $ 3",
-      "expected": "$ 100 plus $ 3"
+      "source": "\\tan x",
+      "actual": "tangent x",
+      "expected": "tangent x"
     },
     {
       "score": 1,
-      "source": "((20 * 45 * 10)cm - 900 cm) \\div (45 * 10 cm)",
-      "actual": "left parenthesis left parenthesis 20 times 45 times 10 right parenthesis cm minus 900 cm right parenthesis divided by left parenthesis 45 times 10 cm right parenthesis",
-      "expected": "left parenthesis left parenthesis 20 times 45 times 10 right parenthesis cm minus 900 cm right parenthesis divided by left parenthesis 45 times 10 cm right parenthesis"
+      "source": "\\sec x",
+      "actual": "secant x",
+      "expected": "secant x"
     },
     {
       "score": 1,
-      "source": "(1,28),(28,1)",
-      "actual": "left parenthesis 1 comma 28 right parenthesis comma left parenthesis 28 comma 1 right parenthesis",
-      "expected": "left parenthesis 1 comma 28 right parenthesis comma left parenthesis 28 comma 1 right parenthesis"
+      "source": "\\csc x",
+      "actual": "cosecant x",
+      "expected": "cosecant x"
     },
     {
       "score": 1,
-      "source": "384 oz+9oz-(48oz+11oz)",
-      "actual": "384 oz plus 9 oz minus left parenthesis 48 oz plus 11 oz right parenthesis",
-      "expected": "384 oz plus 9 oz minus left parenthesis 48 oz plus 11 oz right parenthesis"
+      "source": "\\cot x",
+      "actual": "cotangent x",
+      "expected": "cotangent x"
     },
     {
       "score": 1,
-      "source": "(2+.5)(9+12)",
-      "actual": "left parenthesis 2 plus point 5 right parenthesis left parenthesis 9 plus 12 right parenthesis",
-      "expected": "left parenthesis 2 plus point 5 right parenthesis left parenthesis 9 plus 12 right parenthesis"
+      "source": "\\sin^{-1} x",
+      "actual": "inverse sine x",
+      "expected": "inverse sine x"
     },
     {
       "score": 1,
-      "source": "(2+.5)\\times(9+12)",
-      "actual": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis",
-      "expected": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis"
+      "source": "\\cos^{-1} x",
+      "actual": "inverse cosine x",
+      "expected": "inverse cosine x"
     },
     {
       "score": 1,
-      "source": "(2+.5)*(9+12)",
-      "actual": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis",
-      "expected": "left parenthesis 2 plus point 5 right parenthesis times left parenthesis 9 plus 12 right parenthesis"
+      "source": "\\tan^{-1} x",
+      "actual": "inverse tangent x",
+      "expected": "inverse tangent x"
     },
     {
       "score": 1,
-      "source": "\\frac{2}{\\pi}=\\frac{\\sqrt{2}}{2}\\frac{\\sqrt{2+\\sqrt{2}}}{2}\\frac{\\sqrt{2+\\sqrt{2+\\sqrt{2}}}}{2}\\ldots",
-      "actual": "start fraction 2 over pi end fraction equals start fraction start root 2 end root over 2 end fraction start fraction start root 2 plus start root 2 end root end root over 2 end fraction start fraction start root 2 plus start root 2 plus start root 2 end root end root end root over 2 end fraction ellipsis",
-      "expected": "start fraction 2 over pi end fraction equals start fraction start root 2 end root over 2 end fraction start fraction start root 2 plus start root 2 end root end root over 2 end fraction start fraction start root 2 plus start root 2 plus start root 2 end root end root end root over 2 end fraction ellipsis"
+      "source": "\\sec^{-1} x",
+      "actual": "inverse secant x",
+      "expected": "inverse secant x"
     },
     {
       "score": 1,
-      "source": "x^{e-2}=\\sqrt{\\sqrt[3]{\\sqrt[4]{\\sqrt[5]{x\\ldots}}}}, x \\in \\mathbb{R}",
-      "actual": "x super e minus 2 baseline equals start root root index 3 start root root index 4 start root root index 5 start root x ellipsis end root end root end root end root comma x in mathbb upper r",
-      "expected": "x super e minus 2 baseline equals start root root index 3 start root root index 4 start root root index 5 start root x ellipsis end root end root end root end root comma x in mathbb upper r"
+      "source": "\\csc^{-1} x",
+      "actual": "inverse cosecant x",
+      "expected": "inverse cosecant x"
     },
     {
       "score": 1,
-      "source": "\\sqrt[n]{\\sqrt[m]{x}}=\\sqrt[m]{\\sqrt[n]{x}}",
-      "actual": "root index n start root root index m start root x end root end root equals root index m start root root index n start root x end root end root",
-      "expected": "root index n start root root index m start root x end root end root equals root index m start root root index n start root x end root end root"
+      "source": "\\cot^{-1} x",
+      "actual": "inverse cotangent x",
+      "expected": "inverse cotangent x"
     },
     {
       "score": 1,
-      "source": "\\sqrt{\\sqrt{x+1}+\\sqrt{y+1}}",
-      "actual": "start root start root x plus 1 end root plus start root y plus 1 end root end root",
-      "expected": "start root start root x plus 1 end root plus start root y plus 1 end root end root"
+      "source": "\\sinh x",
+      "actual": "hyperbolic sine x",
+      "expected": "hyperbolic sine x"
     },
     {
       "score": 1,
-      "source": "\\sqrt[3]{x}=x^\\frac{1}{3}",
-      "actual": "root index 3 start root x end root equals x super one third",
-      "expected": "root index 3 start root x end root equals x super one third"
+      "source": "\\cosh x",
+      "actual": "hyperbolic cosine x",
+      "expected": "hyperbolic cosine x"
     },
     {
       "score": 1,
-      "source": "\\sqrt[{m+n}]{x+y}",
-      "actual": "root index m plus n start root x plus y end root",
-      "expected": "root index m plus n start root x plus y end root"
+      "source": "\\tanh x",
+      "actual": "hyperbolic tangent x",
+      "expected": "hyperbolic tangent x"
     },
     {
       "score": 1,
-      "source": "\\sqrt{m+n}",
-      "actual": "start root m plus n end root",
-      "expected": "start root m plus n end root"
+      "source": "\\sech x",
+      "actual": "hyperbolic secant x",
+      "expected": "hyperbolic secant x"
+    },
+    {
+      "score": 1,
+      "source": "\\csch x",
+      "actual": "hyperbolic cosecant x",
+      "expected": "hyperbolic cosecant x"
+    },
+    {
+      "score": 1,
+      "source": "\\coth x",
+      "actual": "hyperbolic cotangent x",
+      "expected": "hyperbolic cotangent x"
+    },
+    {
+      "score": 1,
+      "source": "\\sinh^{-1} x",
+      "actual": "inverse hyperbolic sine x",
+      "expected": "inverse hyperbolic sine x"
+    },
+    {
+      "score": 1,
+      "source": "\\cosh^{-1} x",
+      "actual": "inverse hyperbolic cosine x",
+      "expected": "inverse hyperbolic cosine x"
+    },
+    {
+      "score": 1,
+      "source": "\\tanh^{-1} x",
+      "actual": "inverse hyperbolic tangent x",
+      "expected": "inverse hyperbolic tangent x"
+    },
+    {
+      "score": 1,
+      "source": "\\sech^{-1} x",
+      "actual": "inverse hyperbolic secant x",
+      "expected": "inverse hyperbolic secant x"
+    },
+    {
+      "score": 1,
+      "source": "\\csch^{-1} x",
+      "actual": "inverse hyperbolic cosecant x",
+      "expected": "inverse hyperbolic cosecant x"
+    },
+    {
+      "score": 1,
+      "source": "\\coth^{-1} x",
+      "actual": "inverse hyperbolic cotangent x",
+      "expected": "inverse hyperbolic cotangent x"
+    },
+    {
+      "score": 1,
+      "source": "\\sin(x+y)",
+      "actual": "sine of open paren x plus y close paren",
+      "expected": "sine of open paren x plus y close paren"
+    },
+    {
+      "score": 1,
+      "source": "\\csc(x+y)",
+      "actual": "cosecant of open paren x plus y close paren",
+      "expected": "cosecant of open paren x plus y close paren"
+    },
+    {
+      "score": 1,
+      "source": "\\sin^2 x",
+      "actual": "sine squared x",
+      "expected": "sine squared x"
+    },
+    {
+      "score": 1,
+      "source": "f(x)",
+      "actual": "f of x",
+      "expected": "f of x"
+    },
+    {
+      "score": 1,
+      "source": "g(x)",
+      "actual": "g of x",
+      "expected": "g of x"
+    },
+    {
+      "score": 1,
+      "source": "h(x)",
+      "actual": "h of x",
+      "expected": "h of x"
+    },
+    {
+      "score": 1,
+      "source": "F(x)",
+      "actual": "F of x",
+      "expected": "F of x"
+    },
+    {
+      "score": 1,
+      "source": "G(x)",
+      "actual": "G of x",
+      "expected": "G of x"
+    },
+    {
+      "score": 1,
+      "source": "H(x)",
+      "actual": "H of x",
+      "expected": "H of x"
     },
     {
       "score": 1,
       "source": "\\sqrt{2}",
-      "actual": "start root 2 end root",
-      "expected": "start root 2 end root"
+      "actual": "square root of 2",
+      "expected": "square root of 2"
     },
     {
       "score": 1,
-      "source": "x_a^b",
-      "actual": "x sub a baseline super b",
-      "expected": "x sub a baseline super b"
+      "source": "\\sqrt{x+1}",
+      "actual": "square root of x plus 1",
+      "expected": "square root of x plus 1"
     },
     {
       "score": 1,
-      "source": "f'''(y)=\\frac{df''(y)}{dy}",
-      "actual": "apply function f''' to y equals start fraction d f'' left parenthesis y right parenthesis over d y end fraction",
-      "expected": "apply function f''' to y equals start fraction d f'' left parenthesis y right parenthesis over d y end fraction"
-    },
-    {
-      "score": 1,
-      "source": "x''",
-      "actual": "x''",
-      "expected": "x''"
-    },
-    {
-      "score": 1,
-      "source": "T_{x-1}^2",
-      "actual": "upper t sub x minus 1 baseline squared",
-      "expected": "upper t sub x minus 1 baseline squared"
-    },
-    {
-      "score": 1,
-      "source": "\\ln x=\\int_1^x\\frac{dt}{t}",
-      "actual": "natural log of x equals the definite integral on the interval from 1 to x of start fraction d t over t end fraction",
-      "expected": "natural log of x equals the definite integral on the interval from 1 to x of start fraction d t over t end fraction"
-    },
-    {
-      "score": 1,
-      "source": "\\Phi_5",
-      "actual": "upper phi sub 5",
-      "expected": "upper phi sub 5"
-    },
-    {
-      "score": 1,
-      "source": "\\log_2(x)=\\frac{\\log_{10}(x)}{\\log_{10}(2)}",
-      "actual": "log base 2 of left parenthesis x right parenthesis equals start fraction log base ten of left parenthesis x right parenthesis over log base ten of left parenthesis 2 right parenthesis end fraction",
-      "expected": "log base 2 of left parenthesis x right parenthesis equals start fraction log base ten of left parenthesis x right parenthesis over log base ten of left parenthesis 2 right parenthesis end fraction"
-    },
-    {
-      "score": 1,
-      "source": "T_{n_1+n_0}",
-      "actual": "upper t sub n sub 1 baseline plus n sub 0",
-      "expected": "upper t sub n sub 1 baseline plus n sub 0"
-    },
-    {
-      "score": 1,
-      "source": "T_{2,3}",
-      "actual": "upper t sub 2 comma 3",
-      "expected": "upper t sub 2 comma 3"
-    },
-    {
-      "score": 1,
-      "source": "x_{1.3}",
-      "actual": "x sub 1 point 3",
-      "expected": "x sub 1 point 3"
-    },
-    {
-      "score": 1,
-      "source": "x_{10,000}",
+      "source": "\\sqrt{x+1}",
       "options": {
-        "allowThousandsSeparator": true
+        "EndRoot": true
       },
-      "actual": "x sub 10000",
-      "expected": "x sub 10000"
+      "actual": "square root of x plus 1 end root",
+      "expected": "square root of x plus 1 end root"
     },
     {
       "score": 1,
-      "source": "x_{-1}",
-      "actual": "x sub negative 1",
-      "expected": "x sub negative 1"
+      "source": "\\sqrt[3]{2}",
+      "actual": "cube root of 2",
+      "expected": "cube root of 2"
     },
     {
       "score": 1,
+      "source": "\\sqrt[3]{x+1}",
+      "actual": "cube root of x plus 1",
+      "expected": "cube root of x plus 1"
+    },
+    {
+      "score": 1,
+      "source": "\\sqrt[3]{x+1}",
+      "options": {
+        "EndRoot": true
+      },
+      "actual": "cube root of x plus 1 end root",
+      "expected": "cube root of x plus 1 end root"
+    },
+    {
+      "score": 1,
+      "source": "\\sqrt[4]{2}",
+      "actual": "4th root of 2",
+      "expected": "4th root of 2"
+    },
+    {
+      "score": 1,
+      "source": "\\sqrt[5]{2}",
+      "actual": "5th root of 2",
+      "expected": "5th root of 2"
+    },
+    {
+      "score": 1,
+      "source": "\\sqrt[i]{2}",
+      "actual": "i th root of 2",
+      "expected": "i th root of 2"
+    },
+    {
+      "score": 1,
+      "source": "\\sqrt[n]{2}",
+      "actual": "n th root of 2",
+      "expected": "n th root of 2"
+    },
+    {
+      "score": 1,
+      "source": "5^2",
+      "actual": "5 squared",
+      "expected": "5 squared"
+    },
+    {
+      "score": 1,
+      "source": "x^3",
+      "actual": "x cubed",
+      "expected": "x cubed"
+    },
+    {
+      "score": 1,
+      "source": "5^4",
+      "actual": "5 to the 4th power",
+      "expected": "5 to the 4th power"
+    },
+    {
+      "score": 1,
+      "source": "5^{32}",
+      "actual": "5 to the 32th power",
+      "expected": "5 to the 32th power"
+    },
+    {
+      "score": 1,
+      "source": "5^x",
+      "actual": "5 to the x th power",
+      "expected": "5 to the x th power"
+    },
+    {
+      "score": 1,
+      "source": "5^z",
+      "actual": "5 to the z th power",
+      "expected": "5 to the z th power"
+    },
+    {
+      "score": 1,
+      "source": "5^0",
+      "actual": "5 to the 0 power",
+      "expected": "5 to the 0 power"
+    },
+    {
+      "score": 1,
+      "source": "5^{-2}",
+      "actual": "5 to the negative 2 power",
+      "expected": "5 to the negative 2 power"
+    },
+    {
+      "score": 1,
+      "source": "5^{2.0}",
+      "actual": "5 raised to the 2 point 0 power",
+      "expected": "5 raised to the 2 point 0 power"
+    },
+    {
+      "score": 1,
+      "source": "5^{2x+1}",
+      "actual": "5 raised to the 2 x plus 1 power",
+      "expected": "5 raised to the 2 x plus 1 power"
+    },
+    {
+      "score": 1,
+      "source": "x^5^2",
+      "actual": "x raised to the 5 squared power",
+      "expected": "x raised to the 5 squared power"
+    },
+    {
+      "score": 1,
+      "source": "x^\\frac{1}{2}^3",
+      "actual": "x raised to the 1 half cubed power",
+      "expected": "x raised to the 1 half cubed power"
+    },
+    {
+      "score": 1,
+      "source": "5^{-4x^2}",
+      "actual": "5 raised to the negative 4 x squared power",
+      "expected": "5 raised to the negative 4 x squared power"
+    },
+    {
+      "score": 1,
+      "source": "5^{\\frac{1}{4}x^3}",
+      "actual": "5 raised to the 1 fourth x cubed power",
+      "expected": "5 raised to the 1 fourth x cubed power"
+    },
+    {
+      "score": 1,
+      "source": "6^x^4",
+      "actual": "6 raised to the exponent x to the 4th power end exponent",
+      "expected": "6 raised to the exponent x to the 4th power end exponent"
+    },
+    {
+      "score": 1,
+      "source": "6^(x+1)^4",
+      "actual": "6 raised to the exponent open paren x plus 1 close paren to the 4th power end exponent",
+      "expected": "6 raised to the exponent open paren x plus 1 close paren to the 4th power end exponent"
+    },
+    {
+      "score": 1,
+      "source": "x^{1/2}",
+      "actual": "x raised to the 1 half power",
+      "expected": "x raised to the 1 half power"
+    },
+    {
+      "score": 1,
+      "source": "5^{x^{1/2}}",
+      "actual": "5 raised to the exponent x raised to the 1 half power end exponent",
+      "expected": "5 raised to the exponent x raised to the 1 half power end exponent"
+    },
+    {
+      "score": -1,
+      "source": "5^{(1/2)^x}",
+      "actual": "5 raised to the exponent 1 half to the x th power end exponent",
+      "expected": "5 raised to the exponent 1 half to the x power end exponent"
+    },
+    {
+      "score": 1,
+      "source": "5^{x^2}",
+      "actual": "5 raised to the x squared power",
+      "expected": "5 raised to the x squared power"
+    },
+    {
+      "score": 1,
+      "source": "5^{\\frac{3}{5}^2}",
+      "actual": "5 raised to the 3 fifths squared power",
+      "expected": "5 raised to the 3 fifths squared power"
+    },
+    {
+      "score": 1,
+      "source": "5^{1/2}",
+      "actual": "5 raised to the 1 half power",
+      "expected": "5 raised to the 1 half power"
+    },
+    {
+      "score": 1,
+      "source": "5^{-2}",
+      "actual": "5 to the negative 2 power",
+      "expected": "5 to the negative 2 power"
+    },
+    {
+      "score": -1,
+      "source": "5^x",
+      "actual": "5 to the x th power",
+      "expected": "5 to the x power"
+    },
+    {
+      "score": 1,
+      "source": "f[x]",
+      "actual": "f of x",
+      "expected": "f of x"
+    },
+    {
+      "score": -1,
       "source": "x_1",
-      "actual": "x sub 1",
+      "actual": "x",
       "expected": "x sub 1"
     },
     {
       "score": 1,
-      "source": "T^(x^a+y^b)",
-      "actual": "upper t super left parenthesis x super a baseline plus y super b baseline right parenthesis",
-      "expected": "upper t super left parenthesis x super a baseline plus y super b baseline right parenthesis"
+      "source": "(\\frac{f}{g})(x)",
+      "actual": "open paren f over g close paren of x",
+      "expected": "open paren f over g close paren of x"
     },
     {
       "score": 1,
-      "source": "y_a_b",
-      "actual": "y sub a sub b",
-      "expected": "y sub a sub b"
-    },
-    {
-      "score": 1,
-      "source": "y^a^b",
-      "actual": "y super a super b",
-      "expected": "y super a super b"
-    },
-    {
-      "score": 1,
-      "source": "y^a^c^b",
-      "actual": "y super a super c super b",
-      "expected": "y super a super c super b"
-    },
-    {
-      "score": 1,
-      "source": "y^{a^b_c}\\ne y^{a^bc}",
-      "actual": "y super a super b sub c baseline baseline baseline not equal to y super a super b baseline c",
-      "expected": "y super a super b sub c baseline baseline baseline not equal to y super a super b baseline c"
-    },
-    {
-      "score": 1,
-      "source": "x_{a^b}",
-      "actual": "x sub a super b",
-      "expected": "x sub a super b"
-    },
-    {
-      "score": 1,
-      "source": "x^{a_b}",
-      "actual": "x super a sub b",
-      "expected": "x super a sub b"
-    },
-    {
-      "score": 1,
-      "source": "x^{a_n+a_{n-1}}",
-      "actual": "x super a sub n baseline plus a sub n minus 1",
-      "expected": "x super a sub n baseline plus a sub n minus 1"
-    },
-    {
-      "score": 1,
-      "source": "T_{n-1}+5=0",
-      "actual": "upper t sub n minus 1 baseline plus 5 equals 0",
-      "expected": "upper t sub n minus 1 baseline plus 5 equals 0"
-    },
-    {
-      "score": 1,
-      "source": "x^{m+n}=x^mx^n",
-      "actual": "x super m plus n baseline equals x super m baseline x super n",
-      "expected": "x super m plus n baseline equals x super m baseline x super n"
-    },
-    {
-      "score": 1,
-      "source": "x^{m+n}",
-      "actual": "x super m plus n",
-      "expected": "x super m plus n"
-    },
-    {
-      "score": 1,
-      "source": "x^a",
-      "actual": "x super a",
-      "expected": "x super a"
-    },
-    {
-      "score": 1,
-      "source": "x_n",
-      "actual": "x sub n",
-      "expected": "x sub n"
-    },
-    {
-      "score": 1,
-      "source": "x^{\\frac{1}{2}}",
-      "actual": "x super one half",
-      "expected": "x super one half"
-    },
-    {
-      "score": 1,
-      "source": "a_0 + \\frac{b_1}{a_1+\\frac{b_2}{a_2+\\frac{b_3}{a_3+\\ldots}}}=a_0+\\frac{b_1}{a_1}+\\frac{b_2}{a_2}+\\ldots",
-      "actual": "a sub 0 baseline plus start fraction b sub 1 baseline over a sub 1 baseline plus start fraction b sub 2 baseline over a sub 2 baseline plus start fraction b sub 3 baseline over a sub 3 baseline plus ellipsis end fraction end fraction end fraction equals a sub 0 baseline plus start fraction b sub 1 baseline over a sub 1 baseline end fraction plus start fraction b sub 2 baseline over a sub 2 baseline end fraction plus ellipsis",
-      "expected": "a sub 0 baseline plus start fraction b sub 1 baseline over a sub 1 baseline plus start fraction b sub 2 baseline over a sub 2 baseline plus start fraction b sub 3 baseline over a sub 3 baseline plus ellipsis end fraction end fraction end fraction equals a sub 0 baseline plus start fraction b sub 1 baseline over a sub 1 baseline end fraction plus start fraction b sub 2 baseline over a sub 2 baseline end fraction plus ellipsis"
-    },
-    {
-      "score": 1,
-      "source": "3\\frac{5}{8}=\\frac{29}{8}",
-      "actual": "3 and 5 eighths equals 29 eighths",
-      "expected": "3 and 5 eighths equals 29 eighths"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{\\frac{3}{5}}{8}=\\frac{3}{5}\\times\\frac{1}{8}",
-      "actual": "start fraction 3 fifths over 8 end fraction equals 3 fifths times one eighth",
-      "expected": "start fraction 3 fifths over 8 end fraction equals 3 fifths times one eighth"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{20}{5}\\times\\frac{1}{100}=\\frac{1}{25}",
-      "actual": "20 fifths times start fraction 1 over 100 end fraction equals start fraction 1 over 25 end fraction",
-      "expected": "20 fifths times start fraction 1 over 100 end fraction equals start fraction 1 over 25 end fraction"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{1}{2}+\\frac{2}{2}+\\frac{3}{2}+\\frac{4}{2}+\\ldots=\\sum\\limits_{x=1}^{\\infty}\\frac{n}{2}",
-      "actual": "one half plus 2 halves plus 3 halves plus 4 halves plus ellipsis equals summation limits sub x equals 1 baseline super infinity baseline start fraction n over 2 end fraction",
-      "expected": "one half plus 2 halves plus 3 halves plus 4 halves plus ellipsis equals summation limits sub x equals 1 baseline super infinity baseline start fraction n over 2 end fraction"
-    },
-    {
-      "score": 1,
-      "source": "x_a^b",
-      "actual": "x sub a baseline super b",
-      "expected": "x sub a baseline super b"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{d^2y}{dx^2}+(ax^2+bx+c)y=0",
-      "actual": "start fraction d squared y over d x squared end fraction plus left parenthesis a x squared plus b x plus c right parenthesis y equals 0",
-      "expected": "start fraction d squared y over d x squared end fraction plus left parenthesis a x squared plus b x plus c right parenthesis y equals 0"
-    },
-    {
-      "score": 1,
-      "source": "x^3+6x^2-x=30",
-      "actual": "x cubed plus 6 x squared minus x equals 30",
-      "expected": "x cubed plus 6 x squared minus x equals 30"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
-      "actual": "start fraction negative b plus or minus start root b squared minus 4 a c end root over 2 a end fraction",
-      "expected": "start fraction negative b plus or minus start root b squared minus 4 a c end root over 2 a end fraction"
-    },
-    {
-      "score": 1,
-      "source": "a - \\frac{b+c}{d-e} \\times f",
-      "actual": "a minus start fraction b plus c over d minus e end fraction times f",
-      "expected": "a minus start fraction b plus c over d minus e end fraction times f"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{\\frac{x}{y}}{z}\\ne\\frac{x}{\\frac{y}{z}}",
-      "actual": "start fraction start fraction x over y end fraction over z end fraction not equal to start fraction x over start fraction y over z end fraction end fraction",
-      "expected": "start fraction start fraction x over y end fraction over z end fraction not equal to start fraction x over start fraction y over z end fraction end fraction"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{\\frac{(1-x)\\frac{d}{dx}(2x)-2x\\frac{d}{dx}(1-x)}{(1-x)^2}}{1+(\\frac{2x}{1-x})^2}",
-      "actual": "start fraction start fraction left parenthesis 1 minus x right parenthesis start fraction d over d x end fraction left parenthesis 2 x right parenthesis minus 2 x start fraction d over d x end fraction left parenthesis 1 minus x right parenthesis over left parenthesis 1 minus x right parenthesis squared end fraction over 1 plus left parenthesis start fraction 2 x over 1 minus x end fraction right parenthesis squared end fraction",
-      "expected": "start fraction start fraction left parenthesis 1 minus x right parenthesis start fraction d over d x end fraction left parenthesis 2 x right parenthesis minus 2 x start fraction d over d x end fraction left parenthesis 1 minus x right parenthesis over left parenthesis 1 minus x right parenthesis squared end fraction over 1 plus left parenthesis start fraction 2 x over 1 minus x end fraction right parenthesis squared end fraction"
-    },
-    {
-      "score": 1,
-      "source": "a_0 + \\frac{1}{a_1+\\frac{1}{a_2+\\frac{1}{\\ldots+\\frac{1}{a_n}}}}",
-      "actual": "a sub 0 baseline plus start fraction 1 over a sub 1 baseline plus start fraction 1 over a sub 2 baseline plus start fraction 1 over ellipsis plus start fraction 1 over a sub n baseline end fraction end fraction end fraction end fraction",
-      "expected": "a sub 0 baseline plus start fraction 1 over a sub 1 baseline plus start fraction 1 over a sub 2 baseline plus start fraction 1 over ellipsis plus start fraction 1 over a sub n baseline end fraction end fraction end fraction end fraction"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{1}{x}",
-      "actual": "start fraction 1 over x end fraction",
-      "expected": "start fraction 1 over x end fraction"
-    },
-    {
-      "score": 1,
-      "source": "1/x",
-      "actual": "start fraction 1 over x end fraction",
-      "expected": "start fraction 1 over x end fraction"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{8}{10} = 0.80",
-      "actual": "start fraction 8 over 10 end fraction equals 0 point 80",
-      "expected": "start fraction 8 over 10 end fraction equals 0 point 80"
-    },
-    {
-      "score": 1,
-      "source": "\\abs{5-12}",
-      "actual": "start absolute value 5 minus 12 end absolute value",
-      "expected": "start absolute value 5 minus 12 end absolute value"
-    },
-    {
-      "score": 1,
-      "source": "\\abs{-12}",
-      "actual": "start absolute value negative 12 end absolute value",
-      "expected": "start absolute value negative 12 end absolute value"
-    },
-    {
-      "score": 1,
-      "source": "|-12|",
-      "actual": "start absolute value negative 12 end absolute value",
-      "expected": "start absolute value negative 12 end absolute value"
-    },
-    {
-      "score": 1,
-      "source": "{12}",
-      "actual": "start set 12 end set",
-      "expected": "start set 12 end set"
-    },
-    {
-      "score": 1,
-      "source": "{1, 2}",
-      "actual": "start set 1 comma 2 end set",
-      "expected": "start set 1 comma 2 end set"
-    },
-    {
-      "score": 1,
-      "source": "{1, 2, 3}",
-      "actual": "start set 1 comma 2 comma 3 end set",
-      "expected": "start set 1 comma 2 comma 3 end set"
-    },
-    {
-      "score": 1,
-      "source": "{}",
-      "actual": "left brace right brace",
-      "expected": "left brace right brace"
-    },
-    {
-      "score": 1,
-      "source": "A, B, C, \\ldots",
-      "actual": "upper a comma upper b comma upper c comma ellipsis",
-      "expected": "upper a comma upper b comma upper c comma ellipsis"
-    },
-    {
-      "score": 1,
-      "source": "d=\\sqrt{(3/(X-x)^3)-(Y-y)^3}",
-      "actual": "d equals start root left parenthesis start fraction 3 over left parenthesis upper x minus x right parenthesis cubed end fraction right parenthesis minus left parenthesis upper y minus y right parenthesis cubed end root",
-      "expected": "d equals start root left parenthesis start fraction 3 over left parenthesis upper x minus x right parenthesis cubed end fraction right parenthesis minus left parenthesis upper y minus y right parenthesis cubed end root"
-    },
-    {
-      "score": 1,
-      "source": "d=\\sqrt{(X-x)^2-(Y-y)^2}",
-      "actual": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root",
-      "expected": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root"
-    },
-    {
-      "score": 1,
-      "source": "0.3456",
-      "actual": "0 point 3456",
-      "expected": "0 point 3456"
-    },
-    {
-      "score": 1,
-      "source": "\\frac{22}{7}=3.\\overline{142857}",
-      "actual": "22 sevenths equals 3 point modifying above 142857 with bar",
-      "expected": "22 sevenths equals 3 point modifying above 142857 with bar"
-    },
-    {
-      "score": 1,
-      "source": "-32",
-      "actual": "negative 32",
-      "expected": "negative 32"
-    },
-    {
-      "score": 1,
-      "source": "-y",
-      "actual": "negative y",
-      "expected": "negative y"
-    },
-    {
-      "score": 1,
-      "source": "3--2",
-      "actual": "3 minus negative 2",
-      "expected": "3 minus negative 2"
-    },
-    {
-      "score": 1,
-      "source": "59*0=0",
-      "actual": "59 times 0 equals 0",
-      "expected": "59 times 0 equals 0"
-    },
-    {
-      "score": 1,
-      "source": "59 \\times 0 = 0",
-      "actual": "59 times 0 equals 0",
-      "expected": "59 times 0 equals 0"
-    },
-    {
-      "score": 1,
-      "source": "102+2214+15=2331",
-      "actual": "102 plus 2214 plus 15 equals 2331",
-      "expected": "102 plus 2214 plus 15 equals 2331"
-    },
-    {
-      "score": 1,
-      "source": "102+2,214+15=2,331",
-      "options": {
-        "allowThousandsSeparator": true
-      },
-      "actual": "102 plus 2214 plus 15 equals 2331",
-      "expected": "102 plus 2214 plus 15 equals 2331"
-    },
-    {
-      "score": 1,
-      "source": "\\pi \\approx 3.1415",
-      "actual": "pi almost equals 3 point 1415",
-      "expected": "pi almost equals 3 point 1415"
-    },
-    {
-      "score": 1,
-      "source": "0.\\overline{x}",
-      "actual": "0 point modifying above x with bar",
-      "expected": "0 point modifying above x with bar"
-    },
-    {
-      "score": 1,
-      "source": "\\Pi",
-      "actual": "upper pi",
-      "expected": "upper pi"
-    },
-    {
-      "score": 1,
-      "source": "\\Kappa",
-      "actual": "upper kappa",
-      "expected": "upper kappa"
-    },
-    {
-      "score": 1,
-      "source": "x \\ne 10",
-      "actual": "x not equal to 10",
-      "expected": "x not equal to 10"
-    },
-    {
-      "score": 1,
-      "source": "Ax^2+Bx+C",
-      "actual": "upper a x squared plus upper b x plus upper c",
-      "expected": "upper a x squared plus upper b x plus upper c"
-    },
-    {
-      "score": 1,
-      "source": "\\alpha",
-      "actual": "alpha",
-      "expected": "alpha"
-    },
-    {
-      "score": 1,
-      "source": "d=\\sqrt{(X-x)^2-(Y-y)^2}",
-      "actual": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root",
-      "expected": "d equals start root left parenthesis upper x minus x right parenthesis squared minus left parenthesis upper y minus y right parenthesis squared end root"
-    },
-    {
-      "score": 1,
-      "source": "3.\\overline{142857}",
-      "actual": "3 point modifying above 142857 with bar",
-      "expected": "3 point modifying above 142857 with bar"
-    },
-    {
-      "score": 1,
-      "source": "-32",
-      "actual": "negative 32",
-      "expected": "negative 32"
-    },
-    {
-      "score": 1,
-      "source": "-y",
-      "actual": "negative y",
-      "expected": "negative y"
-    },
-    {
-      "score": 1,
-      "source": "1/2",
-      "actual": "one half",
-      "expected": "one half"
-    },
-    {
-      "score": 1,
-      "source": "x/2",
-      "actual": "start fraction x over 2 end fraction",
-      "expected": "start fraction x over 2 end fraction"
-    },
-    {
-      "score": 1,
-      "source": "x^4",
-      "actual": "x to the power of 4",
-      "expected": "x to the power of 4"
-    },
-    {
-      "score": 1,
-      "source": "x^y",
-      "actual": "x super y",
-      "expected": "x super y"
-    },
-    {
-      "score": 1,
-      "source": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
-      "actual": "x equals start fraction negative b plus or minus start root b squared minus 4 a c end root over 2 a end fraction",
-      "expected": "x equals start fraction negative b plus or minus start root b squared minus 4 a c end root over 2 a end fraction"
+      "source": "\\sin x",
+      "actual": "sine x",
+      "expected": "sine x"
     }
   ]
 }
