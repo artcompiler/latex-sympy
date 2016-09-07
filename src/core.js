@@ -929,7 +929,6 @@ import {rules} from "./rules.js";
   }
   Model.fn.translate = function (n1) {
     let rules = Model.option("rules");
-    console.log("translate() n1=" + JSON.stringify(n1, null, 2));
     let n = translate(normalizeLiteral(n1), rules);
     if (!n || n.op !== Model.VAR) {
       n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);
