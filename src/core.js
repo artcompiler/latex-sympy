@@ -361,10 +361,11 @@ import {rules} from "./rules.js";
             // Different number of args, then see if there is a wildcard match.
             let nargs = node.args.slice(1);
             if (pattern.args.length === 2) {
+              // Binary node pattern
               let result = (
-                match([pattern.args[0]], node.args[0]) &&
-                  matchType(pattern.args[1], newNode(node.op, nargs))
-                    // match rest of the node against original patterns.
+                match([pattern.args[0]], node.args[0]).length > 0 &&
+                match([pattern.args[1]], newNode(node.op, nargs)).length > 0
+                  // Match rest of the node against the second pattern argument.
               );
               return result;
             }
@@ -725,8 +726,6 @@ import {rules} from "./rules.js";
             // Now translate the subscripts.
             args = args.concat(translate(n, [globalRules, argRules]));
           });
-          // console.log("variable node=" + JSON.stringify(node, null, 2));
-          // console.log("variable template=" + JSON.stringify(template, null, 2));
           return expand(template, args);
         },
         comma: function(node) {

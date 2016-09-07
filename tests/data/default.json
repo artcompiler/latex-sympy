@@ -22,7 +22,8 @@
       "\\coth": "hyperbolic cotangent",
       "\\ln": "natural log",
       "\\log": "log",
-      "\\lg": "log"
+      "\\lg": "log",
+      "'": "prime"
     },
     "types": {
       "functionName": [
@@ -56,6 +57,7 @@
       ],
       "function": [
         "\\type{function}^{?}",
+        "\\type{function}_{?}",
         "\\type{functionComposition}",
         "\\type{functionName}"
       ],
@@ -111,8 +113,14 @@
       ]
     },
     "rules": {
-      "\\type{variable}_{?}": [
-        "%1 sub %2"
+      "?'''": [
+        "%1 triple prime"
+      ],
+      "?''": [
+        "%1 double prime"
+      ],
+      "?'": [
+        "%1 prime"
       ],
       "?, ?": [
         "%1 comma %2"
@@ -237,23 +245,18 @@
         },
         "%2th root of %1"
       ],
+      "\\log_{?} ?": [
+        {
+          "log base %1 of %2": {
+            "\\log_{?}": "%2"
+          }
+        }
+      ],
       "\\type{function}(?)": [
         "%1 of %2"
       ],
       "\\type{function}[?]": [
         "%1 of %2"
-      ],
-      "\\ln{?}": [
-        "natural log %2"
-      ],
-      "\\lg{?}": [
-        "log base ten of %2"
-      ],
-      "\\log_{e}{?}": [
-        "natural log of %2"
-      ],
-      "\\log_{?}{?}": [
-        "log base %1 of %2"
       ],
       "\\sin ?": [
         "sine %2"
@@ -345,9 +348,6 @@
       "?^\\prime": [
         "%1 prime"
       ],
-      "?'": [
-        "%1 prime"
-      ],
       "\\sum ?": [
         "summation %1"
       ],
@@ -396,6 +396,9 @@
       "? \\text{dx}": [
         "with respect to x of %1"
       ],
+      "?_?": [
+        "%1 sub %2"
+      ],
       "?:?": [
         "ratio of %1 to %2"
       ],
@@ -410,6 +413,9 @@
       ],
       "?*?": [
         "%1 times %2"
+      ],
+      "?\\cdot?": [
+        "%1 dot %2"
       ],
       "?<?": [
         "%1 is less than %2"
@@ -482,6 +488,24 @@
   "tests": [
     {
       "score": 1,
+      "source": "x'",
+      "actual": "x prime",
+      "expected": "x prime"
+    },
+    {
+      "score": 1,
+      "source": "x''",
+      "actual": "x double prime",
+      "expected": "x double prime"
+    },
+    {
+      "score": 1,
+      "source": "x'''",
+      "actual": "x triple prime",
+      "expected": "x triple prime"
+    },
+    {
+      "score": 1,
       "source": "\\ln x",
       "actual": "natural log x",
       "expected": "natural log x"
@@ -505,15 +529,15 @@
       "expected": "log of open paren x plus y close paren"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "\\log_b x",
-      "actual": "log x",
+      "actual": "log base b of x",
       "expected": "log base b of x"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "\\log_b(x+y)",
-      "actual": "log times open paren x plus y close paren",
+      "actual": "log base b of open paren x plus y close paren",
       "expected": "log base b of open paren x plus y close paren"
     },
     {
@@ -565,9 +589,9 @@
       "expected": "g of open paren x comma y comma z close paren"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "f_1(x)",
-      "actual": "f times x",
+      "actual": "f sub 1 of x",
       "expected": "f sub 1 of x"
     },
     {
@@ -583,9 +607,9 @@
       "expected": "open paren f minus g close paren of x"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "(f \\cdot g)(x)",
-      "actual": "open paren f times g close paren of x",
+      "actual": "open paren f dot g close paren of x",
       "expected": "open paren f dot g close paren of x"
     },
     {
@@ -593,18 +617,6 @@
       "source": "(\\frac{f}{g})(x)",
       "actual": "open paren f over g close paren of x",
       "expected": "open paren f over g close paren of x"
-    },
-    {
-      "score": -1,
-      "source": "(f+g)'(x)",
-      "actual": "natural log '",
-      "expected": "open paren f plus g close paren prime of x"
-    },
-    {
-      "score": -1,
-      "source": "(f+g)''(x)",
-      "actual": "natural log ''",
-      "expected": "open paren f plus g close paren double prime of x"
     },
     {
       "score": 1,
@@ -625,10 +637,10 @@
       "expected": "f cubed of x"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "f^{4}(x)",
       "actual": "4th power of f of x",
-      "expected": "f to the 4th power of x"
+      "expected": "4th power of f of x"
     },
     {
       "score": 1,
@@ -1021,10 +1033,10 @@
       "expected": "5 raised to the exponent x raised to the 1 half power end exponent"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "5^{(1/2)^x}",
       "actual": "5 raised to the exponent 1 half to the x th power end exponent",
-      "expected": "5 raised to the exponent 1 half to the x power end exponent"
+      "expected": "5 raised to the exponent 1 half to the x th power end exponent"
     },
     {
       "score": 1,
@@ -1051,10 +1063,10 @@
       "expected": "5 to the negative 2 power"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "5^x",
       "actual": "5 to the x th power",
-      "expected": "5 to the x power"
+      "expected": "5 to the x th power"
     },
     {
       "score": 1,
@@ -1063,9 +1075,9 @@
       "expected": "f of x"
     },
     {
-      "score": -1,
+      "score": 1,
       "source": "x_1",
-      "actual": "x",
+      "actual": "x sub 1",
       "expected": "x sub 1"
     },
     {
@@ -1076,9 +1088,9 @@
     },
     {
       "score": 1,
-      "source": "\\sin x",
-      "actual": "sine x",
-      "expected": "sine x"
+      "source": "x''",
+      "actual": "x double prime",
+      "expected": "x double prime"
     }
   ]
 }

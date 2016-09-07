@@ -307,7 +307,8 @@ export let Model = (function () {
   }
   function isAlphaCharCode(c) {
     return c >= 65 && c <= 90 ||
-      c >= 97 && c <= 122;
+      c >= 97 && c <= 122 ||
+      c === 39;
   }
   function isNumberCharCode(c) {
     return (
@@ -442,6 +443,7 @@ export let Model = (function () {
     tokenToOperator[TK_CARET] = OpStr.POW;
     tokenToOperator[TK_UNDERSCORE] = OpStr.SUBSCRIPT;
     tokenToOperator[TK_MUL] = OpStr.MUL;
+    tokenToOperator[TK_DOT] = OpStr.DOT;
     tokenToOperator[TK_DIV] = OpStr.DIV;
     // tokenToOperator[TK_SIN] = OpStr.SIN;
     // tokenToOperator[TK_COS] = OpStr.COS;
@@ -1290,8 +1292,8 @@ export let Model = (function () {
           explicitOperator = true;
         }
         expr = fractionExpr();
-        if (t === TK_DIV) {
-          expr = newNode(Model.DIV, [args.pop(), expr]);
+        if (t === TK_DIV || t === TK_DOT) {
+          expr = newNode(tokenToOperator[t], [args.pop(), expr]);
         }
         assert(explicitOperator ||
                args.length === 0 ||
@@ -1365,13 +1367,14 @@ export let Model = (function () {
         }
       }
       if (args.length > 1) {
-        return multiplyNode(args);
+        return binaryNode(Model.MUL, args);
       } else {
         return args[0];
       }
       //
       function isMultiplicative(t) {
-        return t === TK_MUL || t === TK_DIV || t === TK_SLASH; // / is only multiplicative for parsing
+        return t === TK_MUL || t === TK_DIV || t === TK_SLASH || t === TK_DOT;
+        // / is only multiplicative for parsing
       }
     }
 
@@ -1674,7 +1677,7 @@ export let Model = (function () {
       let curIndex = 0;
       let lexeme = "";
       let lexemeToToken = {
-        "\\cdot": TK_MUL,
+        "\\cdot": TK_DOT,
         "\\times": TK_MUL,
         "\\div": TK_DIV,
         "\\dfrac": TK_FRAC,
@@ -1832,8 +1835,7 @@ export let Model = (function () {
             }
             return TK_GT;
           default:
-            if (isAlphaCharCode(c) ||
-                c === "'".charCodeAt(0)) {
+            if (isAlphaCharCode(c)) {
               return variable(c);
             } else if (matchDecimalSeparator(String.fromCharCode(c)) ||
                        isNumberCharCode(c)) {
@@ -1897,13 +1899,13 @@ export let Model = (function () {
           lexeme += ch;
         }
         curIndex--;
-        // Scan trailing primes ('). This handles single character identifier
-        // with trailing primes.
-        while ((c=src.charCodeAt(curIndex++)) === "'".charCodeAt(0)) {
-          let ch = String.fromCharCode(c);
-          lexeme += ch;
-        }
-        curIndex--;
+        // // Scan trailing primes ('). This handles single character identifier
+        // // with trailing primes.
+        // while ((c=src.charCodeAt(curIndex++)) === "'".charCodeAt(0)) {
+        //   let ch = String.fromCharCode(c);
+        //   lexeme += ch;
+        // }
+        // curIndex--;
         return TK_VAR;
       }
       // Recognize \frac, \sqrt.
