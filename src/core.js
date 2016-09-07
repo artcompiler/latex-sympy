@@ -69,7 +69,6 @@ import {rules} from "./rules.js";
         node = visit.exponential(node, resume);
         break;
       case Model.VAR:
-      case Model.SUBSCRIPT:
         node = visit.variable(node, resume);
         break;
       case Model.SQRT:
@@ -379,7 +378,6 @@ import {rules} from "./rules.js";
       // }
       return matches;
     }
-
     function expandBinary(str, args) {
       let t = str;
       forEach(args, function (arg, i) {
@@ -390,7 +388,6 @@ import {rules} from "./rules.js";
       }
       return str;
     }
-
     function expand(template, args) {
       // Use first matched template for now.
       let str = template.str;
@@ -728,8 +725,9 @@ import {rules} from "./rules.js";
             // Now translate the subscripts.
             args = args.concat(translate(n, [globalRules, argRules]));
           });
+          // console.log("variable node=" + JSON.stringify(node, null, 2));
+          // console.log("variable template=" + JSON.stringify(template, null, 2));
           return expand(template, args);
-
         },
         comma: function(node) {
           if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
@@ -931,6 +929,7 @@ import {rules} from "./rules.js";
   }
   Model.fn.translate = function (n1) {
     let rules = Model.option("rules");
+    console.log("translate() n1=" + JSON.stringify(n1, null, 2));
     let n = translate(normalizeLiteral(n1), rules);
     if (!n || n.op !== Model.VAR) {
       n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);

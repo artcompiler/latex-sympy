@@ -728,11 +728,11 @@ export let Model = (function () {
       case TK_VAR:
         args = [lexeme()];
         next();
-        // Collect the subscript if there is one. Subscripts make multipart variable names.
-        if ((t=hd())===TK_UNDERSCORE) {
-          next({oneCharToken: true});
-          args.push(primaryExpr());   // {op:VAR, args:["Fe", "2"]}
-        }
+        // // Collect the subscript if there is one. Subscripts make multipart variable names.
+        // if ((t=hd())===TK_UNDERSCORE) {
+        //   next({oneCharToken: true});
+        //   args.push(primaryExpr());   // {op:VAR, args:["Fe", "2"]}
+        // }
         node = newNode(Model.VAR, args);
         if (isChemCore()) {
           if (hd() === TK_LEFTBRACE && lookahead() === TK_RIGHTBRACE) {
