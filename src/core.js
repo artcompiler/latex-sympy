@@ -373,6 +373,10 @@ import {rules} from "./rules.js";
         }
         return false;
       });
+      // if (matches.length > 0) {
+      //   console.log("node: " + JSON.stringify(node, null, 2));
+      //   console.log("matches: " + JSON.stringify(matches, null, 2));
+      // }
       return matches;
     }
 
@@ -560,7 +564,9 @@ import {rules} from "./rules.js";
       });
       let matchedTemplates = [];
       templates.forEach(function (t) {
-        if((!t.context || Model.option("NoParens") && t.context === "NoParens") &&
+        if((!t.context ||
+            Model.option("NoParens") && t.context.indexOf("NoParens") > -1 ||
+            Model.option("EndRoot") && t.context.indexOf("EndRoot") > -1) &&
            arity >= paramCount(t)) {  // Some args might be elided.
           matchedTemplates.push(t);
         }
@@ -687,27 +693,43 @@ import {rules} from "./rules.js";
           return expand(template, args);
         },
         variable: function(node) {
-          let str = "";
-          forEach(node.args, function (n, i) {
-            // This is a little bit of a hack to handle how subscripts are encoded
-            // as compound variables.
-            if (i > 0) {
-              str += " sub ";
-              let v = translate(n, rules);
-              str += v.args[0];
-              str += " baseline ";
-            } else {
-              str += lookup(n);
-            }
-          });
+          // let str = "";
+          // forEach(node.args, function (n, i) {
+          //   // This is a little bit of a hack to handle how subscripts are encoded
+          //   // as compound variables.
+          //   if (i > 0) {
+          //     str += " sub ";
+          //     let v = translate(n, rules);
+          //     str += v.args[0];
+          //     str += " baseline ";
+          //   } else {
+          //     str += lookup(n);
+          //   }
+          // });
+          // let matches = match(patterns, node);
+          // let args = [newNode(Model.VAR, [str])];
+          // if (matches.length === 0) {
+          //   return args[0];
+          // }
+          // // Use first match for now.
+          // let template = matchedTemplate(rules, matches, 1);
+          // return expand(template, args);
           let matches = match(patterns, node);
-          let args = [newNode(Model.VAR, [str])];
           if (matches.length === 0) {
-            return args[0];
+            return node;
           }
           // Use first match for now.
-          let template = matchedTemplate(rules, matches, 1);
+          let template = matchedTemplate(rules, matches, node.args.length);
+          let argRules = getRulesForArgs(template, rules);
+          let nodeArgs = getNodeArgsForTemplate(node, template);
+          let args = [];
+          args.push(newNode(Model.VAR, [lookup(nodeArgs.shift())]));
+          forEach(nodeArgs, function (n, i) {
+            // Now translate the subscripts.
+            args = args.concat(translate(n, [globalRules, argRules]));
+          });
           return expand(template, args);
+
         },
         comma: function(node) {
           if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
@@ -844,9 +866,10 @@ import {rules} from "./rules.js";
       } else {
         // {"%1": {"?": "%1"}}
         // [cntx1 "%1", cntx2 {"%1": {?: "%1"}}] --> [{context: "cntx1", str: "%1"},...]
-        let context, str, rules;
+        let context = "", str, rules;
         if (template.options) {
-          context = template.options.NoParens ? "NoParens" : undefined;
+          context += template.options.EndRoot ? " EndRoot" : "";
+          context += template.options.NoParens ? " NoParens" : "";
           str = template.value;
         } else {
           str = Object.keys(template)[0];
@@ -1062,7 +1085,28 @@ export let Core = (function () {
     "\\phi": { type: "var" },
     "\\chi": { type: "var" },
     "\\psi": { type: "var" },
-    "\\omega": { type: "var" }
+    "\\omega": { type: "var" },
+    "\\sin": { type: "var" },
+    "\\cos": { type: "var" },
+    "\\tan": { type: "var" },
+    "\\sec": { type: "var" },
+    "\\csc": { type: "var" },
+    "\\cot": { type: "var" },
+    "\\arcsin": { type: "var" },
+    "\\arccos": { type: "var" },
+    "\\arctan": { type: "var" },
+    "\\arcsec": { type: "var" },
+    "\\arccsc": { type: "var" },
+    "\\arccot": { type: "var" },
+    "\\sinh": { type: "var" },
+    "\\cosh": { type: "var" },
+    "\\tanh": { type: "var" },
+    "\\sech": { type: "var" },
+    "\\csch": { type: "var" },
+    "\\coth": { type: "var" },
+    "\\log": { type: "var" },
+    "\\ln": { type: "var" },
+    "\\lg": { type: "var" },
   };
 
   function validateOption(p, v) {
@@ -1086,6 +1130,7 @@ export let Core = (function () {
       assert(false, message(3007, [p, v]));
       break;
     case "NoParens":
+    case "EndRoot":
     case "allowDecimal":
     case "allowInterval":
     case "dontExpandPowers":
