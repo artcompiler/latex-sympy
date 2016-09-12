@@ -354,6 +354,12 @@ import {rules} from "./rules.js";
           if (pattern.args.length === node.args.length) {
             // Same number of args, so see if each matches.
             return pattern.args.every(function (arg, i) {
+              if (pattern.op === Model.VAR) {
+                if (arg === node.args[i]) {
+                  return true;
+                }
+                return false;
+              }
               let result = match([arg], node.args[i]);
               return result.length === 1;
             });
@@ -558,7 +564,7 @@ import {rules} from "./rules.js";
     function matchedTemplate(rules, matches, arity) {
       let templates = [];
       matches.forEach(function (m) {
-        templates = templates.concat(rules.get(m));
+        templates = templates.concat(rules[JSON.stringify(m)]);
       });
       let matchedTemplates = [];
       templates.forEach(function (t) {
@@ -611,7 +617,12 @@ import {rules} from "./rules.js";
         }
       }
       globalRules = rules;
-      let patterns = [...rules.keys()];
+      let keys = Object.keys(rules);
+      // FIXME when IE supports Map, this can be removed.
+      let patterns = [];
+      keys.forEach(k => {
+        patterns.push(JSON.parse(k));
+      });
       if (!root || !root.args) {
         assert(false, "Should not get here. Illformed node.");
         return 0;
@@ -796,7 +807,6 @@ import {rules} from "./rules.js";
           let nodeArgs = getNodeArgsForTemplate(node, template);
           let args = [];
           forEach(nodeArgs, function (n) {
-//            args = args.concat(translate(n, [globalRules, argRules]));
             args.push(translate(n, [globalRules, argRules]));
           });
           return expand(template, args);
@@ -833,18 +843,19 @@ import {rules} from "./rules.js";
   }
 
   function mergeMaps(m1, m2) {
-    // m1 shadows m2.
-    let map = new Map();
+    let map = {};
     if (m1) {
-      for (var [key, value] of m1) {
-        map.set(key, value);
-      }
+      let keys = Object.keys(m1);
+      keys.forEach(k => {
+        map[k] = m1[k];
+      });
     }
-    for (var [key, value] of m2) {
-      if (!map.has(key)) {
-        map.set(key, value);
+    let keys = Object.keys(m2);
+    keys.forEach(k => {
+      if (!map[k]) {
+        map[k] = m2[k];
       }
-    }
+    });
     return map;
   }
   function compileTemplate(template) {
@@ -883,12 +894,15 @@ import {rules} from "./rules.js";
     return compiledTemplate;
   }
   function compileRules(rules) {
+    // { "ast as string": template, ... }
     let keys = Object.keys(rules);
-    let compiledRules = new Map();
+    let compiledRules = {};
     keys.forEach(function (key) {
-      let pattern = normalizeLiteral(Model.create(key));  // Parse and normalize.
+      let pattern = JSON.stringify(normalizeLiteral(Model.create(key)));  // Parse and normalize.
       let template = compileTemplate(rules[key]);
-      compiledRules.set(pattern, template);
+      if (!compiledRules[pattern]) {
+        compiledRules[pattern] = template;
+      }
     });
     return compiledRules;
   }
@@ -1217,6 +1231,7 @@ export let Core = (function () {
       valueNode = value != undefined ? Model.create(value, "spec") : undefined;
       Model.popEnv();
     } catch (e) {
+      console.log(e.stack);
       pendingError = e;
     }
     let evaluate = function evaluate(solution, resume) {
@@ -1242,6 +1257,7 @@ export let Core = (function () {
         Model.popEnv();
         resume(null, result);
       } catch (e) {
+        console.log(e.stack);
         let message = e.message;
         resume({
           result: null,
