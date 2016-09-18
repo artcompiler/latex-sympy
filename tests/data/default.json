@@ -2,6 +2,156 @@
   "tests": [
     {
       "score": 1,
+      "source": "\\mathbb{R}",
+      "actual": "the real numbers",
+      "expected": "the real numbers"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{C}",
+      "actual": "the complex numbers",
+      "expected": "the complex numbers"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{Z}",
+      "actual": "the integers",
+      "expected": "the integers"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{Q}",
+      "actual": "the rational numbers",
+      "expected": "the rational numbers"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{N}",
+      "actual": "the natural numbers",
+      "expected": "the natural numbers"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{Z}^+",
+      "actual": "the positive integers",
+      "expected": "the positive integers"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{R}^2",
+      "actual": "r 2",
+      "expected": "r 2"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{Z}^3",
+      "actual": "z 3",
+      "expected": "z 3"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{C}^n",
+      "actual": "c n",
+      "expected": "c n"
+    },
+    {
+      "score": 1,
+      "source": "\\mathbb{R}^\\infty",
+      "actual": "r infinity",
+      "expected": "r infinity"
+    },
+    {
+      "score": 1,
+      "source": "f(x)",
+      "actual": "f of x",
+      "expected": "f of x"
+    },
+    {
+      "score": 1,
+      "source": "\\int f(x)",
+      "actual": "integral f of x",
+      "expected": "integral f of x"
+    },
+    {
+      "score": 1,
+      "source": "\\bigcap S_n",
+      "actual": "intersection cap s sub n",
+      "expected": "intersection cap s sub n"
+    },
+    {
+      "score": 1,
+      "source": "B \\cap C",
+      "actual": "intersection cap b cap c",
+      "expected": "intersection cap b cap c"
+    },
+    {
+      "score": 1,
+      "source": "\\bigcup S_n",
+      "actual": "union cap s sub n",
+      "expected": "union cap s sub n"
+    },
+    {
+      "score": 1,
+      "source": "B \\cup C",
+      "actual": "union cap b cap c",
+      "expected": "union cap b cap c"
+    },
+    {
+      "score": 1,
+      "source": "A \\cup B \\cup C",
+      "actual": "union cap a union cap b cap c",
+      "expected": "union cap a union cap b cap c"
+    },
+    {
+      "score": 1,
+      "source": "x \\times y",
+      "actual": "x times y",
+      "expected": "x times y"
+    },
+    {
+      "score": 1,
+      "source": "x \\cdot y",
+      "actual": "x times y",
+      "expected": "x times y"
+    },
+    {
+      "score": 1,
+      "source": "\\Delta ABC",
+      "actual": "triangle cap a cap b cap c",
+      "expected": "triangle cap a cap b cap c"
+    },
+    {
+      "score": 1,
+      "source": "1,2,3\\ldots",
+      "actual": "1 comma 2 comma 3 dot dot dot",
+      "expected": "1 comma 2 comma 3 dot dot dot"
+    },
+    {
+      "score": 1,
+      "source": "x \\in y",
+      "actual": "x in y",
+      "expected": "x in y"
+    },
+    {
+      "score": 1,
+      "source": "x \\notin y",
+      "actual": "x not in y",
+      "expected": "x not in y"
+    },
+    {
+      "score": 1,
+      "source": "\\sum\\frac{1}{i^2}",
+      "actual": "the sum of the fraction with numerator 1 and denominator i squared",
+      "expected": "the sum of the fraction with numerator 1 and denominator i squared"
+    },
+    {
+      "score": 1,
+      "source": "\\prod a_n",
+      "actual": "the product of a sub n",
+      "expected": "the product of a sub n"
+    },
+    {
+      "score": 1,
       "source": "\\frac{1}{2}",
       "actual": "1 half",
       "expected": "1 half"
@@ -129,8 +279,8 @@
     {
       "score": 1,
       "source": "(f \\cdot g)(x)",
-      "actual": "open paren f dot g close paren of x",
-      "expected": "open paren f dot g close paren of x"
+      "actual": "open paren f times g close paren of x",
+      "expected": "open paren f times g close paren of x"
     },
     {
       "score": 1,
