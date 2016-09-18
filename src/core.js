@@ -97,6 +97,10 @@ import {rules} from "./rules.js";
       case Model.TO:
       case Model.INT:
       case Model.PROD:
+      case Model.CUP:
+      case Model.BIGCUP:
+      case Model.CAP:
+      case Model.BIGCAP:
       case Model.ION:
       case Model.POW:
       case Model.SUBSCRIPT:
@@ -1231,7 +1235,6 @@ export let Core = (function () {
       valueNode = value != undefined ? Model.create(value, "spec") : undefined;
       Model.popEnv();
     } catch (e) {
-      console.log(e.stack);
       pendingError = e;
     }
     let evaluate = function evaluate(solution, resume) {
@@ -1257,7 +1260,6 @@ export let Core = (function () {
         Model.popEnv();
         resume(null, result);
       } catch (e) {
-        console.log(e.stack);
         let message = e.message;
         resume({
           result: null,

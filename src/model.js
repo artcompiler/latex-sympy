@@ -220,6 +220,10 @@ export let Model = (function () {
     SUM: "sum",
     INT: "int",
     PROD: "prod",
+    CUP: "cup",
+    BIGCUP: "bigcup",
+    CAP: "cap",
+    BIGCAP: "bigcap",
     PERCENT: "%",
     QMARK: "?",
     M: "M",
@@ -430,6 +434,10 @@ export let Model = (function () {
     let TK_ARCCSC = 0x132;
     let TK_ARCCOT = 0x133;
     let TK_MATHFIELD = 0x134;
+    let TK_CUP = 0x135;
+    let TK_BIGCUP = 0x136;
+    let TK_CAP = 0x137;
+    let TK_BIGCAP = 0x138;
     let T0 = TK_NONE, T1 = TK_NONE;
     // Define mapping from token to operator
     let tokenToOperator = {};
@@ -445,18 +453,6 @@ export let Model = (function () {
     tokenToOperator[TK_MUL] = OpStr.MUL;
     tokenToOperator[TK_DOT] = OpStr.DOT;
     tokenToOperator[TK_DIV] = OpStr.DIV;
-    // tokenToOperator[TK_SIN] = OpStr.SIN;
-    // tokenToOperator[TK_COS] = OpStr.COS;
-    // tokenToOperator[TK_TAN] = OpStr.TAN;
-    // tokenToOperator[TK_ARCSIN] = OpStr.ARCSIN;
-    // tokenToOperator[TK_ARCCOS] = OpStr.ARCCOS;
-    // tokenToOperator[TK_ARCTAN] = OpStr.ARCTAN;
-    // tokenToOperator[TK_SEC] = OpStr.SEC;
-    // tokenToOperator[TK_COT] = OpStr.COT;
-    // tokenToOperator[TK_CSC] = OpStr.CSC;
-    // tokenToOperator[TK_LN] = OpStr.LN;
-    // tokenToOperator[TK_LG] = OpStr.LG;
-    // tokenToOperator[TK_LOG] = OpStr.LOG;
     tokenToOperator[TK_EQL] = OpStr.EQL;
     tokenToOperator[TK_COMMA] = OpStr.COMMA;
     tokenToOperator[TK_TEXT] = OpStr.TEXT;
@@ -475,6 +471,10 @@ export let Model = (function () {
     tokenToOperator[TK_SUM] = OpStr.SUM;
     tokenToOperator[TK_INT] = OpStr.INT;
     tokenToOperator[TK_PROD] = OpStr.PROD;
+    tokenToOperator[TK_CUP] = OpStr.CUP;
+    tokenToOperator[TK_BIGCUP] = OpStr.BIGCUP;
+    tokenToOperator[TK_CAP] = OpStr.CAP;
+    tokenToOperator[TK_BIGCAP] = OpStr.BIGCAP;
     tokenToOperator[TK_M] = OpStr.M;
     tokenToOperator[TK_RIGHTARROW] = OpStr.RIGHTARROW;
     tokenToOperator[TK_BANG] = OpStr.FACT;
@@ -904,6 +904,10 @@ export let Model = (function () {
       case TK_SUM:
       case TK_INT:
       case TK_PROD:
+      case TK_CUP:
+      case TK_BIGCUP:
+      case TK_CAP:
+      case TK_BIGCAP:
         next();
         args = [];
         // Collect the subscript and expression
@@ -1728,6 +1732,10 @@ export let Model = (function () {
         "\\sum": TK_SUM,
         "\\int": TK_INT,
         "\\prod": TK_PROD,
+        "\\cup": TK_CUP,
+        "\\bigcup": TK_BIGCUP,
+        "\\cap": TK_CAP,
+        "\\bigcap": TK_BIGCAP,
         "\\%": TK_PERCENT,
         "\\rightarrow": TK_RIGHTARROW,
         "\\longrightarrow": TK_RIGHTARROW,
