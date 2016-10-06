@@ -178,6 +178,7 @@ export let Model = (function () {
     SQRT: "sqrt",
     VEC: "vec",
     PM: "pm",
+    NOT: "not",
     // SIN: "sin",
     // COS: "cos",
     // TAN: "tan",
@@ -207,7 +208,21 @@ export let Model = (function () {
     GT: "gt",
     GE: "ge",
     NE: "ne",
+    NGTR: "ngtr",
+    NLESS: "nless",
+    NI: "ni",
+    SUBSETEQ: "subseteq",
+    SUPSETEQ: "supseteq",
+    SUBSET: "subset",
+    SUPSET: "supset",
+    NNI: "nni",
+    NSUBSETEQ: "nsubseteq",
+    NSUPSETEQ: "nsupseteq",
+    NSUBSET: "nsubset",
+    NSUPSET: "nsupset",
     APPROX: "approx",
+    PERP: "perp",
+    PROPTO: "propto",
     INTERVAL: "interval",
     LIST: "list",
     SET: "set",
@@ -261,6 +276,7 @@ export let Model = (function () {
   OpToLaTeX[OpStr.POW] = "^";
   OpToLaTeX[OpStr.SUBSCRIPT] = "_";
   OpToLaTeX[OpStr.PM] = "\\pm";
+  OpToLaTeX[OpStr.NOT] = "\\not";
   // OpToLaTeX[OpStr.SIN] = "\\sin";
   // OpToLaTeX[OpStr.COS] = "\\cos";
   // OpToLaTeX[OpStr.TAN] = "\\tan";
@@ -438,6 +454,16 @@ export let Model = (function () {
     let TK_BIGCUP = 0x136;
     let TK_CAP = 0x137;
     let TK_BIGCAP = 0x138;
+    let TK_PERP = 0x139;
+    let TK_PROPTO = 0x13A;
+    let TK_NGTR = 0x13B;
+    let TK_NLESS = 0x13C;
+    let TK_NI = 0x13D;
+    let TK_SUBSETEQ = 0x13E;
+    let TK_SUPSETEQ = 0x13F;
+    let TK_SUBSET = 0x140;
+    let TK_SUPSET = 0x141;
+    let TK_NOT = 0x142;
     let T0 = TK_NONE, T1 = TK_NONE;
     // Define mapping from token to operator
     let tokenToOperator = {};
@@ -448,6 +474,7 @@ export let Model = (function () {
     tokenToOperator[TK_ADD] = OpStr.ADD;
     tokenToOperator[TK_SUB] = OpStr.SUB;
     tokenToOperator[TK_PM] = OpStr.PM;
+    tokenToOperator[TK_NOT] = OpStr.NOT;
     tokenToOperator[TK_CARET] = OpStr.POW;
     tokenToOperator[TK_UNDERSCORE] = OpStr.SUBSCRIPT;
     tokenToOperator[TK_MUL] = OpStr.MUL;
@@ -461,7 +488,16 @@ export let Model = (function () {
     tokenToOperator[TK_GT] = OpStr.GT;
     tokenToOperator[TK_GE] = OpStr.GE;
     tokenToOperator[TK_NE] = OpStr.NE;
+    tokenToOperator[TK_NGTR] = OpStr.NGTR;
+    tokenToOperator[TK_NLESS] = OpStr.NLESS;
+    tokenToOperator[TK_NI] = OpStr.NI;
+    tokenToOperator[TK_SUBSETEQ] = OpStr.SUBSETEQ;
+    tokenToOperator[TK_SUPSETEQ] = OpStr.SUPSETEQ;
+    tokenToOperator[TK_SUBSET] = OpStr.SUBSET;
+    tokenToOperator[TK_SUPSET] = OpStr.SUPSET;
     tokenToOperator[TK_APPROX] = OpStr.APPROX;
+    tokenToOperator[TK_PERP] = OpStr.PERP;
+    tokenToOperator[TK_PROPTO] = OpStr.PROPTO;
     tokenToOperator[TK_EXISTS] = OpStr.EXISTS;
     tokenToOperator[TK_IN] = OpStr.IN;
     tokenToOperator[TK_FORALL] = OpStr.FORALL;
@@ -1132,12 +1168,10 @@ export let Model = (function () {
       let t, expr, op;
       switch (t = hd()) {
       case TK_ADD:
-        next();
-        expr = newNode(Model.ADD, [unaryExpr()]);
-        break;
+      case TK_NOT:
       case TK_SUB:
         next();
-        expr = newNode(Model.SUB, [unaryExpr()]);
+        expr = newNode(tokenToOperator[t], [unaryExpr()]);
         break;
       case TK_PM:
         next();
@@ -1574,18 +1608,32 @@ export let Model = (function () {
     //
     function isRelational(t) {
       return t === TK_LT || t === TK_LE || t === TK_GT || t === TK_GE ||
-             t === TK_IN || t === TK_TO;
+             t === TK_IN || t === TK_TO || t === TK_PERP || t === TK_PROPTO ||
+             t === TK_NGTR || t === TK_NLESS || t === TK_NI || t === TK_NOT ||
+             t === TK_SUBSETEQ || t === TK_SUPSETEQ ||
+             t === TK_SUBSET || t === TK_SUPSET;
     }
     // Parse 'x < y'
     function relationalExpr() {
       let t = hd();
       let expr = additiveExpr();
       let args = [];
+      let isNot = false;
       while (isRelational(t = hd())) {
         // x < y < z -> [x < y, y < z]
         next();
+        if (t === TK_NOT) {
+          // Remember it and continue.
+          isNot = true;
+          continue;
+        }
         let expr2 = additiveExpr();
         expr = newNode(tokenToOperator[t], [expr, expr2]);
+        if (isNot) {
+          // Modify with not.
+          expr.op = "n" + expr.op; // Negate the operator: subset --> nsubset.
+          isNot = false;
+        }
         args.push(expr);
         // Make a copy of the reused node.
         expr = Model.create(expr2);
@@ -1689,6 +1737,7 @@ export let Model = (function () {
         "\\sqrt": TK_SQRT,
         "\\vec": TK_VEC,
         "\\pm": TK_PM,
+        "\\not": TK_NOT,
         // "\\sin": TK_SIN,
         // "\\cos": TK_COS,
         // "\\tan": TK_TAN,
@@ -1722,7 +1771,16 @@ export let Model = (function () {
         "\\gt": TK_GT,
         "\\ge": TK_GE,
         "\\ne": TK_NE,
+        "\\ngtr": TK_NGTR,
+        "\\nless": TK_NLESS,
+        "\\ni": TK_NI,
+        "\\subseteq": TK_SUBSETEQ,
+        "\\supseteq": TK_SUPSETEQ,
+        "\\subset": TK_SUBSET,
+        "\\supset": TK_SUPSET,
         "\\approx": TK_APPROX,
+        "\\perp": TK_PERP,
+        "\\propto": TK_PROPTO,
         "\\exists": TK_EXISTS,
         "\\in": TK_IN,
         "\\forall": TK_FORALL,

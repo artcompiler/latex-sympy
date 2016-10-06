@@ -112,6 +112,7 @@ import {rules} from "./rules.js";
       case Model.DOT:
       case Model.MATHFIELD:
       case Model.SET:
+      case Model.NOT:
         node = visit.unary(node, resume);
         break;
       case Model.COMMA:
@@ -128,7 +129,21 @@ import {rules} from "./rules.js";
       case Model.GT:
       case Model.GE:
       case Model.NE:
+      case Model.NGTR:
+      case Model.NLESS:
+      case Model.NI:
+      case Model.SUBSETEQ:
+      case Model.SUPSETEQ:
+      case Model.SUBSET:
+      case Model.SUPSET:
+      case Model.NNI:
+      case Model.NSUBSETEQ:
+      case Model.NSUPSETEQ:
+      case Model.NSUBSET:
+      case Model.NSUPSET:
       case Model.APPROX:
+      case Model.PERP:
+      case Model.PROPTO:
       case Model.RIGHTARROW:
         node = visit.equals(node, resume);
         break;
@@ -434,6 +449,18 @@ import {rules} from "./rules.js";
       case Model.GT:
       case Model.LE:
       case Model.GE:
+      case Model.NGTR:
+      case Model.NLESS:
+      case Model.NI:
+      case Model.SUBSETEQ:
+      case Model.SUPSETEQ:
+      case Model.SUBSET:
+      case Model.SUPSET:
+      case Model.NNI:
+      case Model.NSUBSETEQ:
+      case Model.NSUPSETEQ:
+      case Model.NSUBSET:
+      case Model.NSUPSET:
         return 4;
       case Model.ADD:
       case Model.SUB:
