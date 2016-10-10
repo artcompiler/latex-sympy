@@ -1238,6 +1238,7 @@ export let Core = (function () {
       options = {};
     }
     if (!options.rules) {
+      // Use the default rules in rules.js.
       options.words = rules.words;
       options.rules = rules.rules;
       options.types = rules.types;
