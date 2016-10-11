@@ -223,6 +223,10 @@ export let Model = (function () {
     APPROX: "approx",
     PERP: "perp",
     PROPTO: "propto",
+    PARALLEL: "parallel",
+    NPARALLEL: "nparallel",
+    SIM: "sim",
+    CONG: "cong",
     INTERVAL: "interval",
     LIST: "list",
     SET: "set",
@@ -464,6 +468,10 @@ export let Model = (function () {
     let TK_SUBSET = 0x140;
     let TK_SUPSET = 0x141;
     let TK_NOT = 0x142;
+    let TK_PARALLEL = 0x143;
+    let TK_NPARALLEL = 0x144;
+    let TK_SIM = 0x145;
+    let TK_CONG = 0x146;
     let T0 = TK_NONE, T1 = TK_NONE;
     // Define mapping from token to operator
     let tokenToOperator = {};
@@ -498,6 +506,10 @@ export let Model = (function () {
     tokenToOperator[TK_APPROX] = OpStr.APPROX;
     tokenToOperator[TK_PERP] = OpStr.PERP;
     tokenToOperator[TK_PROPTO] = OpStr.PROPTO;
+    tokenToOperator[TK_PARALLEL] = OpStr.PARALLEL;
+    tokenToOperator[TK_NPARALLEL] = OpStr.NPARALLEL;
+    tokenToOperator[TK_SIM] = OpStr.SIM;
+    tokenToOperator[TK_CONG] = OpStr.CONG;
     tokenToOperator[TK_EXISTS] = OpStr.EXISTS;
     tokenToOperator[TK_IN] = OpStr.IN;
     tokenToOperator[TK_FORALL] = OpStr.FORALL;
@@ -1611,7 +1623,8 @@ export let Model = (function () {
              t === TK_IN || t === TK_TO || t === TK_PERP || t === TK_PROPTO ||
              t === TK_NGTR || t === TK_NLESS || t === TK_NI || t === TK_NOT ||
              t === TK_SUBSETEQ || t === TK_SUPSETEQ ||
-             t === TK_SUBSET || t === TK_SUPSET;
+             t === TK_SUBSET || t === TK_SUPSET ||
+             t === TK_PARALLEL || t === TK_NPARALLEL || t === TK_SIM || t === TK_CONG;
     }
     // Parse 'x < y'
     function relationalExpr() {
@@ -1781,6 +1794,10 @@ export let Model = (function () {
         "\\approx": TK_APPROX,
         "\\perp": TK_PERP,
         "\\propto": TK_PROPTO,
+        "\\parallel": TK_PARALLEL,
+        "\\nparallel": TK_NPARALLEL,
+        "\\sim": TK_SIM,
+        "\\cong": TK_CONG,
         "\\exists": TK_EXISTS,
         "\\in": TK_IN,
         "\\forall": TK_FORALL,
