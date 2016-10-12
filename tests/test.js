@@ -40,16 +40,18 @@ function run(fname) {
     } else {
       options = test.options;
     }
+    expected = trim(expected);
     Core.translate(options, src, function (err, val) {
       let result;
-      if (trim(expected) === trim(val)) {
+      val = trim(val);
+      if (expected === val) {
         result = "PASS";
         passCount++;
       } else {
         result = "FAIL";
         failCount++;
       }
-      console.log(result + ": " + src + " | " + JSON.stringify(val));
+      console.log(result + ": " + src + " | " + val + " | " + expected);
     });
   });
   console.log("Test completed in " + (Date.now() - t0) + " ms");

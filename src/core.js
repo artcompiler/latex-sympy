@@ -166,6 +166,9 @@ import {rules} from "./rules.js";
     }
 
     function lookup(word) {
+      if (!word) {
+        return "";
+      }
       let words = Model.option("words");
       let val;
       if (words) {

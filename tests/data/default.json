@@ -1,784 +1,1340 @@
 {
   "tests": [
     {
-      "score": 1,
-      "source": "\\mathbb{R}",
-      "actual": "the real numbers",
-      "expected": "the real numbers"
+      "source": "\\beta",
+      "expected": "beta"
     },
     {
-      "score": 1,
-      "source": "\\mathbb{C}",
-      "actual": "the complex numbers",
-      "expected": "the complex numbers"
+      "source": "\\delta",
+      "expected": "delta"
     },
     {
-      "score": 1,
-      "source": "\\mathbb{Z}",
-      "actual": "the integers",
-      "expected": "the integers"
+      "source": "\\Phi",
+      "expected": "cap phi"
     },
     {
-      "score": 1,
+      "source": "\\Chi",
+      "expected": "cap chi"
+    },
+    {
+      "source": "10\\mug",
+      "expected": "10 micrograms"
+    },
+    {
+      "source": "1\\mug",
+      "expected": "1 microgram"
+    },
+    {
+      "source": "x \\cap y",
+      "expected": "intersection of x and y"
+    },
+    {
+      "source": "x \\cup y",
+      "expected": "union of x and y"
+    },
+    {
+      "source": "x \\subseteq y",
+      "expected": "x is a subset of y"
+    },
+    {
+      "source": "x \\supseteq y",
+      "expected": "x is a superset of y"
+    },
+    {
+      "source": "10cs",
+      "expected": "10 centiseconds"
+    },
+    {
+      "source": "x \\not\\supset y",
+      "expected": "x is not a strict superset of y"
+    },
+    {
+      "source": "x!",
+      "expected": "x factorial"
+    },
+    {
+      "source": "\\parallelogram",
+      "expected": "parallelogram"
+    },
+    {
+      "source": "x \\not\\ni y",
+      "expected": "x does not contain y"
+    },
+    {
+      "source": "\\emptyset",
+      "expected": "empty set"
+    },
+    {
+      "source": "\\angle",
+      "expected": "angle"
+    },
+    {
+      "source": "10oz",
+      "expected": "10 ounces"
+    },
+    {
+      "source": "10gal",
+      "expected": "10 gallons"
+    },
+    {
+      "source": "10qt",
+      "expected": "10 quarts"
+    },
+    {
+      "source": "10kg",
+      "expected": "10 kilograms"
+    },
+    {
+      "source": "10ng",
+      "expected": "10 nanograms"
+    },
+    {
+      "source": "10m",
+      "expected": "10 meters"
+    },
+    {
+      "source": "10km",
+      "expected": "10 kilometers"
+    },
+    {
+      "source": "10cm",
+      "expected": "10 centimeters"
+    },
+    {
+      "source": "10L",
+      "expected": "10 liters"
+    },
+    {
+      "source": "\\triangle",
+      "expected": "triangle"
+    },
+    {
+      "source": "\\measuredangle",
+      "expected": "measure of angle"
+    },
+    {
+      "source": "10\\mum",
+      "expected": "10 micrometers"
+    },
+    {
       "source": "\\mathbb{Q}",
-      "actual": "the rational numbers",
       "expected": "the rational numbers"
     },
     {
-      "score": 1,
       "source": "\\mathbb{N}",
-      "actual": "the natural numbers",
       "expected": "the natural numbers"
     },
     {
-      "score": 1,
-      "source": "\\mathbb{Z}^+",
-      "actual": "the positive integers",
-      "expected": "the positive integers"
-    },
-    {
-      "score": 1,
-      "source": "\\mathbb{R}^2",
-      "actual": "r 2",
-      "expected": "r 2"
-    },
-    {
-      "score": 1,
       "source": "\\mathbb{Z}^3",
-      "actual": "z 3",
       "expected": "z 3"
     },
     {
-      "score": 1,
-      "source": "\\mathbb{C}^n",
-      "actual": "c n",
-      "expected": "c n"
-    },
-    {
-      "score": 1,
-      "source": "\\mathbb{R}^\\infty",
-      "actual": "r infinity",
-      "expected": "r infinity"
-    },
-    {
-      "score": 1,
-      "source": "f(x)",
-      "actual": "f of x",
-      "expected": "f of x"
-    },
-    {
-      "score": 1,
-      "source": "\\int f(x)",
-      "actual": "integral f of x",
-      "expected": "integral f of x"
-    },
-    {
-      "score": 1,
-      "source": "\\bigcap S_n",
-      "actual": "intersection cap s sub n",
-      "expected": "intersection cap s sub n"
-    },
-    {
-      "score": 1,
-      "source": "B \\cap C",
-      "actual": "intersection cap b cap c",
-      "expected": "intersection cap b cap c"
-    },
-    {
-      "score": 1,
       "source": "\\bigcup S_n",
-      "actual": "union cap s sub n",
       "expected": "union cap s sub n"
     },
     {
-      "score": 1,
-      "source": "B \\cup C",
-      "actual": "union cap b cap c",
-      "expected": "union cap b cap c"
-    },
-    {
-      "score": 1,
-      "source": "A \\cup B \\cup C",
-      "actual": "union cap a union cap b cap c",
-      "expected": "union cap a union cap b cap c"
-    },
-    {
-      "score": 1,
-      "source": "x \\times y",
-      "actual": "x times y",
-      "expected": "x times y"
-    },
-    {
-      "score": 1,
       "source": "x \\cdot y",
-      "actual": "x times y",
       "expected": "x times y"
     },
     {
-      "score": 1,
+      "source": "x \\times y",
+      "expected": "x times y"
+    },
+    {
       "source": "\\Delta ABC",
-      "actual": "triangle cap a cap b cap c",
       "expected": "triangle cap a cap b cap c"
     },
     {
-      "score": 1,
-      "source": "1,2,3\\ldots",
-      "actual": "1 comma 2 comma 3 dot dot dot",
-      "expected": "1 comma 2 comma 3 dot dot dot"
-    },
-    {
-      "score": 1,
-      "source": "x \\in y",
-      "actual": "x in y",
-      "expected": "x in y"
-    },
-    {
-      "score": 1,
-      "source": "x \\notin y",
-      "actual": "x not in y",
-      "expected": "x not in y"
-    },
-    {
-      "score": 1,
       "source": "\\sum\\frac{1}{i^2}",
-      "actual": "the sum of the fraction with numerator 1 and denominator i squared",
       "expected": "the sum of the fraction with numerator 1 and denominator i squared"
     },
     {
-      "score": 1,
+      "source": "1,2,3\\ldots",
+      "expected": "1 comma 2 comma 3 dot dot dot"
+    },
+    {
       "source": "\\prod a_n",
-      "actual": "the product of a sub n",
       "expected": "the product of a sub n"
     },
     {
-      "score": 1,
       "source": "\\frac{1}{2}",
-      "actual": "1 half",
       "expected": "1 half"
     },
     {
-      "score": 1,
       "source": "|x|",
-      "actual": "absolute value of x",
       "expected": "absolute value of x"
     },
     {
-      "score": 1,
       "source": "|x|+1",
-      "actual": "absolute value of x plus 1",
       "expected": "absolute value of x plus 1"
     },
     {
-      "score": 1,
       "source": "|x+1|",
-      "actual": "start absolute value x plus 1 end absolute value",
       "expected": "start absolute value x plus 1 end absolute value"
     },
     {
-      "score": 1,
       "source": "\\ln x",
-      "actual": "natural log x",
       "expected": "natural log x"
     },
     {
-      "score": 1,
       "source": "\\ln(x+y)",
-      "actual": "natural log of open paren x plus y close paren",
       "expected": "natural log of open paren x plus y close paren"
     },
     {
-      "score": 1,
       "source": "\\log x",
-      "actual": "log x",
       "expected": "log x"
     },
     {
-      "score": 1,
       "source": "\\log(x+y)",
-      "actual": "log of open paren x plus y close paren",
       "expected": "log of open paren x plus y close paren"
     },
     {
-      "score": 1,
       "source": "\\log_b x",
-      "actual": "log base b of x",
       "expected": "log base b of x"
     },
     {
-      "score": 1,
       "source": "\\log_b(x+y)",
-      "actual": "log base b of open paren x plus y close paren",
       "expected": "log base b of open paren x plus y close paren"
     },
     {
-      "score": 1,
-      "source": "\\sin^{-1} x",
-      "actual": "inverse sine x",
-      "expected": "inverse sine x"
-    },
-    {
-      "score": 1,
-      "source": "\\sin^4 x",
-      "actual": "4th power of sine x",
-      "expected": "4th power of sine x"
-    },
-    {
-      "score": 1,
-      "source": "\\sin^4 (2x+1)",
-      "actual": "4th power of sine of open paren 2 x plus 1 close paren",
-      "expected": "4th power of sine of open paren 2 x plus 1 close paren"
-    },
-    {
-      "score": 1,
       "source": "\\sin^3 x",
-      "actual": "sine cubed x",
       "expected": "sine cubed x"
     },
     {
-      "score": 1,
-      "source": "\\sin^2 x",
-      "actual": "sine squared x",
-      "expected": "sine squared x"
-    },
-    {
-      "score": 1,
-      "source": "f[x]",
-      "actual": "f of x",
-      "expected": "f of x"
-    },
-    {
-      "score": 1,
       "source": "g(x,y)",
-      "actual": "g of open paren x comma y close paren",
       "expected": "g of open paren x comma y close paren"
     },
     {
-      "score": 1,
+      "source": "\\sin^4 x",
+      "expected": "4th power of sine x"
+    },
+    {
       "source": "g(x,y,z)",
-      "actual": "g of open paren x comma y comma z close paren",
       "expected": "g of open paren x comma y comma z close paren"
     },
     {
-      "score": 1,
-      "source": "f_1(x)",
-      "actual": "f sub 1 of x",
-      "expected": "f sub 1 of x"
-    },
-    {
-      "score": 1,
-      "source": "(f+g)(x)",
-      "actual": "open paren f plus g close paren of x",
-      "expected": "open paren f plus g close paren of x"
-    },
-    {
-      "score": 1,
-      "source": "(f-g)(x)",
-      "actual": "open paren f minus g close paren of x",
-      "expected": "open paren f minus g close paren of x"
-    },
-    {
-      "score": 1,
-      "source": "(f \\cdot g)(x)",
-      "actual": "open paren f times g close paren of x",
-      "expected": "open paren f times g close paren of x"
-    },
-    {
-      "score": 1,
-      "source": "(\\frac{f}{g})(x)",
-      "actual": "open paren f over g close paren of x",
-      "expected": "open paren f over g close paren of x"
-    },
-    {
-      "score": 1,
-      "source": "f^{-1}(x)",
-      "actual": "f inverse of x",
-      "expected": "f inverse of x"
-    },
-    {
-      "score": 1,
-      "source": "f^{2}(x)",
-      "actual": "f squared of x",
-      "expected": "f squared of x"
-    },
-    {
-      "score": 1,
-      "source": "f^{3}(x)",
-      "actual": "f cubed of x",
-      "expected": "f cubed of x"
-    },
-    {
-      "score": 1,
-      "source": "f^{4}(x)",
-      "actual": "4th power of f of x",
-      "expected": "4th power of f of x"
-    },
-    {
-      "score": 1,
-      "source": "f^{n}(x)",
-      "actual": "f to the n th power of x",
-      "expected": "f to the n th power of x"
-    },
-    {
-      "score": 1,
-      "source": "f(g(h(x)))",
-      "actual": "f of g of h of x",
-      "expected": "f of g of h of x"
-    },
-    {
-      "score": 1,
-      "source": "\\sin x",
-      "actual": "sine x",
-      "expected": "sine x"
-    },
-    {
-      "score": 1,
-      "source": "\\sin(x)",
-      "actual": "sine of x",
-      "expected": "sine of x"
-    },
-    {
-      "score": 1,
-      "source": "\\cos x",
-      "actual": "cosine x",
-      "expected": "cosine x"
-    },
-    {
-      "score": 1,
-      "source": "\\tan x",
-      "actual": "tangent x",
-      "expected": "tangent x"
-    },
-    {
-      "score": 1,
-      "source": "\\sec x",
-      "actual": "secant x",
-      "expected": "secant x"
-    },
-    {
-      "score": 1,
-      "source": "\\csc x",
-      "actual": "cosecant x",
-      "expected": "cosecant x"
-    },
-    {
-      "score": 1,
-      "source": "\\cot x",
-      "actual": "cotangent x",
-      "expected": "cotangent x"
-    },
-    {
-      "score": 1,
       "source": "\\sin^{-1} x",
-      "actual": "inverse sine x",
       "expected": "inverse sine x"
     },
     {
-      "score": 1,
-      "source": "\\cos^{-1} x",
-      "actual": "inverse cosine x",
-      "expected": "inverse cosine x"
+      "source": "\\sin^4 (2x+1)",
+      "expected": "4th power of sine of open paren 2 x plus 1 close paren"
     },
     {
-      "score": 1,
-      "source": "\\tan^{-1} x",
-      "actual": "inverse tangent x",
-      "expected": "inverse tangent x"
+      "source": "f[x]",
+      "expected": "f of x"
     },
     {
-      "score": 1,
-      "source": "\\sec^{-1} x",
-      "actual": "inverse secant x",
-      "expected": "inverse secant x"
-    },
-    {
-      "score": 1,
-      "source": "\\csc^{-1} x",
-      "actual": "inverse cosecant x",
-      "expected": "inverse cosecant x"
-    },
-    {
-      "score": 1,
-      "source": "\\cot^{-1} x",
-      "actual": "inverse cotangent x",
-      "expected": "inverse cotangent x"
-    },
-    {
-      "score": 1,
-      "source": "\\sinh x",
-      "actual": "hyperbolic sine x",
-      "expected": "hyperbolic sine x"
-    },
-    {
-      "score": 1,
-      "source": "\\cosh x",
-      "actual": "hyperbolic cosine x",
-      "expected": "hyperbolic cosine x"
-    },
-    {
-      "score": 1,
-      "source": "\\tanh x",
-      "actual": "hyperbolic tangent x",
-      "expected": "hyperbolic tangent x"
-    },
-    {
-      "score": 1,
-      "source": "\\sech x",
-      "actual": "hyperbolic secant x",
-      "expected": "hyperbolic secant x"
-    },
-    {
-      "score": 1,
-      "source": "\\csch x",
-      "actual": "hyperbolic cosecant x",
-      "expected": "hyperbolic cosecant x"
-    },
-    {
-      "score": 1,
-      "source": "\\coth x",
-      "actual": "hyperbolic cotangent x",
-      "expected": "hyperbolic cotangent x"
-    },
-    {
-      "score": 1,
-      "source": "\\sinh^{-1} x",
-      "actual": "inverse hyperbolic sine x",
-      "expected": "inverse hyperbolic sine x"
-    },
-    {
-      "score": 1,
-      "source": "\\cosh^{-1} x",
-      "actual": "inverse hyperbolic cosine x",
-      "expected": "inverse hyperbolic cosine x"
-    },
-    {
-      "score": 1,
-      "source": "\\tanh^{-1} x",
-      "actual": "inverse hyperbolic tangent x",
-      "expected": "inverse hyperbolic tangent x"
-    },
-    {
-      "score": 1,
-      "source": "\\sech^{-1} x",
-      "actual": "inverse hyperbolic secant x",
-      "expected": "inverse hyperbolic secant x"
-    },
-    {
-      "score": 1,
-      "source": "\\csch^{-1} x",
-      "actual": "inverse hyperbolic cosecant x",
-      "expected": "inverse hyperbolic cosecant x"
-    },
-    {
-      "score": 1,
-      "source": "\\coth^{-1} x",
-      "actual": "inverse hyperbolic cotangent x",
-      "expected": "inverse hyperbolic cotangent x"
-    },
-    {
-      "score": 1,
-      "source": "\\sin(x+y)",
-      "actual": "sine of open paren x plus y close paren",
-      "expected": "sine of open paren x plus y close paren"
-    },
-    {
-      "score": 1,
-      "source": "\\csc(x+y)",
-      "actual": "cosecant of open paren x plus y close paren",
-      "expected": "cosecant of open paren x plus y close paren"
-    },
-    {
-      "score": 1,
       "source": "\\sin^2 x",
-      "actual": "sine squared x",
       "expected": "sine squared x"
     },
     {
-      "score": 1,
-      "source": "f(x)",
-      "actual": "f of x",
-      "expected": "f of x"
+      "source": "1pt",
+      "expected": "1 pint"
     },
     {
-      "score": 1,
-      "source": "g(x)",
-      "actual": "g of x",
-      "expected": "g of x"
+      "source": "1ns",
+      "expected": "1 nanosecond"
     },
     {
-      "score": 1,
-      "source": "h(x)",
-      "actual": "h of x",
-      "expected": "h of x"
+      "source": "f_1(x)",
+      "expected": "f sub 1 of x"
     },
     {
-      "score": 1,
-      "source": "F(x)",
-      "actual": "cap f of x",
-      "expected": "cap f of x"
+      "source": "(f+g)(x)",
+      "expected": "open paren f plus g close paren of x"
     },
     {
-      "score": 1,
-      "source": "G(x)",
-      "actual": "cap g of x",
-      "expected": "cap g of x"
+      "source": "(f-g)(x)",
+      "expected": "open paren f minus g close paren of x"
     },
     {
-      "score": 1,
-      "source": "H(x)",
-      "actual": "cap h of x",
-      "expected": "cap h of x"
+      "source": "\\frac{-\\frac{1}{2}}{\\frac{2}{3}}",
+      "expected": "negative 1 half over 2 thirds"
     },
     {
-      "score": 1,
-      "source": "\\sqrt{2}",
-      "actual": "square root of 2",
-      "expected": "square root of 2"
+      "source": "(f \\cdot g)(x)",
+      "expected": "open paren f times g close paren of x"
     },
     {
-      "score": 1,
-      "source": "\\sqrt{x+1}",
-      "actual": "square root of x plus 1",
-      "expected": "square root of x plus 1"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt{x+1}",
-      "options": {
-        "EndRoot": true
-      },
-      "actual": "square root of x plus 1 end root",
-      "expected": "square root of x plus 1 end root"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[3]{2}",
-      "actual": "cube root of 2",
-      "expected": "cube root of 2"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[3]{x+1}",
-      "actual": "cube root of x plus 1",
-      "expected": "cube root of x plus 1"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[3]{x+1}",
-      "options": {
-        "EndRoot": true
-      },
-      "actual": "cube root of x plus 1 end root",
-      "expected": "cube root of x plus 1 end root"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[4]{2}",
-      "actual": "4th root of 2",
-      "expected": "4th root of 2"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[5]{2}",
-      "actual": "5th root of 2",
-      "expected": "5th root of 2"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[i]{2}",
-      "actual": "i th root of 2",
-      "expected": "i th root of 2"
-    },
-    {
-      "score": 1,
-      "source": "\\sqrt[n]{2}",
-      "actual": "n th root of 2",
-      "expected": "n th root of 2"
-    },
-    {
-      "score": 1,
-      "source": "5^2",
-      "actual": "5 squared",
-      "expected": "5 squared"
-    },
-    {
-      "score": 1,
-      "source": "x^3",
-      "actual": "x cubed",
-      "expected": "x cubed"
-    },
-    {
-      "score": 1,
-      "source": "5^4",
-      "actual": "5 to the 4th power",
-      "expected": "5 to the 4th power"
-    },
-    {
-      "score": 1,
-      "source": "5^{32}",
-      "actual": "5 to the 32th power",
-      "expected": "5 to the 32th power"
-    },
-    {
-      "score": 1,
-      "source": "5^x",
-      "actual": "5 to the x th power",
-      "expected": "5 to the x th power"
-    },
-    {
-      "score": 1,
-      "source": "5^z",
-      "actual": "5 to the z th power",
-      "expected": "5 to the z th power"
-    },
-    {
-      "score": 1,
-      "source": "5^0",
-      "actual": "5 to the 0 power",
-      "expected": "5 to the 0 power"
-    },
-    {
-      "score": 1,
-      "source": "5^{-2}",
-      "actual": "5 to the negative 2 power",
-      "expected": "5 to the negative 2 power"
-    },
-    {
-      "score": 1,
-      "source": "5^{2.0}",
-      "actual": "5 raised to the 2 point 0 power",
-      "expected": "5 raised to the 2 point 0 power"
-    },
-    {
-      "score": 1,
-      "source": "5^{2x+1}",
-      "actual": "5 raised to the 2 x plus 1 power",
-      "expected": "5 raised to the 2 x plus 1 power"
-    },
-    {
-      "score": 1,
-      "source": "x^5^2",
-      "actual": "x raised to the 5 squared power",
-      "expected": "x raised to the 5 squared power"
-    },
-    {
-      "score": 1,
-      "source": "x^\\frac{1}{2}^3",
-      "actual": "x raised to the 1 half cubed power",
-      "expected": "x raised to the 1 half cubed power"
-    },
-    {
-      "score": 1,
-      "source": "5^{-4x^2}",
-      "actual": "5 raised to the negative 4 x squared power",
-      "expected": "5 raised to the negative 4 x squared power"
-    },
-    {
-      "score": 1,
-      "source": "5^{\\frac{1}{4}x^3}",
-      "actual": "5 raised to the 1 fourth x cubed power",
-      "expected": "5 raised to the 1 fourth x cubed power"
-    },
-    {
-      "score": 1,
-      "source": "6^x^4",
-      "actual": "6 raised to the exponent x to the 4th power end exponent",
-      "expected": "6 raised to the exponent x to the 4th power end exponent"
-    },
-    {
-      "score": 1,
-      "source": "6^(x+1)^4",
-      "actual": "6 raised to the exponent open paren x plus 1 close paren to the 4th power end exponent",
-      "expected": "6 raised to the exponent open paren x plus 1 close paren to the 4th power end exponent"
-    },
-    {
-      "score": 1,
-      "source": "x^{1/2}",
-      "actual": "x raised to the 1 half power",
-      "expected": "x raised to the 1 half power"
-    },
-    {
-      "score": 1,
-      "source": "5^{x^{1/2}}",
-      "actual": "5 raised to the exponent x raised to the 1 half power end exponent",
-      "expected": "5 raised to the exponent x raised to the 1 half power end exponent"
-    },
-    {
-      "score": 1,
-      "source": "5^{(1/2)^x}",
-      "actual": "5 raised to the exponent 1 half to the x th power end exponent",
-      "expected": "5 raised to the exponent 1 half to the x th power end exponent"
-    },
-    {
-      "score": 1,
-      "source": "5^{x^2}",
-      "actual": "5 raised to the x squared power",
-      "expected": "5 raised to the x squared power"
-    },
-    {
-      "score": 1,
-      "source": "5^{\\frac{3}{5}^2}",
-      "actual": "5 raised to the 3 fifths squared power",
-      "expected": "5 raised to the 3 fifths squared power"
-    },
-    {
-      "score": 1,
-      "source": "5^{1/2}",
-      "actual": "5 raised to the 1 half power",
-      "expected": "5 raised to the 1 half power"
-    },
-    {
-      "score": 1,
-      "source": "5^{-2}",
-      "actual": "5 to the negative 2 power",
-      "expected": "5 to the negative 2 power"
-    },
-    {
-      "score": 1,
-      "source": "5^x",
-      "actual": "5 to the x th power",
-      "expected": "5 to the x th power"
-    },
-    {
-      "score": 1,
-      "source": "f[x]",
-      "actual": "f of x",
-      "expected": "f of x"
-    },
-    {
-      "score": 1,
-      "source": "x_1",
-      "actual": "x sub 1",
-      "expected": "x sub 1"
-    },
-    {
-      "score": 1,
       "source": "(\\frac{f}{g})(x)",
-      "actual": "open paren f over g close paren of x",
       "expected": "open paren f over g close paren of x"
     },
     {
-      "score": 1,
-      "source": "(x,y)",
-      "actual": "open paren x comma y close paren",
-      "expected": "open paren x comma y close paren"
+      "source": "f^{-1}(x)",
+      "expected": "f inverse of x"
     },
     {
-      "score": 1,
+      "source": "f^{4}(x)",
+      "expected": "4th power of f of x"
+    },
+    {
+      "source": "f^{n}(x)",
+      "expected": "f to the n th power of x"
+    },
+    {
+      "source": "\\sin x",
+      "expected": "sine x"
+    },
+    {
+      "source": "\\tan x",
+      "expected": "tangent x"
+    },
+    {
+      "source": "f^{2}(x)",
+      "expected": "f squared of x"
+    },
+    {
+      "source": "f^{3}(x)",
+      "expected": "f cubed of x"
+    },
+    {
+      "source": "f(g(h(x)))",
+      "expected": "f of g of h of x"
+    },
+    {
+      "source": "\\sin(x)",
+      "expected": "sine of x"
+    },
+    {
+      "source": "\\cos x",
+      "expected": "cosine x"
+    },
+    {
+      "source": "\\sec x",
+      "expected": "secant x"
+    },
+    {
+      "source": "\\cot x",
+      "expected": "cotangent x"
+    },
+    {
+      "source": "x \\nparallel y",
+      "expected": "x is not parallel to y"
+    },
+    {
+      "source": "\\csc x",
+      "expected": "cosecant x"
+    },
+    {
+      "source": "\\cos^{-1} x",
+      "expected": "inverse cosine x"
+    },
+    {
+      "source": "\\tan^{-1} x",
+      "expected": "inverse tangent x"
+    },
+    {
+      "source": "\\sec^{-1} x",
+      "expected": "inverse secant x"
+    },
+    {
+      "source": "\\cot^{-1} x",
+      "expected": "inverse cotangent x"
+    },
+    {
+      "source": "\\csc^{-1} x",
+      "expected": "inverse cosecant x"
+    },
+    {
+      "source": "\\sinh x",
+      "expected": "hyperbolic sine x"
+    },
+    {
+      "source": "\\cosh x",
+      "expected": "hyperbolic cosine x"
+    },
+    {
+      "source": "\\tanh x",
+      "expected": "hyperbolic tangent x"
+    },
+    {
+      "source": "\\sech x",
+      "expected": "hyperbolic secant x"
+    },
+    {
+      "source": "\\csch x",
+      "expected": "hyperbolic cosecant x"
+    },
+    {
+      "source": "\\coth x",
+      "expected": "hyperbolic cotangent x"
+    },
+    {
+      "source": "\\cosh^{-1} x",
+      "expected": "inverse hyperbolic cosine x"
+    },
+    {
+      "source": "\\coth^{-1} x",
+      "expected": "inverse hyperbolic cotangent x"
+    },
+    {
+      "source": "\\csc(x+y)",
+      "expected": "cosecant of open paren x plus y close paren"
+    },
+    {
+      "source": "\\sinh^{-1} x",
+      "expected": "inverse hyperbolic sine x"
+    },
+    {
+      "source": "\\tanh^{-1} x",
+      "expected": "inverse hyperbolic tangent x"
+    },
+    {
+      "source": "\\sech^{-1} x",
+      "expected": "inverse hyperbolic secant x"
+    },
+    {
+      "source": "\\sin(x+y)",
+      "expected": "sine of open paren x plus y close paren"
+    },
+    {
+      "source": "\\csch^{-1} x",
+      "expected": "inverse hyperbolic cosecant x"
+    },
+    {
+      "source": "h(x)",
+      "expected": "h of x"
+    },
+    {
+      "source": "F(x)",
+      "expected": "cap f of x"
+    },
+    {
+      "source": "g(x)",
+      "expected": "g of x"
+    },
+    {
+      "source": "G(x)",
+      "expected": "cap g of x"
+    },
+    {
+      "source": "H(x)",
+      "expected": "cap h of x"
+    },
+    {
+      "source": "\\sqrt{2}",
+      "expected": "square root of  2"
+    },
+    {
+      "source": "\\sqrt{x+1}",
+      "expected": "square root of x plus 1"
+    },
+    {
+      "source": "\\sqrt[3]{2}",
+      "expected": "cube root of 2"
+    },
+    {
+      "source": "\\sqrt[3]{x+1}",
+      "expected": "cube root of x plus 1"
+    },
+    {
+      "source": "\\sqrt[4]{2}",
+      "expected": "4th root of 2"
+    },
+    {
+      "source": "\\sqrt[5]{2}",
+      "expected": "5th root of 2"
+    },
+    {
+      "source": "\\sqrt[i]{2}",
+      "expected": "i th root of 2"
+    },
+    {
+      "source": "\\frac{x+2}{x-2}",
+      "expected": "the fraction with numerator x plus 2 and denominator x minus 2"
+    },
+    {
+      "source": "\\sqrt[n]{2}",
+      "expected": "n th root of 2"
+    },
+    {
+      "source": "5^2",
+      "expected": "5 squared"
+    },
+    {
+      "source": "x^3",
+      "expected": "x cubed"
+    },
+    {
+      "source": "5^z",
+      "expected": "5 to the z th power"
+    },
+    {
+      "source": "5^x",
+      "expected": "5 to the x th power"
+    },
+    {
+      "source": "5^4",
+      "expected": "5 to the 4th power"
+    },
+    {
+      "source": "5^{32}",
+      "expected": "5 to the 32th power"
+    },
+    {
+      "source": "\\tau",
+      "expected": "tau"
+    },
+    {
+      "source": "\\upsilon",
+      "expected": "upsilon"
+    },
+    {
+      "source": "\\Eta",
+      "expected": "cap eta"
+    },
+    {
+      "source": "\\Iota",
+      "expected": "cap iota"
+    },
+    {
+      "source": "\\Kappa",
+      "expected": "cap kappa"
+    },
+    {
+      "source": "\\Lambda",
+      "expected": "cap lambda"
+    },
+    {
+      "source": "\\Mu",
+      "expected": "cap mu"
+    },
+    {
+      "source": "\\Nu",
+      "expected": "cap nu"
+    },
+    {
+      "source": "\\Tau",
+      "expected": "cap tau"
+    },
+    {
+      "source": "\\Omega",
+      "expected": "cap omega"
+    },
+    {
+      "source": "\\Pi",
+      "expected": "cap pi"
+    },
+    {
+      "source": "5^0",
+      "expected": "5 to the 0 power"
+    },
+    {
+      "source": "5^{2.0}",
+      "expected": "5 raised to the 2 point 0 power"
+    },
+    {
+      "source": "5^{2x+1}",
+      "expected": "5 raised to the 2 x plus 1 power"
+    },
+    {
+      "source": "x^\\frac{1}{2}^3",
+      "expected": "x raised to the 1 half cubed power"
+    },
+    {
+      "source": "5^{-2}",
+      "expected": "5 to the negative 2 power"
+    },
+    {
+      "source": "\\mathbb{I}",
+      "expected": "bold cap i"
+    },
+    {
+      "source": "x^5^2",
+      "expected": "x raised to the 5 squared power"
+    },
+    {
+      "source": "5^{-4x^2}",
+      "expected": "5 raised to the negative 4 x squared power"
+    },
+    {
+      "source": "5^{x^{1/2}}",
+      "expected": "5 raised to the exponent x raised to the 1 half power end exponent"
+    },
+    {
+      "source": "5^{(1/2)^x}",
+      "expected": "5 raised to the exponent 1 half to the x th power end exponent"
+    },
+    {
+      "source": "5^{\\frac{1}{4}x^3}",
+      "expected": "5 raised to the 1 fourth x cubed power"
+    },
+    {
+      "source": "6^(x+1)^4",
+      "expected": "6 raised to the exponent open paren x plus 1 close paren to the 4th power end exponent"
+    },
+    {
+      "source": "6^x^4",
+      "expected": "6 raised to the exponent x to the 4th power end exponent"
+    },
+    {
+      "source": "x^{1/2}",
+      "expected": "x raised to the 1 half power"
+    },
+    {
+      "source": "x_1",
+      "expected": "x sub 1"
+    },
+    {
+      "source": "5^{x^2}",
+      "expected": "5 raised to the x squared power"
+    },
+    {
+      "source": "5^{1/2}",
+      "expected": "5 raised to the 1 half power"
+    },
+    {
+      "source": "5^{\\frac{3}{5}^2}",
+      "expected": "5 raised to the 3 fifths squared power"
+    },
+    {
       "source": "x'",
-      "actual": "x prime",
       "expected": "x prime"
     },
     {
-      "score": 1,
+      "source": "1\\frac{2}{3}",
+      "expected": "1 and 2 thirds"
+    },
+    {
+      "source": "(x,y)",
+      "expected": "open paren x comma y close paren"
+    },
+    {
+      "source": "x'''",
+      "expected": "x triple prime"
+    },
+    {
       "source": "x''",
-      "actual": "x double prime",
       "expected": "x double prime"
     },
     {
-      "score": 1,
-      "source": "x'''",
-      "actual": "x triple prime",
-      "expected": "x triple prime"
+      "source": "B \\cup C",
+      "expected": "union of cap b and cap c"
+    },
+    {
+      "source": "B \\cap C",
+      "expected": "intersection of cap b and cap c"
+    },
+    {
+      "source": "A \\cup B \\cup C",
+      "expected": "union of cap a and union of cap b and cap c"
+    },
+    {
+      "source": "1in",
+      "expected": "1 inch"
+    },
+    {
+      "source": "1ft",
+      "expected": "1 foot"
+    },
+    {
+      "source": "10in",
+      "expected": "10 inches"
+    },
+    {
+      "source": "\\overline{x}",
+      "expected": "line segment x"
+    },
+    {
+      "source": "90 \\degree",
+      "expected": "90 degrees"
+    },
+    {
+      "source": "\\triangle x",
+      "expected": "triangle x"
+    },
+    {
+      "source": "x \\sim y",
+      "expected": "x approximates y"
+    },
+    {
+      "source": "x \\parallel y",
+      "expected": "x is parallel to y"
+    },
+    {
+      "source": "\\frac{\\text{rise}}{\\text{run}}",
+      "expected": "rise over run"
+    },
+    {
+      "source": "f(x) = \\sqrt{8^2 * 330}",
+      "expected": "f of x equals square root of 8 squared times 330"
+    },
+    {
+      "source": "x < y",
+      "expected": "x is less than y"
+    },
+    {
+      "source": "1*10+3+8*1/10",
+      "expected": "1 times 10 plus 3 plus 8 times 1 tenths"
+    },
+    {
+      "source": "(q-2\\sqrt{2})(q+\\sqrt{8})",
+      "expected": "open paren q minus 2 square root of 2 close paren times open paren q plus square root of 8 close paren"
+    },
+    {
+      "source": "x \\ne y",
+      "expected": "x not equal to y"
+    },
+    {
+      "source": "x \\ngtr y",
+      "expected": "x not greater than y"
+    },
+    {
+      "source": "f(x) = \\sqrt{64x}",
+      "expected": "f of x equals square root of 64 x"
+    },
+    {
+      "source": "x \\nless y",
+      "expected": "x not less than y"
+    },
+    {
+      "source": "x:y",
+      "expected": "ratio of x to y"
+    },
+    {
+      "source": "10%",
+      "expected": "10 percent"
+    },
+    {
+      "source": "\\frac{x}{y}",
+      "expected": "x over y"
+    },
+    {
+      "source": "\\sqrt[2]{x}",
+      "expected": "square root of x"
+    },
+    {
+      "source": "\\sqrt[3]{x}",
+      "expected": "cube root of x"
+    },
+    {
+      "source": "\\sqrt[n]{x}",
+      "expected": "n th root of x"
+    },
+    {
+      "source": "f(165) = 8*\\sqrt{165}",
+      "expected": "f of 165 equals 8 times square root of 165"
+    },
+    {
+      "source": "f(165) = \\sqrt{64\\times165}",
+      "expected": "f of 165 equals square root of 64 times 165"
+    },
+    {
+      "source": "\\sum",
+      "expected": "the sum of"
+    },
+    {
+      "source": "\\partial",
+      "expected": "partial derivative"
+    },
+    {
+      "source": "\\int_{x}^{y}",
+      "expected": "integral on the interval from x to y of"
+    },
+    {
+      "source": "'",
+      "expected": "prime"
+    },
+    {
+      "source": "\\$10",
+      "expected": "10 dollars"
+    },
+    {
+      "source": "x > y",
+      "expected": "x is greater than y"
+    },
+    {
+      "source": "x \\ge y",
+      "expected": "x is greater than or equal to y"
+    },
+    {
+      "source": "f(x) = 1/2 \\times \\abs{x}",
+      "expected": "f of x equals 1 half times absolute value of x"
+    },
+    {
+      "source": "x+y",
+      "expected": "x plus y"
+    },
+    {
+      "source": "f(x) = 1/2 \\cdot \\abs{x}",
+      "expected": "f of x equals 1 half times absolute value of x"
+    },
+    {
+      "source": "\\arccos x",
+      "expected": "arccos x"
+    },
+    {
+      "source": "x \\div y",
+      "expected": "x divided by y"
+    },
+    {
+      "source": "x \\pm y",
+      "expected": "x plus or minus y"
+    },
+    {
+      "source": "x = y",
+      "expected": "x equals y"
+    },
+    {
+      "source": "x \\le y",
+      "expected": "x is less than or equal to y"
+    },
+    {
+      "source": "x \\propto y",
+      "expected": "x proportional to y"
+    },
+    {
+      "source": "x^2",
+      "expected": "x squared"
+    },
+    {
+      "source": "x \\approx y",
+      "expected": "x almost equal to y"
+    },
+    {
+      "source": "\\Sigma",
+      "expected": "cap sigma"
+    },
+    {
+      "source": "x \\perp y",
+      "expected": "x perpendicular to y"
+    },
+    {
+      "source": "\\lim_{x\\to {y}} ",
+      "expected": "limit x to y"
+    },
+    {
+      "source": "e",
+      "expected": "e"
+    },
+    {
+      "source": "\\alpha",
+      "expected": "alpha"
+    },
+    {
+      "source": "\\gamma",
+      "expected": "gamma"
+    },
+    {
+      "source": "i",
+      "expected": "i"
+    },
+    {
+      "source": "\\zeta",
+      "expected": "zeta"
+    },
+    {
+      "source": "\\eta",
+      "expected": "eta"
+    },
+    {
+      "source": "\\theta",
+      "expected": "theta"
+    },
+    {
+      "source": "\\chi",
+      "expected": "chi"
+    },
+    {
+      "source": "\\varepsilon",
+      "expected": "epsilon"
+    },
+    {
+      "source": "\\iota",
+      "expected": "iota"
+    },
+    {
+      "source": "\\kappa",
+      "expected": "kappa"
+    },
+    {
+      "source": "\\lambda",
+      "expected": "lambda"
+    },
+    {
+      "source": "\\mu",
+      "expected": "mu"
+    },
+    {
+      "source": "\\xi",
+      "expected": "xi"
+    },
+    {
+      "source": "\\Upsilon",
+      "expected": "cap upsilon"
+    },
+    {
+      "source": "\\Psi",
+      "expected": "cap psi"
+    },
+    {
+      "source": "\\nu",
+      "expected": "nu"
+    },
+    {
+      "source": "\\omicron",
+      "expected": "omicron"
+    },
+    {
+      "source": "\\pi",
+      "expected": "pi"
+    },
+    {
+      "source": "\\rho",
+      "expected": "rho"
+    },
+    {
+      "source": "\\sigma",
+      "expected": "sigma"
+    },
+    {
+      "source": "\\phi",
+      "expected": "phi"
+    },
+    {
+      "source": "\\omega",
+      "expected": "omega"
+    },
+    {
+      "source": "\\Alpha",
+      "expected": "cap alpha"
+    },
+    {
+      "source": "\\Beta",
+      "expected": "cap beta"
+    },
+    {
+      "source": "\\Gamma",
+      "expected": "cap gamma"
+    },
+    {
+      "source": "\\Epsilon",
+      "expected": "cap epsilon"
+    },
+    {
+      "source": "\\Zeta",
+      "expected": "cap zeta"
+    },
+    {
+      "source": "\\Theta",
+      "expected": "cap theta"
+    },
+    {
+      "source": "\\Xi",
+      "expected": "cap xi"
+    },
+    {
+      "source": "\\Omicron",
+      "expected": "cap omicron"
+    },
+    {
+      "source": "\\Rho",
+      "expected": "cap rho"
+    },
+    {
+      "source": "\\arcsin x",
+      "expected": "arcsin x"
+    },
+    {
+      "source": "\\arctan x",
+      "expected": "arctan x"
+    },
+    {
+      "source": "f(x) = \\sqrt{64 \\cdot 330}",
+      "expected": "f of x equals square root of 64 times 330"
+    },
+    {
+      "source": "f(x) = 8*\\sqrt{330}",
+      "expected": "f of x equals 8 times square root of 330"
+    },
+    {
+      "source": "f(x) = \\sqrt{330} \\times 8",
+      "expected": "f of x equals square root of 330 times 8"
+    },
+    {
+      "source": "x \\ni y",
+      "expected": "x contains y"
+    },
+    {
+      "source": "x \\supset y",
+      "expected": "x is a strict superset of y"
+    },
+    {
+      "source": "x \\not\\subseteq y",
+      "expected": "x is not a subset of y"
+    },
+    {
+      "source": "x \\not\\supseteq y",
+      "expected": "x is not a superset of y"
+    },
+    {
+      "source": "x \\not\\subset y",
+      "expected": "x is not a strict subset of y"
+    },
+    {
+      "source": "x \\subset y",
+      "expected": "x is a strict subset of y"
+    },
+    {
+      "source": "\\ldots",
+      "expected": "dot dot dot"
+    },
+    {
+      "source": "\\ddots",
+      "expected": "diagonal dot dot dot"
+    },
+    {
+      "source": "10g",
+      "expected": "10 grams"
+    },
+    {
+      "source": "10cg",
+      "expected": "10 centigrams"
+    },
+    {
+      "source": "10mg",
+      "expected": "10 milligrams"
+    },
+    {
+      "source": "\\vdots",
+      "expected": "vertical dot dot dot"
+    },
+    {
+      "source": "f(x) = .5 \\cdot \\abs{x}",
+      "expected": "f of x equals point 5 times absolute value of x"
+    },
+    {
+      "source": "f(x) = 1/2 x^2",
+      "expected": "f of x equals 1 half x squared"
+    },
+    {
+      "source": "f(x) = 1/2 \\cdot x^2",
+      "expected": "f of x equals 1 half times x squared"
+    },
+    {
+      "source": "f(x) = 1/2 \\times x^2",
+      "expected": "f of x equals 1 half times x squared"
+    },
+    {
+      "source": "a \\parallelogram b",
+      "expected": "a parallelogram b"
+    },
+    {
+      "source": "\\infty",
+      "expected": "infinity"
+    },
+    {
+      "source": "\\square",
+      "expected": "square"
+    },
+    {
+      "source": "\\therefore",
+      "expected": "therefore"
+    },
+    {
+      "source": "\\rightarrow{x}",
+      "expected": "right arrow x"
+    },
+    {
+      "source": "1mL",
+      "expected": "1 milliliter"
+    },
+    {
+      "source": "10\\mus",
+      "expected": "10 microseconds"
+    },
+    {
+      "source": "1\\mus",
+      "expected": "1 microsecond"
+    },
+    {
+      "source": "10cL",
+      "expected": "10 centiliters"
+    },
+    {
+      "source": "10mL",
+      "expected": "10 milliliters"
+    },
+    {
+      "source": "10s",
+      "expected": "10 seconds"
+    },
+    {
+      "source": "10ms",
+      "expected": "10 milliseconds"
+    },
+    {
+      "source": "10ks",
+      "expected": "10 kiloseconds"
+    },
+    {
+      "source": "10nm",
+      "expected": "10 nanometers"
+    },
+    {
+      "source": "10mm",
+      "expected": "10 millimeters"
+    },
+    {
+      "source": "\\mathbb{R}",
+      "expected": "the real numbers"
+    },
+    {
+      "source": "\\mathbb{C}",
+      "expected": "the complex numbers"
+    },
+    {
+      "source": "\\mathbb{Z}",
+      "expected": "the integers"
+    },
+    {
+      "source": "\\mathbb{Z}^+",
+      "expected": "the positive integers"
+    },
+    {
+      "source": "\\mathbb{R}^2",
+      "expected": "r 2"
+    },
+    {
+      "source": "\\mathbb{C}^n",
+      "expected": "c n"
+    },
+    {
+      "source": "\\mathbb{R}^\\infty",
+      "expected": "r infinity"
+    },
+    {
+      "source": "\\int f(x)",
+      "expected": "integral f of x"
+    },
+    {
+      "source": "\\bigcap S_n",
+      "expected": "intersection cap s sub n"
+    },
+    {
+      "source": "x \\notin y",
+      "expected": "x is not in y"
+    },
+    {
+      "source": "x \\in y",
+      "expected": "x is in y"
+    },
+    {
+      "source": "x \\dot y",
+      "expected": "x times y"
+    },
+    {
+      "source": "10pt",
+      "expected": "10 pints"
+    },
+    {
+      "source": "10cup",
+      "expected": "10 cups"
+    },
+    {
+      "source": "10lb",
+      "expected": "10 pounds"
+    },
+    {
+      "source": "3*4^(12) - 3*4^(10)",
+      "expected": "3 times 4 raised to the 12 power minus 3 times 4 raised to the 10 power"
+    },
+    {
+      "source": "\\circledot C",
+      "expected": "circle cap c"
+    },
+    {
+      "source": "f(n) = 3\\cdot4^n",
+      "expected": "f of n equals 3 times 4 to the n th power"
+    },
+    {
+      "source": "3*4^3",
+      "expected": "3 times 4 cubed"
+    },
+    {
+      "source": "4^3\\times3",
+      "expected": "4 cubed times 3 "
+    },
+    {
+      "source": "4^2 * 4 * 3",
+      "expected": "4 squared times 4 times 3 "
+    },
+    {
+      "source": "f(3) = 3*4^3",
+      "expected": "f of 3 equals 3 times 4 cubed "
+    },
+    {
+      "source": "f(3) = 3*4^3",
+      "expected": "f of 3 equals 3 times 4 cubed"
+    },
+    {
+      "source": "f(3) = 3*4^3 = 192",
+      "expected": "f of 3 equals 3 times 4 cubed comma 3 times 4 cubed equals 192"
+    },
+    {
+      "source": "3\\times4\\times4\\times4",
+      "expected": "3 times 4 times 4 times 4"
+    },
+    {
+      "source": "f(n) = 2^n\\times a",
+      "expected": "f of n equals 2 to the n th power times a"
+    },
+    {
+      "source": "f(x) = 1/2 * x^2",
+      "expected": "f of x equals 1 half times x squared"
+    },
+    {
+      "source": "f(n) = a\\times2^n",
+      "expected": "f of n equals a times 2 to the n th power"
+    },
+    {
+      "source": "h(t) = 2(t-11)^2 - 50",
+      "expected": "h of t equals 2 open paren t minus 11 close paren squared minus 50"
+    },
+    {
+      "source": "(-32-0)/(8-6) \\text{feet per sec}",
+      "expected": "the fraction with numerator open paren negative 32 minus 0 close paren and denominator open paren 8 minus 6 close paren feetpersec"
+    },
+    {
+      "source": "(-32-0)/(8-6)",
+      "expected": "the fraction with numerator open paren negative 32 minus 0 close paren and denominator open paren 8 minus 6 close paren"
+    },
+    {
+      "source": "f(x) = 1/2 \\times |x|",
+      "expected": "f of x equals 1 half times absolute value of x"
+    },
+    {
+      "source": "f(x) = 1/2 * |x|",
+      "expected": "f of x equals 1 half times absolute value of x"
+    },
+    {
+      "source": "f(x) = 1/2 \\cdot |x|",
+      "expected": "f of x equals 1 half times absolute value of x"
+    },
+    {
+      "source": "\\frac{0--32}{16-14}",
+      "expected": "the fraction with numerator 0 minus negative 32 and denominator 16 minus 14 "
+    },
+    {
+      "source": "32/2",
+      "expected": " 32 halves"
+    },
+    {
+      "source": "(0--32)/(16-14)",
+      "expected": "the fraction with numerator open paren 0 minus negative 32 close paren and denominator open paren 16 minus 14 close paren"
+    },
+    {
+      "source": "1gal",
+      "expected": "1 gallon"
+    },
+    {
+      "source": "32/(16-14)",
+      "expected": "the fraction with numerator 32 and denominator open paren 16 minus 14 close paren"
+    },
+    {
+      "source": "32/2",
+      "expected": "32 halves"
+    },
+    {
+      "source": "1oz",
+      "expected": "1 ounce"
+    },
+    {
+      "source": "1qt",
+      "expected": "1 quart"
+    },
+    {
+      "source": "(0--32) \\div (16-14)",
+      "expected": "open paren 0 minus negative 32 close paren divided by open paren 16 minus 14 close paren"
+    },
+    {
+      "source": "32 \\div 2",
+      "expected": "32 divided by 2"
+    },
+    {
+      "source": "32 \\div (16-14)",
+      "expected": "32 divided by open paren 16 minus 14 close paren"
+    },
+    {
+      "source": "10ns",
+      "expected": "10 nanoseconds"
+    },
+    {
+      "source": "x \\cong y",
+      "expected": "x is congruent to y"
+    },
+    {
+      "source": "\\angle A",
+      "expected": "angle cap a"
+    },
+    {
+      "source": "10ft",
+      "expected": "10 feet"
+    },
+    {
+      "source": "x",
+      "expected": "x"
+    },
+    {
+      "source": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+      "expected": "x equals the fraction with numerator negative b plus or minus square root of b squared minus 4 a c and denominator 2 a"
+    },
+    {
+      "source": "\\frac{7}{8}",
+      "expected": "7 eighths"
+    },
+    {
+      "source": "\\frac{25}{32}",
+      "expected": "25 over 32"
+    },
+    {
+      "source": "\\frac{\\frac{1}{2}}{\\frac{2}{3}}",
+      "expected": "1 half over 2 thirds"
+    },
+    {
+      "source": "-\\frac{7}{8}",
+      "expected": "negative 7 eighths"
+    },
+    {
+      "source": "1in",
+      "expected": "1 inch"
+    },
+    {
+      "source": "f(x) = 1/2 * \\abs{x}",
+      "expected": "f of x equals 1 half times absolute value of x"
+    },
+    {
+      "source": "f(x) = 1/2 \\abs{x}",
+      "expected": "f of x equals 1 half absolute value of x"
+    },
+    {
+      "source": "x+2",
+      "expected": "x plus 2"
+    },
+    {
+      "source": "\\parallelogram x",
+      "expected": "parallelogram x"
+    },
+    {
+      "source": "50331648 - 3145728",
+      "expected": "50331648 minus 3145728"
+    },
+    {
+      "source": "x \\circledot y",
+      "expected": "x circle y"
+    },
+    {
+      "source": "10\\muL",
+      "expected": "10 microliters"
+    },
+    {
+      "source": "\\psi",
+      "expected": "psi"
+    },
+    {
+      "source": "x",
+      "expected": "x"
     }
   ]
 }
