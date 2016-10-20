@@ -2026,14 +2026,7 @@ export let Model = (function () {
           c = src.charCodeAt(curIndex++);
           while (c && c !== "}".charCodeAt(0)) {
             let ch = String.fromCharCode(c);
-            if (ch === "&" && indexOf(src.substring(curIndex), "nbsp;") === 0) {
-              // Skip &nbsp;
-              curIndex += 5;
-            } else if (ch === " " || ch === "\t") {
-              // Skip space and tab
-            } else {
-              lexeme += ch;
-            }
+            lexeme += ch;
             c = src.charCodeAt(curIndex++);
           }
           if (tk !== TK_TYPE) {
