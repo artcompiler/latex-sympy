@@ -164,7 +164,6 @@ import {rules} from "./rules.js";
       }
       return node;
     }
-
     function lookup(word) {
       if (!word) {
         return "";
@@ -186,7 +185,6 @@ import {rules} from "./rules.js";
       }
       return val;
     }
-
     function normalizeFormatObject(fmt) {
       // Normalize the fmt object to an array of objects
       var list = [];
@@ -219,7 +217,6 @@ import {rules} from "./rules.js";
       }
       return list;
     }
-
     function checkNumberType(fmt, node) {
       var fmtList = normalizeFormatObject(fmt);
       return fmtList.some(function (f) {
@@ -321,6 +318,15 @@ import {rules} from "./rules.js";
         var code = f.code;
         var length = f.length;
         switch (code) {
+        case "simpleSmallRowMatrix":
+        case "smallRowMatrix":
+          return node.op === Model.MATRIX && node.m === 1 && node.n < 4;
+        case "simpleSmallColumnMatrix":
+        case "smallColumnMatrix":
+          return node.op === Model.MATRIX && node.m < 4 && node.n === 1;
+        case "simpleSmallMatrix":
+        case "smallMatrix":
+          return node.op === Model.MATRIX && node.m < 4 && node.n < 4;
         case "matrix":
           return node.op === Model.MATRIX;
         case "row":
@@ -330,6 +336,23 @@ import {rules} from "./rules.js";
         default:
           return false;
         }
+      });
+    }
+    function isSimpleExpression(node) {
+      if (node.op === Model.NUM ||
+          node.op === Model.VAR ||
+          typeof node === "string") {
+        return true;
+      }
+      return false;
+    }
+    function hasSimpleExpressions(node) {
+      assert(node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL);
+      return every(node.args, n => {
+        if (n.op === Model.MATRIX || n.op === Model.ROW || n.op === Model.COL) {
+          return hasSimpleExpressions(n);
+        }
+        return isSimpleExpression(n);
       });
     }
     function matchType(pattern, node) {
@@ -349,6 +372,13 @@ import {rules} from "./rules.js";
           return checkNumberType(pattern.args[0], node);
         case "variable":
           return node.op === Model.VAR;
+        case "simpleSmallRowMatrix":
+        case "simpleSmallColumnMatrix":
+        case "simpleSmallMatrix":
+          return checkMatrixType(pattern.args[0], node) && hasSimpleExpressions(node);
+        case "smallRowMatrix":
+        case "smallColumnMatrix":
+        case "smallMatrix":
         case "matrix":
         case "row":
         case "column":
@@ -825,8 +855,8 @@ import {rules} from "./rules.js";
             if (node.op === Model.MATRIX) {
               assert(node.args[0].op === Model.ROW);
               assert(node.args[0].args[0].op === Model.COL);
-              env.m = node.args[0].args.length;
-              env.n = node.args[0].args[0].args.length;
+              node.m = env.m = node.args[0].args.length;
+              node.n = env.n = node.args[0].args[0].args.length;
               forEach(node.args, (n, i) => {
                 // matrix dimensions
                 n.m = i + 1;
