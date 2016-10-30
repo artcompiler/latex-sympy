@@ -164,7 +164,6 @@ import {rules} from "./rules.js";
       }
       return node;
     }
-
     function lookup(word) {
       if (!word) {
         return "";
@@ -186,7 +185,6 @@ import {rules} from "./rules.js";
       }
       return val;
     }
-
     function normalizeFormatObject(fmt) {
       // Normalize the fmt object to an array of objects
       var list = [];
@@ -219,7 +217,6 @@ import {rules} from "./rules.js";
       }
       return list;
     }
-
     function checkNumberType(fmt, node) {
       var fmtList = normalizeFormatObject(fmt);
       return fmtList.some(function (f) {
@@ -315,6 +312,49 @@ import {rules} from "./rules.js";
         }
       });
     }
+    function checkMatrixType(fmt, node) {
+      var fmtList = normalizeFormatObject(fmt);
+      return fmtList.some(function (f) {
+        var code = f.code;
+        var length = f.length;
+        switch (code) {
+        case "simpleSmallRowMatrix":
+        case "smallRowMatrix":
+          return node.op === Model.MATRIX && node.m === 1 && node.n < 4;
+        case "simpleSmallColumnMatrix":
+        case "smallColumnMatrix":
+          return node.op === Model.MATRIX && node.m < 4 && node.n === 1;
+        case "simpleSmallMatrix":
+        case "smallMatrix":
+          return node.op === Model.MATRIX && node.m < 4 && node.n < 4;
+        case "matrix":
+          return node.op === Model.MATRIX;
+        case "row":
+          return node.op === Model.ROW;
+        case "column":
+          return node.op === Model.COL;
+        default:
+          return false;
+        }
+      });
+    }
+    function isSimpleExpression(node) {
+      if (node.op === Model.NUM ||
+          node.op === Model.VAR ||
+          typeof node === "string") {
+        return true;
+      }
+      return false;
+    }
+    function hasSimpleExpressions(node) {
+      assert(node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL);
+      return every(node.args, n => {
+        if (n.op === Model.MATRIX || n.op === Model.ROW || n.op === Model.COL) {
+          return hasSimpleExpressions(n);
+        }
+        return isSimpleExpression(n);
+      });
+    }
     function matchType(pattern, node) {
       let types = Model.option("types");
       if (pattern.op === Model.TYPE &&
@@ -332,6 +372,17 @@ import {rules} from "./rules.js";
           return checkNumberType(pattern.args[0], node);
         case "variable":
           return node.op === Model.VAR;
+        case "simpleSmallRowMatrix":
+        case "simpleSmallColumnMatrix":
+        case "simpleSmallMatrix":
+          return checkMatrixType(pattern.args[0], node) && hasSimpleExpressions(node);
+        case "smallRowMatrix":
+        case "smallColumnMatrix":
+        case "smallMatrix":
+        case "matrix":
+        case "row":
+        case "column":
+          return checkMatrixType(pattern.args[0], node);
         default:
           let type = types[name];
           if (type) {
@@ -421,14 +472,34 @@ import {rules} from "./rules.js";
       }
       return str;
     }
-    function expand(template, args) {
+    function expand(template, args, env) {
       // Use first matched template for now.
       let str = template.str;
       if (str && args) {
         let count = str.split("%").length - 1;
         if (str.indexOf("%%") >= 0) {
           str = str.replace("%%", args[0].args[0]);
-        } else if (count === 2 && args.length > 2) {
+        }
+        if (str.indexOf("%*") >= 0) {
+          let s = "";
+          forEach(args, function (arg) {
+            if (s !== "") {
+              s += " ";
+            }
+            // Replicate template for each argument.
+            s += str.replace("%*", arg.args[0]).replace("%M", arg.m).replace("%N", arg.n);
+          });
+          str = s;  // Overwrite str.
+        }
+        if (str.indexOf("%M") >= 0) {
+          assert(env.m);
+          str = str.replace("%M", env.m);
+        }
+        if (str.indexOf("%N") >= 0) {
+          assert(env.n);
+          str = str.replace("%N", env.n);
+        }
+        if (count === 2 && args.length > 2) {
           str = expandBinary(str, args);
         } else {
           forEach(args, function (arg, i) {
@@ -637,10 +708,11 @@ import {rules} from "./rules.js";
       if (str.indexOf("%%") >= 0) {
         return [node];
       }
-      let a = str.split("%");
-      let nn = a.filter(n => {
-        return n[0] === "%" || !isNaN(+n[0])
-      });
+      // let a = str.split("%");  // ["..", "1..", "2.."]
+      // let nn = a.filter(n => {
+      //   // Include '%1', %M, %N
+      //   return !isNaN(+n[0]) || n[0] === "M" || n[0] === "N";
+      // });
       return node.args;
     }
     function translate(root, rules) {
@@ -779,6 +851,27 @@ import {rules} from "./rules.js";
         },
         comma: function(node) {
           if (node.op === Model.MATRIX || node.op === Model.ROW || node.op === Model.COL) {
+            let env = {};
+            if (node.op === Model.MATRIX) {
+              assert(node.args[0].op === Model.ROW);
+              assert(node.args[0].args[0].op === Model.COL);
+              node.m = env.m = node.args[0].args.length;
+              node.n = env.n = node.args[0].args[0].args.length;
+              forEach(node.args, (n, i) => {
+                // matrix dimensions
+                n.m = i + 1;
+              });
+            } else if (node.op === Model.ROW) {
+              forEach(node.args, (n, i) => {
+                n.m = i + 1;
+                n.n = undefined;
+              });
+            } else {
+              forEach(node.args, (n, i) => {
+                n.m = node.m;
+                n.n = i + 1;
+              });
+            }
             let matches = match(patterns, node);
             if (matches.length === 0) {
               return node;
@@ -790,8 +883,10 @@ import {rules} from "./rules.js";
             let nodeArgs = getNodeArgsForTemplate(node, template);
             forEach(nodeArgs, function (n, i) {
               args = args.concat(translate(n, [globalRules, argRules]));
+              args[i].m = n.m;
+              args[i].n = n.n;
             });
-            return expand(template, args);
+            return expand(template, args, env);
           } else {
             let matches = match(patterns, node);
             if (matches.length === 0) {
@@ -821,7 +916,7 @@ import {rules} from "./rules.js";
           forEach(nodeArgs, function (n, i) {
             args = args.concat(translate(n, [globalRules, argRules]));
           });
-          return expand(template, args);
+          return expand(template, args, node);
         },
         paren: function(node) {
           //assert (node.args.length === 1);
@@ -1270,7 +1365,7 @@ export let Core = (function () {
       valueNode = value != undefined ? Model.create(value, "spec") : undefined;
       Model.popEnv();
     } catch (e) {
-      // console.log(e.stack);
+//      console.log(e.stack);
       pendingError = e;
     }
     let evaluate = function evaluate(solution, resume) {
@@ -1296,7 +1391,7 @@ export let Core = (function () {
         Model.popEnv();
         resume(null, result);
       } catch (e) {
-        // console.log(e.stack);
+//        console.log(e.stack);
         let message = e.message;
         resume({
           result: null,

@@ -965,7 +965,9 @@ export let Model = (function () {
           eat(TK_CARET, {oneCharToken: true});              // If we have a subscript, then we expect a superscript
           args.push(primaryExpr());
         }
-        args.push(commaExpr());
+        if (hd()) {
+          args.push(commaExpr());
+        }
         // Finish the log function
         return newNode(tokenToOperator[tk], args);
         break;
