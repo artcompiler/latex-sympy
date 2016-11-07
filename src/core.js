@@ -511,7 +511,11 @@ import {rules} from "./rules.js";
           args: [str],
         };
       }
-      return "ERROR expand() " + JSON.stringify(str);
+      assert(false);
+      return {
+        op: Model.VAR,
+        args: [""],
+      };
     }
 
     function getPrec(op) {
@@ -687,7 +691,7 @@ import {rules} from "./rules.js";
       //assert(matchedTemplates.length > 0);
       if (matchedTemplates.length === 0) {
         // Make one up.
-        matchedTemplates.push({str: "missing template %1"});
+        matchedTemplates.push({str: ""});
       }
       // Use first match.
       return matchedTemplates[0];
@@ -1077,7 +1081,7 @@ import {rules} from "./rules.js";
     let rules = Model.option("rules");
     let n = translate(normalizeLiteral(n1), rules);
     if (!n || n.op !== Model.VAR) {
-      n = newNode(Model.VAR, ["ERROR missing rule: " + JSON.stringify(n1, null, 2)]);
+      n = newNode(Model.VAR, [""]);
     }
     return trim(n.args[0]);
   }
@@ -1403,7 +1407,7 @@ export let Core = (function () {
           toString: function () {
             return this.errorCode + ": (" + this.location + ") " + this.message + "\n" + this.stack;
           },
-        }, solution);  // If error, return the original text.
+        }, "");  // If error, empty string.
       }
     };
     return {
