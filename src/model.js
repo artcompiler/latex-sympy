@@ -221,6 +221,15 @@ export let Model = (function () {
     NSUBSET: "nsubset",
     NSUPSET: "nsupset",
     APPROX: "approx",
+    IMPLIES: "implies",
+    RIGHTARROW: "rightarrrow",
+    LEFTARROW: "leftarrrow",
+    LONGRIGHTARROW: "longrightarrow",
+    LONGLEFTARROW: "longleftarrow",
+    OVERRIGHTARROW: "overrightarrow",
+    OVERLEFTARROW: "overleftarrow",
+    LONGLEFTRIGHTARROW: "longleftrightarrow",
+    OVERLEFTRIGHTARROW: "overleftrightarrow",
     PERP: "perp",
     PROPTO: "propto",
     PARALLEL: "parallel",
@@ -246,7 +255,6 @@ export let Model = (function () {
     PERCENT: "%",
     QMARK: "?",
     M: "M",
-    RIGHTARROW: "->",
     FACT: "fact",
     BINOM: "binom",
     ROW: "row",
@@ -472,6 +480,14 @@ export let Model = (function () {
     let TK_NPARALLEL = 0x144;
     let TK_SIM = 0x145;
     let TK_CONG = 0x146;
+    let TK_LEFTARROW = 0x147;
+    let TK_LONGRIGHTARROW = 0x148;
+    let TK_LONGLEFTARROW = 0x149;
+    let TK_OVERRIGHTARROW = 0x14A;
+    let TK_OVERLEFTARROW = 0x14B;
+    let TK_LONGLEFTRIGHTARROW = 0x14C;
+    let TK_OVERLEFTRIGHTARROW = 0x14D;
+    let TK_IMPLIES = 0x14E;
     let T0 = TK_NONE, T1 = TK_NONE;
     // Define mapping from token to operator
     let tokenToOperator = {};
@@ -524,7 +540,16 @@ export let Model = (function () {
     tokenToOperator[TK_CAP] = OpStr.CAP;
     tokenToOperator[TK_BIGCAP] = OpStr.BIGCAP;
     tokenToOperator[TK_M] = OpStr.M;
+    tokenToOperator[TK_IMPLIES] = OpStr.IMPLIES;
     tokenToOperator[TK_RIGHTARROW] = OpStr.RIGHTARROW;
+    tokenToOperator[TK_LEFTARROW] = OpStr.LEFTARROW;
+    tokenToOperator[TK_LONGRIGHTARROW] = OpStr.LONGRIGHTARROW;
+    tokenToOperator[TK_LONGLEFTARROW] = OpStr.LONGLEFTARROW;
+    tokenToOperator[TK_OVERRIGHTARROW] = OpStr.OVERRIGHTARROW;
+    tokenToOperator[TK_OVERLEFTARROW] = OpStr.OVERLEFTARROW;
+    tokenToOperator[TK_LONGLEFTRIGHTARROW] = OpStr.LONGLEFTRIGHTARROW;
+    tokenToOperator[TK_OVERLEFTRIGHTARROW] = OpStr.OVERLEFTRIGHTARROW;
+
     tokenToOperator[TK_BANG] = OpStr.FACT;
     tokenToOperator[TK_BINOM] = OpStr.BINOM;
     tokenToOperator[TK_NEWROW] = OpStr.ROW;
@@ -975,8 +1000,16 @@ export let Model = (function () {
         next();
         return newNode(Model.EXISTS, [equalExpr()]);
       case TK_FORALL:
+      case TK_RIGHTARROW:
+      case TK_LEFTARROW:
+      case TK_LONGRIGHTARROW:
+      case TK_LONGLEFTARROW:
+      case TK_OVERRIGHTARROW:
+      case TK_OVERLEFTARROW:
+      case TK_LONGLEFTRIGHTARROW:
+      case TK_OVERLEFTRIGHTARROW:
         next();
-        return newNode(Model.FORALL, [commaExpr()]);
+        return newNode(tokenToOperator[tk], [commaExpr()]);
       case TK_EXP:
         next();
         return newNode(Model.EXP, [additiveExpr()]);
@@ -984,14 +1017,10 @@ export let Model = (function () {
         next();
         return newNode(Model.M, [multiplicativeExpr()]);
       case TK_OVERLINE:
-        next();
-        return newNode(Model.OVERLINE, [braceExpr()]);
       case TK_DOT:
-        next();
-        return newNode(Model.DOT, [braceExpr()]);
       case TK_MATHFIELD:
         next();
-        return newNode(Model.MATHFIELD, [braceExpr()]);
+        return newNode(tokenToOperator[tk], [braceExpr()]);
       case TK_OVERSET:
       case TK_UNDERSET:
         next();
@@ -1333,7 +1362,7 @@ export let Model = (function () {
       }
       // While lookahead is not a lower precedent operator
       // FIXME need a better way to organize this condition
-      while((t = hd()) && !isAdditive(t) && !isRelational(t) &&
+      while((t = hd()) && !isAdditive(t) && !isRelational(t) && !isImplies(t) &&
             t !== TK_COMMA && !isEquality(t) && t !== TK_RIGHTBRACE &&
             t !== TK_RIGHTPAREN && t !== TK_RIGHTBRACKET &&
             t !== TK_RIGHTARROW && t !== TK_LT && t !== TK_VERTICALBAR &&
@@ -1612,7 +1641,6 @@ export let Model = (function () {
           expr = binaryNode(Model.SUB, [expr, expr2]);
           break;
         default:
-//          expr = binaryNode(Model.ADD, [expr, expr2], true /*flatten*/);
           expr = binaryNode(Model.ADD, [expr, expr2]);
           break;
         }
@@ -1654,12 +1682,13 @@ export let Model = (function () {
         expr = Model.create(expr2);
       }
       if (args.length === 0) {
-        return expr;
+        expr = expr;
       } else if (args.length === 1) {
-        return args[0];
+        expr = args[0];
       } else {
-        return newNode(Model.COMMA, args);
+        expr = newNode(Model.COMMA, args);
       }
+      return expr;
     }
     // Parse 'x = 10'
     function isEquality(t) {
@@ -1669,37 +1698,43 @@ export let Model = (function () {
       let expr = relationalExpr();
       let t;
       let args = [];
-      while (isEquality(t = hd()) || t === TK_RIGHTARROW) {
+      while (isEquality(t = hd())) {
         // x = y = z -> [x = y, y = z]
         next();
         let expr2 = additiveExpr();
         expr = newNode(tokenToOperator[t], [expr, expr2]);
-        args.push(expr);
-        // Make a copy of the reused node.
-        expr = Model.create(expr2);
       }
-      if (args.length === 0) {
-        return expr;
-      } else if (args.length === 1) {
-        return args[0];
-      } else {
-        return newNode(Model.COMMA, args);
+      return expr;
+    }
+    function isImplies(t) {
+      return t === TK_IMPLIES || t === TK_RIGHTARROW || t === TK_LEFTARROW ||
+             t === TK_LONGRIGHTARROW || t === TK_LONGLEFTARROW || t === TK_OVERRIGHTARROW ||
+             t === TK_OVERLEFTARROW || t === TK_LONGLEFTRIGHTARROW || t === TK_OVERLEFTRIGHTARROW;
+    }
+    function impliesExpr() {
+      let expr = equalExpr();
+      let t;
+      let args = [];
+      while (isImplies(t = hd())) {
+        next();
+        let expr2 = equalExpr();
+        expr = newNode(tokenToOperator[t], [expr, expr2]);
       }
+      return expr;
     }
     // Parse 'a, b, c, d'
-    function commaExpr( ) {
-      let expr = equalExpr();
+    function commaExpr() {
+      let expr = impliesExpr();
       let args = [expr];
       let t;
       while ((t = hd())===TK_COMMA) {
         next();
-        args.push(equalExpr());
+        args.push(impliesExpr());
       }
       if (args.length > 1) {
-        return newNode(tokenToOperator[TK_COMMA], args);
-      } else {
-        return expr;
+        expr = newNode(tokenToOperator[TK_COMMA], args);
       }
+      return expr;
     }
     // Root syntax.
     function tokenize() {
@@ -1794,6 +1829,15 @@ export let Model = (function () {
         "\\subset": TK_SUBSET,
         "\\supset": TK_SUPSET,
         "\\approx": TK_APPROX,
+        "\\implies": TK_IMPLIES,
+        "\\rightarrow": TK_RIGHTARROW,
+        "\\leftarrow": TK_LEFTARROW,
+        "\\longrightarrow": TK_LONGRIGHTARROW,
+        "\\longleftarrow": TK_LONGLEFTARROW,
+        "\\overrightarrow": TK_OVERRIGHTARROW,
+        "\\overleftarrow": TK_OVERLEFTARROW,
+        "\\longleftrightarrow": TK_LONGLEFTRIGHTARROW,
+        "\\overleftrightarrow": TK_OVERLEFTRIGHTARROW,
         "\\perp": TK_PERP,
         "\\propto": TK_PROPTO,
         "\\parallel": TK_PARALLEL,
@@ -1814,8 +1858,6 @@ export let Model = (function () {
         "\\cap": TK_CAP,
         "\\bigcap": TK_BIGCAP,
         "\\%": TK_PERCENT,
-        "\\rightarrow": TK_RIGHTARROW,
-        "\\longrightarrow": TK_RIGHTARROW,
         "\\binom": TK_BINOM,
         "\\begin": TK_BEGIN,
         "\\end": TK_END,

@@ -142,6 +142,7 @@ import {rules} from "./rules.js";
       case Model.NSUBSET:
       case Model.NSUPSET:
       case Model.APPROX:
+      case Model.IMPLIES:
       case Model.PERP:
       case Model.PROPTO:
       case Model.PARALLEL:
@@ -149,6 +150,13 @@ import {rules} from "./rules.js";
       case Model.SIM:
       case Model.CONG:
       case Model.RIGHTARROW:
+      case Model.LEFTARROW:
+      case Model.LONGRIGHTARROW:
+      case Model.LONGLEFTARROW:
+      case Model.OVERRIGHTARROW:
+      case Model.OVERLEFTARROW:
+      case Model.LONGLEFTRIGHTARROW:
+      case Model.OVERLEFTRIGHTARROW:
         node = visit.equals(node, resume);
         break;
       case Model.PAREN:
