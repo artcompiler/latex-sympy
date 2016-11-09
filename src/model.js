@@ -1204,11 +1204,7 @@ export let Model = (function () {
           next();
           let args = [expr];
           next({oneCharToken: true});
-          args.push(equalExpr());
-          if (hd() === TK_CARET) {
-            next({oneCharToken: true});
-            args.push(equalExpr());
-          }
+          args.push(newNode(Model.SUBSCRIPT, [equalExpr()]));
           expr = newNode(Model.PIPE, args);
         } else if (isChemCore() && (t === TK_ADD || t === TK_SUB) && lookahead() === TK_RIGHTBRACE) {
           next();
@@ -1722,7 +1718,8 @@ export let Model = (function () {
     function isImplies(t) {
       return t === TK_IMPLIES || t === TK_RIGHTARROW || t === TK_LEFTARROW ||
              t === TK_LONGRIGHTARROW || t === TK_LONGLEFTARROW || t === TK_OVERRIGHTARROW ||
-             t === TK_OVERLEFTARROW || t === TK_LONGLEFTRIGHTARROW || t === TK_OVERLEFTRIGHTARROW;
+             t === TK_OVERLEFTARROW || t === TK_LONGLEFTRIGHTARROW || t === TK_OVERLEFTRIGHTARROW ||
+             t === TK_VERTICALBAR;
     }
     function impliesExpr() {
       let expr = equalExpr();
