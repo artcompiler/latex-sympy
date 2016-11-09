@@ -1,6 +1,22 @@
 {
   "tests": [
     {
+      "source": "\\sqrt{4*17}",
+      "expected": "square root of 4 times 17 end root"
+    },
+    {
+      "source": "x|y",
+      "expected": "x divides y"
+    },
+    {
+      "source": "\\psi",
+      "expected": "psi"
+    },
+    {
+      "source": "x",
+      "expected": "x"
+    },
+    {
       "source": "\\beta",
       "expected": "beta"
     },
@@ -1158,15 +1174,7 @@
     },
     {
       "source": "f(3) = 3*4^3",
-      "expected": "f of 3 equals 3 times 4 cubed "
-    },
-    {
-      "source": "f(3) = 3*4^3",
       "expected": "f of 3 equals 3 times 4 cubed"
-    },
-    {
-      "source": "f(3) = 3*4^3 = 192",
-      "expected": "f of 3 equals 3 times 4 cubed comma 3 times 4 cubed equals 192"
     },
     {
       "source": "3\\times4\\times4\\times4",
@@ -1505,10 +1513,6 @@
       "expected": "1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
     },
     {
-      "source": "V=1/3\\pi*(12/5)^2\\times(9/5+16/5)",
-      "expected": "cap v equals 1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
-    },
-    {
       "source": "10+2\\sqrt{37}",
       "expected": "10 plus 2 square root of 37"
     },
@@ -1567,6 +1571,10 @@
     {
       "source": "\\pi * 5^2*5*\\tan{30*2*\\pi/360}/ 3 * 20",
       "expected": "pi times 5 squared times 5 times tangent the fraction with numerator 30 times 2 times pi over 360 and denominator 3 times 20"
+    },
+    {
+      "source": "x|_{x=2}",
+      "expected": "x evaluated at x equals 2"
     },
     {
       "source": "(-3-9)/(6-0) * (-7+3)/(-2-6) = -1",
@@ -1661,6 +1669,10 @@
       "expected": "y equals 4 thirds x plus 10"
     },
     {
+      "source": "x^2+3x+4|_2^3",
+      "expected": "x squared plus 3 x plus 4 evaluated at 3 minus the same expression evaluated at 2"
+    },
+    {
       "source": "y=\\frac{4}{3}*x+10",
       "expected": "y equals 4 thirds times x plus 10"
     },
@@ -1725,12 +1737,12 @@
       "expected": "open paren 25 and 5 sevenths comma 44 and 2 sevenths close paren"
     },
     {
-      "source": "\\sum_{x=1}^2x",
-      "expected": "the sum from x equals 1 to 2 of x"
-    },
-    {
       "source": "f(165) = \\sqrt{165\\cdot8^2+x}+y",
       "expected": "f of 165 equals square root of 165 times 8 squared plus x end root plus y"
+    },
+    {
+      "source": "\\sum_{x=1}^2x",
+      "expected": "the sum from x equals 1 to 2 of x"
     },
     {
       "source": "y-8=-3/2(x-5)",
@@ -1865,10 +1877,6 @@
       "expected": "square root of 8"
     },
     {
-      "source": "(4+\\frac{5}{\\sqrt{2}}, 3+\\frac{5}{\\sqrt{2}})",
-      "expected": "open paren 4 plus the fraction with numerator 5 and denominator square root of 2 comma 3 plus the fraction with numerator 5 and denominator square root of 2 close paren"
-    },
-    {
       "source": "\\sqrt{68}",
       "expected": "square root of 68"
     },
@@ -1921,10 +1929,6 @@
       "expected": "the fraction with numerator 1273 minus 1000 and denominator 16 times 2 squared times pi divided by 12 cubed times 491"
     },
     {
-      "source": "\\$1500=\\$115 \\text {per ton}/2200 \\text{lbs} * 988\\text{lbs per block} \\cdot x",
-      "expected": "1500 dollars equals 115 dollars times 988 lbs per block times x"
-    },
-    {
       "source": "\\frac{\\sqrt{3600+6400}}{8} \\text{ meters per second}",
       "expected": "the fraction with numerator square root of 3600 plus 6400 end root and denominator 8 meters per second"
     },
@@ -1937,16 +1941,164 @@
       "expected": "open paren the fraction with numerator a squared b and denominator a squared plus b squared comma the fraction with numerator a b squared and denominator a squared plus b squared close paren"
     },
     {
-      "source": "\\sqrt{4*17}",
-      "expected": "square root of 4 times 17 end root"
+      "source": "V=1/3\\pi*(12/5)^2\\times(9/5+16/5)",
+      "expected": "cap v equals 1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
     },
     {
-      "source": "\\psi",
-      "expected": "psi"
+      "source": "V=1/3\\pi*(12/5)^2\\times(9/5+16/5)",
+      "expected": "cap v equals 1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
     },
     {
-      "source": "x",
-      "expected": "x"
+      "source": "(4+\\frac{5}{\\sqrt{2}}, 3+\\frac{5}{\\sqrt{2}})",
+      "expected": "open paren 4 plus the fraction with numerator 5 and denominator square root of 2 comma 3 plus the fraction with numerator 5 and denominator square root of 2 close paren"
+    },
+    {
+      "source": "\\bigtriangleup \\text {EAB} \\cong \\bigtriangleup \\text{EA'B'}",
+      "expected": "bigtriangleup EAB is congruent to bigtriangleup EA'B'"
+    },
+    {
+      "source": "\\overline{A'B'} \\parallel \\overline{CD}",
+      "expected": "line segment cap a prime cap b prime is parallel to line segment cap c cap d"
+    },
+    {
+      "source": "\\measuredangle{EAB} = \\measuredangle{ECD}",
+      "expected": "measure of angle cap e cap a cap b equals measure of angle cap e cap c cap d"
+    },
+    {
+      "source": "\\measuredangle{B'EA'} = \\measuredangle{CED}",
+      "expected": "measure of angle cap b prime cap e cap a prime equals measure of angle cap c cap e cap d"
+    },
+    {
+      "source": "\\overline{AB} \\parallel \\overline{CD}",
+      "expected": "line segment cap a cap b is parallel to line segment cap c cap d"
+    },
+    {
+      "source": "\\overline{A'B'} \\parallel \\overline{CD}",
+      "expected": "line segment cap a prime cap b prime is parallel to line segment cap c cap d"
+    },
+    {
+      "source": "(1,-1)",
+      "expected": "open paren 1 comma negative 1 close paren"
+    },
+    {
+      "source": "y=\\frac{1}{8}(x-1)^2-1",
+      "expected": "y equals 1 eighth open paren x minus 1 close paren squared minus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}(x-1)^2-1",
+      "expected": "y equals 1 eighth open paren x minus 1 close paren squared minus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}(0-1)^2-1",
+      "expected": "y equals 1 eighth open paren 0 minus 1 close paren squared minus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}(-1)^2-1",
+      "expected": "y equals 1 eighth open paren negative 1 close paren squared minus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}*(-1*-1)-1",
+      "expected": "y equals 1 eighth times open paren negative 1 times negative 1 close paren minus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}-1",
+      "expected": "y equals 1 eighth minus 1"
+    },
+    {
+      "source": "y=\\frac{-7}{8}",
+      "expected": "y equals the fraction with numerator negative 7 and denominator 8"
+    },
+    {
+      "source": "|-7/8-(-3)|",
+      "expected": "start absolute value the fraction with numerator negative 7 and denominator 8 minus open paren negative 3 close paren end absolute value"
+    },
+    {
+      "source": "\\sqrt{(0-1)^2+(-7/8-1)^2}",
+      "expected": "square root of open paren 0 minus 1 close paren squared plus open paren the fraction with numerator negative 7 and denominator 8 minus 1 close paren squared end root"
+    },
+    {
+      "source": "\\sqrt{(0-1)^2+(-15/8)^2}",
+      "expected": "square root of open paren 0 minus 1 close paren squared plus open paren the fraction with numerator negative 15 and denominator 8 close paren squared end root"
+    },
+    {
+      "source": "-7/8-(-3)",
+      "expected": "the fraction with numerator negative 7 and denominator 8 minus open paren negative 3 close paren"
+    },
+    {
+      "source": "-7/8-(-24/8)",
+      "expected": "the fraction with numerator negative 7 and denominator 8 minus open paren the fraction with numerator negative 24 and denominator 8 close paren"
+    },
+    {
+      "source": "\\frac{-7}{8}-(\\frac{-3}{1})",
+      "expected": "the fraction with numerator negative 7 and denominator 8 minus open paren the fraction with numerator negative 3 and denominator 1 close paren"
+    },
+    {
+      "source": "\\frac{-7}{8}-(\\frac{-24}{8})",
+      "expected": "the fraction with numerator negative 7 and denominator 8 minus open paren the fraction with numerator negative 24 and denominator 8 close paren"
+    },
+    {
+      "source": "\\frac{-7+24}{8}",
+      "expected": "the fraction with numerator negative 7 plus 24 and denominator 8"
+    },
+    {
+      "source": "|\\frac{-7}{8}-(-3)|",
+      "expected": "start absolute value the fraction with numerator negative 7 and denominator 8 minus open paren negative 3 close paren end absolute value"
+    },
+    {
+      "source": "y = \\frac{1}{8}(x-2)^2+1",
+      "expected": "y equals 1 eighth open paren x minus 2 close paren squared plus 1"
+    },
+    {
+      "source": "y+1 = \\sqrt{(x-2)^2+(y-3)^2}",
+      "expected": "y plus 1 equals square root of open paren x minus 2 close paren squared plus open paren y minus 3 close paren squared end root"
+    },
+    {
+      "source": "\\begin{bmatrix}1&2&3\\end{bmatrix}",
+      "expected": "The 1 by 3 row matrix 1 2 3"
+    },
+    {
+      "source": "f(-2) = -2^3+4(-2)^2+6(-2)+4",
+      "expected": "f of open paren negative 2 close paren equals negative 2 cubed plus 4 open paren negative 2 close paren squared plus 6 times open paren negative 2 close paren plus 4"
+    },
+    {
+      "source": "\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}",
+      "expected": "The 3 by 1 column matrix 1 2 3"
+    },
+    {
+      "source": "1464=12(10^2+2*10+2)",
+      "expected": "1464 equals 12 times open paren 10 squared plus 2 times 10 plus 2 close paren"
+    },
+    {
+      "source": "1464=(10+2)(10^2+2*10+2)",
+      "expected": "1464 equals open paren 10 plus 2 close paren times open paren 10 squared plus 2 times 10 plus 2 close paren"
+    },
+    {
+      "source": "f(x) = (x+2)(x-(-1+i))(x-(-1-i))",
+      "expected": "f of x equals open paren x plus 2 close paren times open paren x minus open paren negative 1 plus i close paren close paren times open paren x minus open paren negative 1 minus i close paren close paren"
+    },
+    {
+      "source": "\\begin{bmatrix}a&b&c\\\\x&y&z\\end{bmatrix}",
+      "expected": "The 2 by 3 matrix row 1, a b c row 2, x y z"
+    },
+    {
+      "source": "(3/5, 4/5)",
+      "expected": "open paren 3 fifths comma 4 fifths close paren"
+    },
+    {
+      "source": "5,12,13",
+      "expected": "5 comma 12 comma 13"
+    },
+    {
+      "source": "\\begin{bmatrix}1&2&3&4\\\\5&6&7&8\\end{bmatrix}",
+      "expected": "The 2 by 4 matrix, row 1, column 1, 1 column 2, 2 column 3, 3 column 4, 4 row 2, column 1, 5 column 2, 6 column 3, 7 column 4, 8"
+    },
+    {
+      "source": "(a/c)^2+(b/c)^2 = 1\\implies a^2+b^2=c^2",
+      "expected": "open paren a over c close paren squared plus open paren b over c close paren squared equals 1 implies a squared plus b squared equals c squared"
+    },
+    {
+      "source": "{x|x<5}",
+      "expected": "start set x such that x is less than 5 end set"
     }
   ]
 }
