@@ -101,6 +101,7 @@ import {rules} from "./rules.js";
       case Model.BIGCUP:
       case Model.CAP:
       case Model.BIGCAP:
+      case Model.PIPE:
       case Model.ION:
       case Model.POW:
       case Model.SUBSCRIPT:

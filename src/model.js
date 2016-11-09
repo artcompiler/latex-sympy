@@ -246,6 +246,7 @@ export let Model = (function () {
     EXP: "exp",
     TO: "to",
     SUM: "sum",
+    PIPE: "pipe",
     INT: "int",
     PROD: "prod",
     CUP: "cup",
@@ -532,6 +533,7 @@ export let Model = (function () {
     tokenToOperator[TK_LIM] = OpStr.LIM;
     tokenToOperator[TK_EXP] = OpStr.EXP;
     tokenToOperator[TK_TO] = OpStr.TO;
+    tokenToOperator[TK_VERTICALBAR] = OpStr.PIPE;
     tokenToOperator[TK_SUM] = OpStr.SUM;
     tokenToOperator[TK_INT] = OpStr.INT;
     tokenToOperator[TK_PROD] = OpStr.PROD;
@@ -1197,6 +1199,17 @@ export let Model = (function () {
               unaryNode(Model.VAR, ["\\degree"])
             ]);
           }
+        } else if (t === TK_VERTICALBAR && lookahead() === TK_UNDERSCORE) {
+          // x|_{x=3}, x|_1^2
+          next();
+          let args = [expr];
+          next({oneCharToken: true});
+          args.push(equalExpr());
+          if (hd() === TK_CARET) {
+            next({oneCharToken: true});
+            args.push(equalExpr());
+          }
+          expr = newNode(Model.PIPE, args);
         } else if (isChemCore() && (t === TK_ADD || t === TK_SUB) && lookahead() === TK_RIGHTBRACE) {
           next();
           // 3+, ion
