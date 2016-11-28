@@ -1884,7 +1884,10 @@ export let Model = (function () {
         "\\mathbf": TK_MATHBF,
         "\\abs": TK_ABS,
         "\\dot": TK_DOT,
-        "\\MathQuillMathField": TK_MATHFIELD
+        "\\MathQuillMathField": TK_MATHFIELD,
+        "\\ldots": TK_VAR,  // ... and var are close syntactic alternatives
+        "\\vdots": TK_VAR,
+        "\\ddots": TK_VAR,
       };
       let identifiers = keys(env);
       // Start scanning for one token.
