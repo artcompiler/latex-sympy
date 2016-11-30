@@ -271,7 +271,7 @@ export let Model = (function () {
     MATHBF: "mathbf",
     DOT: "dot",
     MATHFIELD: "mathfield",
-    NONE: "none"
+    NONE: "none",
   };
 
   forEach(keys(OpStr), function (v, i) {
@@ -1362,7 +1362,10 @@ export let Model = (function () {
       var t, expr, explicitOperator = false, isFraction, args = [];
       var n0;
       expr = fractionExpr();
-      if (expr.op === Model.MUL && !expr.isBinomial) {
+      if (expr.op === Model.MUL &&
+          !expr.isBinomial &&
+          expr.args[expr.args.length - 1].op !== Model.VAR &&
+          expr.args[expr.args.length - 1].args[0] === "\\degree") {
         // FIXME binomials and all other significant syntax should not be desugared
         // during parsing. It breaks equivLiteral and equivSyntax.
         args = expr.args;
@@ -1419,6 +1422,11 @@ export let Model = (function () {
                      (n0 = isRepeatingDecimal([args[args.length-1], expr]))) {
             args.pop();
             expr = n0;
+          } else if (expr.op === Model.VAR &&
+                     expr.args[0].indexOf("'") === 0) {
+            var t = args.pop();
+            expr = binaryNode(Model.MUL, [t, expr]);
+            expr.isImplicit = true;
           } else if (!isChemCore() && isPolynomialTerm(args[args.length-1], expr)) {
             // 2x, -3y but not CH (in chem)
             expr.isPolynomial = true;
@@ -1962,6 +1970,8 @@ export let Model = (function () {
           case 36:  // dollar
             lexeme += String.fromCharCode(c);
             return TK_VAR;
+          case 39:  // prime (single quote)
+            return prime(c);
           case 60:  // left angle
             if (src.charCodeAt(curIndex) === 61) { // equals
               curIndex++;
@@ -2096,6 +2106,15 @@ export let Model = (function () {
           }
         }
         return tk;
+      }
+      function prime(c) {
+        assert(c === 39);
+        lexeme = "'";
+        while (src.charCodeAt(curIndex) === 39) {
+          curIndex++;
+          lexeme += "'";
+        }
+        return TK_VAR;
       }
       // Return a scanner object.
       return {
