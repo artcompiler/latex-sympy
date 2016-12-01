@@ -1839,6 +1839,7 @@ export let Model = (function () {
         "\\gt": TK_GT,
         "\\ge": TK_GE,
         "\\ne": TK_NE,
+        "\\neq": TK_NE,
         "\\ngtr": TK_NGTR,
         "\\nless": TK_NLESS,
         "\\ni": TK_NI,
