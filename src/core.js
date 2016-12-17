@@ -101,6 +101,7 @@ import {rules} from "./rules.js";
       case Model.BIGCUP:
       case Model.CAP:
       case Model.BIGCAP:
+      case Model.PIPE:
       case Model.ION:
       case Model.POW:
       case Model.SUBSCRIPT:
@@ -142,6 +143,7 @@ import {rules} from "./rules.js";
       case Model.NSUBSET:
       case Model.NSUPSET:
       case Model.APPROX:
+      case Model.IMPLIES:
       case Model.PERP:
       case Model.PROPTO:
       case Model.PARALLEL:
@@ -149,6 +151,13 @@ import {rules} from "./rules.js";
       case Model.SIM:
       case Model.CONG:
       case Model.RIGHTARROW:
+      case Model.LEFTARROW:
+      case Model.LONGRIGHTARROW:
+      case Model.LONGLEFTARROW:
+      case Model.OVERRIGHTARROW:
+      case Model.OVERLEFTARROW:
+      case Model.LONGLEFTRIGHTARROW:
+      case Model.OVERLEFTRIGHTARROW:
         node = visit.equals(node, resume);
         break;
       case Model.PAREN:
@@ -1199,6 +1208,9 @@ export let Core = (function () {
     "hr": { type: "unit", value: 3600, base: "s" },
     "day": { type: "unit", value: 24*3600, base: "s" },
     "\\radian": { type: "unit", value: u, base: "radian" },
+    "'": { type: "unit", value: 1, base: "prime" },
+    "''": { type: "unit", value: 1, base: "doubleprime" },
+    "'''": { type: "unit", value: 1, base: "tripleprime" },
     "\\degree": { type: "unit", value: Math.PI / 180, base: "radian" },
     "\\degree K": { type: "unit", value: u, base: "\\degree K" },
     "\\degree C": { type: "unit", value: u, base: "\\degree C" },
