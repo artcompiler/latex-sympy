@@ -989,8 +989,10 @@ export let Model = (function () {
         if (hd() === TK_UNDERSCORE) {
           next({oneCharToken: true});
           args.push(primaryExpr());
-          eat(TK_CARET, {oneCharToken: true});              // If we have a subscript, then we expect a superscript
-          args.push(primaryExpr());
+          if (hd() === TK_CARET) {
+            eat(TK_CARET, {oneCharToken: true});
+            args.push(primaryExpr());
+          }
         }
         if (hd()) {
           args.push(commaExpr());
