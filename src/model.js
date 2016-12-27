@@ -1554,7 +1554,9 @@ export let Model = (function () {
            args[0].op === Model.VAR && args[0].args[0] === "?" ||
            args[0].op === Model.TYPE && args[0].args[0].op === Model.VAR && args[0].args[0].args[0] === "decimal")) {
         // No lbrk so we are in the same number literal.
-        if (args[1].lbrk === 40 && isInteger(args[1])) {
+        if (args[1].lbrk === 40 &&
+            (isInteger(args[1]) ||
+             args[1].op === Model.TYPE && args[1].args[0].op === Model.VAR && args[1].args[0].args[0] === "integer")) {
           n0 = args[0];
           n1 = args[1];
         } else if (!args[1].lbrk && args[1].op === Model.OVERLINE) {
