@@ -1551,7 +1551,8 @@ export let Model = (function () {
       // } else
       if (!args[0].lbrk &&
           (args[0].op === Model.NUM && args[0].numberFormat === "decimal" ||
-           args[0].op === Model.VAR && args[0].args[0] === "?")) {
+           args[0].op === Model.VAR && args[0].args[0] === "?" ||
+           args[0].op === Model.TYPE && args[0].args[0].op === Model.VAR && args[0].args[0].args[0] === "decimal")) {
         // No lbrk so we are in the same number literal.
         if (args[1].lbrk === 40 && isInteger(args[1])) {
           n0 = args[0];
