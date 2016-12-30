@@ -1,6 +1,14 @@
 {
   "tests": [
     {
+      "source": "\\emptyset",
+      "expected": "empty set"
+    },
+    {
+      "source": "10qt",
+      "expected": "10 quarts"
+    },
+    {
       "source": "\\beta",
       "expected": "beta"
     },
@@ -29,6 +37,10 @@
       "expected": "intersection of x and y"
     },
     {
+      "source": "10gal",
+      "expected": "10 gallons"
+    },
+    {
       "source": "x \\cup y",
       "expected": "union of x and y"
     },
@@ -43,6 +55,10 @@
     {
       "source": "10cs",
       "expected": "10 centiseconds"
+    },
+    {
+      "source": "\\angle",
+      "expected": "angle"
     },
     {
       "source": "x \\not\\supset y",
@@ -61,24 +77,8 @@
       "expected": "x does not contain y"
     },
     {
-      "source": "\\emptyset",
-      "expected": "empty set"
-    },
-    {
-      "source": "\\angle",
-      "expected": "angle"
-    },
-    {
       "source": "10oz",
       "expected": "10 ounces"
-    },
-    {
-      "source": "10gal",
-      "expected": "10 gallons"
-    },
-    {
-      "source": "10qt",
-      "expected": "10 quarts"
     },
     {
       "source": "10kg",
@@ -89,16 +89,16 @@
       "expected": "10 nanograms"
     },
     {
+      "source": "10cm",
+      "expected": "10 centimeters"
+    },
+    {
       "source": "10m",
       "expected": "10 meters"
     },
     {
       "source": "10km",
       "expected": "10 kilometers"
-    },
-    {
-      "source": "10cm",
-      "expected": "10 centimeters"
     },
     {
       "source": "10L",
@@ -109,16 +109,16 @@
       "expected": "triangle"
     },
     {
+      "source": "\\mathbb{Q}",
+      "expected": "the rational numbers"
+    },
+    {
       "source": "\\measuredangle",
       "expected": "measure of angle"
     },
     {
       "source": "10\\mum",
       "expected": "10 micrometers"
-    },
-    {
-      "source": "\\mathbb{Q}",
-      "expected": "the rational numbers"
     },
     {
       "source": "\\mathbb{N}",
@@ -129,12 +129,12 @@
       "expected": "z 3"
     },
     {
-      "source": "\\bigcup S_n",
-      "expected": "union cap s sub n"
-    },
-    {
       "source": "x \\cdot y",
       "expected": "x times y"
+    },
+    {
+      "source": "\\bigcup S_n",
+      "expected": "union cap s sub n"
     },
     {
       "source": "x \\times y",
@@ -185,16 +185,16 @@
       "expected": "sine cubed x"
     },
     {
+      "source": "g(x,y,z)",
+      "expected": "g of open paren x comma y comma z close paren"
+    },
+    {
       "source": "g(x,y)",
       "expected": "g of open paren x comma y close paren"
     },
     {
       "source": "\\sin^4 x",
       "expected": "4th power of sine x"
-    },
-    {
-      "source": "g(x,y,z)",
-      "expected": "g of open paren x comma y comma z close paren"
     },
     {
       "source": "\\sin^{-1} x",
@@ -217,12 +217,12 @@
       "expected": "1 pint"
     },
     {
-      "source": "1ns",
-      "expected": "1 nanosecond"
-    },
-    {
       "source": "f_1(x)",
       "expected": "f sub 1 of x"
+    },
+    {
+      "source": "1ns",
+      "expected": "1 nanosecond"
     },
     {
       "source": "(f+g)(x)",
@@ -365,6 +365,10 @@
       "expected": "inverse hyperbolic tangent x"
     },
     {
+      "source": "\\sqrt[3]{x+1}",
+      "expected": "cube root of x plus 1"
+    },
+    {
       "source": "\\sech^{-1} x",
       "expected": "inverse hyperbolic secant x"
     },
@@ -401,16 +405,20 @@
       "expected": "cube root of 2"
     },
     {
-      "source": "\\sqrt[3]{x+1}",
-      "expected": "cube root of x plus 1"
-    },
-    {
       "source": "\\sqrt[4]{2}",
       "expected": "4th root of 2"
     },
     {
+      "source": "\\Kappa",
+      "expected": "cap kappa"
+    },
+    {
       "source": "\\sqrt[5]{2}",
       "expected": "5th root of 2"
+    },
+    {
+      "source": "\\Lambda",
+      "expected": "cap lambda"
     },
     {
       "source": "\\sqrt[i]{2}",
@@ -423,6 +431,10 @@
     {
       "source": "\\sqrt[n]{2}",
       "expected": "n th root of 2"
+    },
+    {
+      "source": "\\Eta",
+      "expected": "cap eta"
     },
     {
       "source": "5^2",
@@ -453,24 +465,12 @@
       "expected": "tau"
     },
     {
-      "source": "\\upsilon",
-      "expected": "upsilon"
-    },
-    {
-      "source": "\\Eta",
-      "expected": "cap eta"
-    },
-    {
       "source": "\\Iota",
       "expected": "cap iota"
     },
     {
-      "source": "\\Kappa",
-      "expected": "cap kappa"
-    },
-    {
-      "source": "\\Lambda",
-      "expected": "cap lambda"
+      "source": "\\upsilon",
+      "expected": "upsilon"
     },
     {
       "source": "\\Mu",
@@ -537,8 +537,16 @@
       "expected": "5 raised to the 1 fourth x cubed power"
     },
     {
+      "source": "x'''",
+      "expected": "x triple prime"
+    },
+    {
       "source": "6^(x+1)^4",
       "expected": "6 raised to the exponent open paren x plus 1 close paren to the 4th power end exponent"
+    },
+    {
+      "source": "5^{\\frac{3}{5}^2}",
+      "expected": "5 raised to the 3 fifths squared power"
     },
     {
       "source": "6^x^4",
@@ -553,6 +561,10 @@
       "expected": "x sub 1"
     },
     {
+      "source": "x'",
+      "expected": "x prime"
+    },
+    {
       "source": "5^{x^2}",
       "expected": "5 raised to the x squared power"
     },
@@ -561,24 +573,12 @@
       "expected": "5 raised to the 1 half power"
     },
     {
-      "source": "5^{\\frac{3}{5}^2}",
-      "expected": "5 raised to the 3 fifths squared power"
-    },
-    {
-      "source": "x'",
-      "expected": "x prime"
-    },
-    {
       "source": "1\\frac{2}{3}",
       "expected": "1 and 2 thirds"
     },
     {
       "source": "(x,y)",
       "expected": "open paren x comma y close paren"
-    },
-    {
-      "source": "x'''",
-      "expected": "x triple prime"
     },
     {
       "source": "x''",
@@ -653,12 +653,8 @@
       "expected": "rise over run"
     },
     {
-      "source": "V=\\pi * r^2 * \\text{height",
-      "expected": "cap v equals pi times r squared times height"
-    },
-    {
-      "source": "x < y",
-      "expected": "x is less than y"
+      "source": "x:y",
+      "expected": "ratio of x to y"
     },
     {
       "source": "1*10+3+8*1/10",
@@ -681,10 +677,6 @@
       "expected": "x not less than y"
     },
     {
-      "source": "x:y",
-      "expected": "ratio of x to y"
-    },
-    {
       "source": "10%",
       "expected": "10 percent"
     },
@@ -703,6 +695,10 @@
     {
       "source": "\\sqrt[n]{x}",
       "expected": "n th root of x"
+    },
+    {
+      "source": "\\Omicron",
+      "expected": "cap omicron"
     },
     {
       "source": "\\partial",
@@ -725,16 +721,8 @@
       "expected": "x is greater than or equal to y"
     },
     {
-      "source": "f(x) = 1/2 \\times \\abs{x}",
-      "expected": "f of x equals 1 half times absolute value of x"
-    },
-    {
       "source": "x+y",
       "expected": "x plus y"
-    },
-    {
-      "source": "f(x) = 1/2 \\cdot \\abs{x}",
-      "expected": "f of x equals 1 half times absolute value of x"
     },
     {
       "source": "\\arccos x",
@@ -747,10 +735,6 @@
     {
       "source": "x \\pm y",
       "expected": "x plus or minus y"
-    },
-    {
-      "source": "x = y",
-      "expected": "x equals y"
     },
     {
       "source": "x \\le y",
@@ -777,6 +761,10 @@
       "expected": "x perpendicular to y"
     },
     {
+      "source": "\\mu",
+      "expected": "mu"
+    },
+    {
       "source": "\\lim_{x\\to {y}} ",
       "expected": "limit x to y"
     },
@@ -791,6 +779,10 @@
     {
       "source": "\\gamma",
       "expected": "gamma"
+    },
+    {
+      "source": "\\Zeta",
+      "expected": "cap zeta"
     },
     {
       "source": "i",
@@ -829,10 +821,6 @@
       "expected": "lambda"
     },
     {
-      "source": "\\mu",
-      "expected": "mu"
-    },
-    {
       "source": "\\xi",
       "expected": "xi"
     },
@@ -851,6 +839,14 @@
     {
       "source": "\\omicron",
       "expected": "omicron"
+    },
+    {
+      "source": "\\Theta",
+      "expected": "cap theta"
+    },
+    {
+      "source": "\\Xi",
+      "expected": "cap xi"
     },
     {
       "source": "\\pi",
@@ -889,20 +885,8 @@
       "expected": "cap epsilon"
     },
     {
-      "source": "\\Zeta",
-      "expected": "cap zeta"
-    },
-    {
-      "source": "\\Theta",
-      "expected": "cap theta"
-    },
-    {
-      "source": "\\Xi",
-      "expected": "cap xi"
-    },
-    {
-      "source": "\\Omicron",
-      "expected": "cap omicron"
+      "source": "x \\subset y",
+      "expected": "x is a strict subset of y"
     },
     {
       "source": "\\Rho",
@@ -917,8 +901,8 @@
       "expected": "arctan x"
     },
     {
-      "source": "f(x) = 8*\\sqrt{330}",
-      "expected": "f of x equals 8 times square root of 330"
+      "source": "x \\not\\subset y",
+      "expected": "x is not a strict subset of y"
     },
     {
       "source": "x \\ni y",
@@ -935,14 +919,6 @@
     {
       "source": "x \\not\\supseteq y",
       "expected": "x is not a superset of y"
-    },
-    {
-      "source": "x \\not\\subset y",
-      "expected": "x is not a strict subset of y"
-    },
-    {
-      "source": "x \\subset y",
-      "expected": "x is a strict subset of y"
     },
     {
       "source": "\\ldots",
@@ -969,28 +945,12 @@
       "expected": "vertical dot dot dot"
     },
     {
-      "source": "\\angle A = 32^{\\circ}",
-      "expected": "angle cap a equals 32 degrees"
-    },
-    {
-      "source": "f(x) = .5 \\cdot \\abs{x}",
-      "expected": "f of x equals point 5 times absolute value of x"
-    },
-    {
-      "source": "f(x) = 1/2 x^2",
-      "expected": "f of x equals 1 half x squared"
-    },
-    {
-      "source": "f(x) = 1/2 \\cdot x^2",
-      "expected": "f of x equals 1 half times x squared"
-    },
-    {
-      "source": "f(x) = 1/2 \\times x^2",
-      "expected": "f of x equals 1 half times x squared"
-    },
-    {
       "source": "a \\parallelogram b",
       "expected": "a parallelogram b"
+    },
+    {
+      "source": "1mL",
+      "expected": "1 milliliter"
     },
     {
       "source": "\\infty",
@@ -1007,10 +967,6 @@
     {
       "source": "\\rightarrow{x}",
       "expected": "right arrow x"
-    },
-    {
-      "source": "1mL",
-      "expected": "1 milliliter"
     },
     {
       "source": "10\\mus",
@@ -1097,16 +1053,16 @@
       "expected": "10 miles"
     },
     {
+      "source": "10cup",
+      "expected": "10 cups"
+    },
+    {
       "source": "x \\dot y",
       "expected": "x times y"
     },
     {
       "source": "10pt",
       "expected": "10 pints"
-    },
-    {
-      "source": "10cup",
-      "expected": "10 cups"
     },
     {
       "source": "10lb",
@@ -1117,12 +1073,12 @@
       "expected": "3 times 4 raised to the 12 power minus 3 times 4 raised to the 10 power"
     },
     {
-      "source": "\\circledot C",
-      "expected": "circle cap c"
+      "source": "1qt",
+      "expected": "1 quart"
     },
     {
-      "source": "f(n) = 3\\cdot4^n",
-      "expected": "f of n equals 3 times 4 to the n th power"
+      "source": "\\circledot C",
+      "expected": "circle cap c"
     },
     {
       "source": "\\arcsin{20/21}",
@@ -1141,48 +1097,24 @@
       "expected": "4 squared times 4 times 3 "
     },
     {
-      "source": "f(3) = 3*4^3",
-      "expected": "f of 3 equals 3 times 4 cubed"
-    },
-    {
       "source": "3\\times4\\times4\\times4",
       "expected": "3 times 4 times 4 times 4"
     },
     {
-      "source": "f(n) = 2^n\\times a",
-      "expected": "f of n equals 2 to the n th power times a"
-    },
-    {
-      "source": "f(x) = 1/2 * x^2",
-      "expected": "f of x equals 1 half times x squared"
-    },
-    {
-      "source": "f(n) = a\\times2^n",
-      "expected": "f of n equals a times 2 to the n th power"
-    },
-    {
-      "source": "h(t) = 2(t-11)^2 - 50",
-      "expected": "h of t equals 2 open paren t minus 11 close paren squared minus 50"
+      "source": "10ft",
+      "expected": "10 feet"
     },
     {
       "source": "(-32-0)/(8-6)",
       "expected": "the fraction with numerator open paren negative 32 minus 0 close paren and denominator open paren 8 minus 6 close paren"
     },
     {
-      "source": "f(x) = 1/2 \\times |x|",
-      "expected": "f of x equals 1 half times absolute value of x"
-    },
-    {
-      "source": "f(x) = 1/2 * |x|",
-      "expected": "f of x equals 1 half times absolute value of x"
-    },
-    {
-      "source": "f(x) = 1/2 \\cdot |x|",
-      "expected": "f of x equals 1 half times absolute value of x"
-    },
-    {
       "source": "\\frac{0--32}{16-14}",
       "expected": "the fraction with numerator 0 minus negative 32 and denominator 16 minus 14 "
+    },
+    {
+      "source": "\\angle A",
+      "expected": "angle cap a"
     },
     {
       "source": "32/2",
@@ -1205,10 +1137,6 @@
       "expected": "1 ounce"
     },
     {
-      "source": "1qt",
-      "expected": "1 quart"
-    },
-    {
       "source": "(0--32) \\div (16-14)",
       "expected": "open paren 0 minus negative 32 close paren divided by open paren 16 minus 14 close paren"
     },
@@ -1229,14 +1157,6 @@
       "expected": "x is congruent to y"
     },
     {
-      "source": "\\angle A",
-      "expected": "angle cap a"
-    },
-    {
-      "source": "10ft",
-      "expected": "10 feet"
-    },
-    {
       "source": "x",
       "expected": "x"
     },
@@ -1253,6 +1173,10 @@
       "expected": "1 half over 2 thirds"
     },
     {
+      "source": "\\parallelogram x",
+      "expected": "parallelogram x"
+    },
+    {
       "source": "-\\frac{7}{8}",
       "expected": "negative 7 eighths"
     },
@@ -1261,24 +1185,8 @@
       "expected": "1 inch"
     },
     {
-      "source": "f(x) = 1/2 * \\abs{x}",
-      "expected": "f of x equals 1 half times absolute value of x"
-    },
-    {
-      "source": "\\tan x = 8/15",
-      "expected": "tangent x equals 8 over 15"
-    },
-    {
-      "source": "f(x) = 1/2 \\abs{x}",
-      "expected": "f of x equals 1 half absolute value of x"
-    },
-    {
       "source": "x+2",
       "expected": "x plus 2"
-    },
-    {
-      "source": "\\parallelogram x",
-      "expected": "parallelogram x"
     },
     {
       "source": "50331648 - 3145728",
@@ -1291,10 +1199,6 @@
     {
       "source": "10\\muL",
       "expected": "10 microliters"
-    },
-    {
-      "source": "V=\\pi * r^2 * h",
-      "expected": "cap v equals pi times r squared times h"
     },
     {
       "source": "x \\backslash y",
@@ -1317,30 +1221,6 @@
       "expected": "x is not parallel to y"
     },
     {
-      "source": "\\cos r = 8/17",
-      "expected": "cosine r equals 8 over 17"
-    },
-    {
-      "source": "\\tan r = 15/8",
-      "expected": "tangent r equals 15 eighths"
-    },
-    {
-      "source": "\\sin r = 15/17",
-      "expected": "sine r equals 15 over 17"
-    },
-    {
-      "source": "\\sin x = 8/17",
-      "expected": "sine x equals 8 over 17"
-    },
-    {
-      "source": "\\cos x = 15/17",
-      "expected": "cosine x equals 15 over 17"
-    },
-    {
-      "source": "\\tan{1.03} = \\overline{BC}/250",
-      "expected": "tangent 1 point 03 equals the fraction with numerator line segment cap b cap c and denominator 250"
-    },
-    {
       "source": "\\arccos{7/10}",
       "expected": "arccos 7 tenths"
     },
@@ -1349,40 +1229,8 @@
       "expected": "arctan 4 over 45"
     },
     {
-      "source": "\\tan{1.24} = \\overline{DC}/250",
-      "expected": "tangent 1 point 24 equals the fraction with numerator line segment cap d cap c and denominator 250"
-    },
-    {
-      "source": "\\frac{\\sin.524}{d} = \\frac{\\sin.262}{50}",
-      "expected": "the fraction with numerator sine point 524 and denominator d equals the fraction with numerator sine point 262 and denominator 50"
-    },
-    {
-      "source": "V=\\pi * r^2 * \\text{height}",
-      "expected": "cap v equals pi times r squared times height"
-    },
-    {
-      "source": "V=\\pi \\cdot r^2 \\times \\text{height}",
-      "expected": "cap v equals pi times r squared times height"
-    },
-    {
-      "source": "V=\\pi \\cdot r^2 \\cdot \\text{height}",
-      "expected": "cap v equals pi times r squared times height"
-    },
-    {
-      "source": "V=\\pi \\times r^2 * \\text{height}",
-      "expected": "cap v equals pi times r squared times height"
-    },
-    {
-      "source": "V=\\pi \\times r^2 \\times \\text{height}",
-      "expected": "cap v equals pi times r squared times height"
-    },
-    {
       "source": "(x+2)^56",
       "expected": "open paren x plus 2 close paren to the 5th power 6"
-    },
-    {
-      "source": "2.37<h<1.99",
-      "expected": "2 point 37 is less than h comma h is less than 1 point 99"
     },
     {
       "source": "(x+2)^{56}",
@@ -1393,6 +1241,10 @@
       "expected": "open paren x plus 2 close paren to the 57th power"
     },
     {
+      "source": "\\pi\\times45",
+      "expected": "pi times 45"
+    },
+    {
       "source": "\\pi\\cdot45",
       "expected": "pi times 45"
     },
@@ -1401,36 +1253,12 @@
       "expected": "pi times 45"
     },
     {
-      "source": "\\pi\\times45",
-      "expected": "pi times 45"
-    },
-    {
       "source": "45*\\pi",
       "expected": "45 times pi"
     },
     {
-      "source": "2.37<h<1.99",
-      "expected": "2 point 37 is less than h comma h is less than 1 point 99"
-    },
-    {
-      "source": "\\$1500=115 \\text {dollars per ton}/2200 \\text{lbs} * 988\\text{lbs per block} \\cdot x \\text{blocks}",
-      "expected": "1500 dollars equals 115 dollars per ton over 2200 lbs times 988 lbs per block times x blocks"
-    },
-    {
-      "source": "\\text{volume}=(5^2 * \\pi* 5*\\tan30)/3",
-      "expected": "volume equals the fraction with numerator open paren 5 squared times pi times 5 times tangent 30 close paren and denominator 3"
-    },
-    {
       "source": "16\\times22/7",
       "expected": "16 times 22 sevenths"
-    },
-    {
-      "source": "V=1/2\\cdot4/3\\times\\pi\\times9^3 - 1/3\\times\\pi\\times9^3",
-      "expected": "cap v equals 1 half times 4 thirds times pi times 9 cubed minus 1 third times pi times 9 cubed"
-    },
-    {
-      "source": "V=2/3\\cdot22/7\\cdot729 - 1/3\\cdot22/7\\cdot729",
-      "expected": "cap v equals 2 thirds times 22 sevenths times 729 minus 1 third times 22 sevenths times 729"
     },
     {
       "source": "45\\pi",
@@ -1459,10 +1287,6 @@
     {
       "source": "48/5\\pi",
       "expected": "48 fifths pi"
-    },
-    {
-      "source": "V=48/5\\pi",
-      "expected": "cap v equals 48 fifths pi"
     },
     {
       "source": "1/3\\pi(12/5)^2(9/5+16/5)",
@@ -1521,16 +1345,8 @@
       "expected": "36 minus open paren 1 half times 4 times 1 close paren minus open paren 1 half times 8 times 2 close paren minus open paren 1 half times 2 times 9 close paren"
     },
     {
-      "source": "(0,9), (6,-3),(-2,-7)",
-      "expected": "open paren 0 comma 9 close paren comma open paren 6 comma negative 3 close paren comma open paren negative 2 comma negative 7 close paren"
-    },
-    {
       "source": "\\frac{\\pi * 5^2*5*\\tan{30*2*\\pi/360}}{3} * 20",
       "expected": "the fraction with numerator pi times 5 squared times 5 times tangent 30 times 2 times pi over 360 and denominator 3 times 20"
-    },
-    {
-      "source": "\\$1500=\\frac{\\$115}{1 \\text{ton}} * \\frac{1\\text{ton}}{2200 \\text{lbs}} * \\frac{988\\text{lbs}}{1 \\text{block}} \\cdot x \\text{blocks}",
-      "expected": "1500 dollars equals the fraction with numerator 115 dollars and denominator 1 ton times 1 ton over 2200 lbs times 988 lbs over 1 block times x blocks"
     },
     {
       "source": "[6(2--2)+-2(-2-0)+-3(0-2)]/2",
@@ -1541,42 +1357,6 @@
       "expected": "pi times 5 squared times 5 times tangent the fraction with numerator 30 times 2 times pi over 360 and denominator 3 times 20"
     },
     {
-      "source": "x|_{x=2}",
-      "expected": "x evaluated at x equals 2"
-    },
-    {
-      "source": "(-3-9)/(6-0) * (-7+3)/(-2-6) = -1",
-      "expected": "the fraction with numerator open paren negative 3 minus 9 close paren and denominator open paren 6 minus 0 close paren times the fraction with numerator open paren negative 7 plus 3 close paren and denominator open paren negative 2 minus 6 close paren equals negative 1"
-    },
-    {
-      "source": "\\sqrt{180}\\times\\sqrt{80}*1/2=60",
-      "expected": "square root of 180 times square root of 80 times 1 half equals 60"
-    },
-    {
-      "source": "\\sqrt{180}\\times\\sqrt{80}*.5=60",
-      "expected": "square root of 180 times square root of 80 times point 5 equals 60"
-    },
-    {
-      "source": "\\sqrt{180}*\\sqrt{80}*1/2=60",
-      "expected": "square root of 180 times square root of 80 times 1 half equals 60"
-    },
-    {
-      "source": "\\frac{\\sqrt{180}\\times\\sqrt{80}}{2}=60",
-      "expected": "the fraction with numerator square root of 180 times square root of 80 and denominator 2 equals 60"
-    },
-    {
-      "source": "3x+2y=31",
-      "expected": "3 x plus 2 y equals 31"
-    },
-    {
-      "source": "\\sqrt{180}\\times\\sqrt{80}\\div2=60",
-      "expected": "square root of 180 times square root of 80 divided by 2 equals 60"
-    },
-    {
-      "source": "\\sqrt{180}\\times\\sqrt{80}/2=60",
-      "expected": "square root of 180 times the fraction with numerator square root of 80 and denominator 2 equals 60"
-    },
-    {
       "source": "(4,3)",
       "expected": "open paren 4 comma 3 close paren"
     },
@@ -1585,16 +1365,8 @@
       "expected": "open paren 4 comma 7 close paren"
     },
     {
-      "source": "y=70 -1 * x",
-      "expected": "y equals 70 minus 1 times x"
-    },
-    {
       "source": "1/2*2\\pi*5",
       "expected": "1 half times 2 pi times 5"
-    },
-    {
-      "source": "y=\\frac{4}{3}x+10",
-      "expected": "y equals 4 thirds x plus 10"
     },
     {
       "source": "(4, 1)",
@@ -1633,56 +1405,8 @@
       "expected": "open paren 0 comma 10 close paren and open paren 70 comma 0 close paren"
     },
     {
-      "source": "y=4/3x+10",
-      "expected": "y equals 4 thirds x plus 10"
-    },
-    {
       "source": "x^2+3x+4|_2^3",
       "expected": "x squared plus 3 x plus 4 evaluated at 3 minus the same expression evaluated at 2"
-    },
-    {
-      "source": "y=\\frac{4}{3}*x+10",
-      "expected": "y equals 4 thirds times x plus 10"
-    },
-    {
-      "source": "y=\\frac{4}{3}\\cdot x+10",
-      "expected": "y equals 4 thirds times x plus 10"
-    },
-    {
-      "source": "y=\\frac{4}{3}\\times x+10",
-      "expected": "y equals 4 thirds times x plus 10"
-    },
-    {
-      "source": "y=70 -1\\cdot x",
-      "expected": "y equals 70 minus 1 times x"
-    },
-    {
-      "source": "y=70 -1\\times x",
-      "expected": "y equals 70 minus 1 times x"
-    },
-    {
-      "source": "y=-1\\times x+70",
-      "expected": "y equals negative 1 times x plus 70"
-    },
-    {
-      "source": "y=-1\\cdot x+70",
-      "expected": "y equals negative 1 times x plus 70"
-    },
-    {
-      "source": "y=-1*x+70",
-      "expected": "y equals negative 1 times x plus 70"
-    },
-    {
-      "source": "y= 70 + -x",
-      "expected": "y equals 70 plus negative x"
-    },
-    {
-      "source": "y= 70 - x",
-      "expected": "y equals 70 minus x"
-    },
-    {
-      "source": "y=70 - x",
-      "expected": "y equals 70 minus x"
     },
     {
       "source": "12.5 \\text{m/sec}",
@@ -1693,28 +1417,24 @@
       "expected": "100 meters per 8 seconds"
     },
     {
-      "source": "\\frac{(b_2+c_2-a_2-c_2)\\div2}{(b_1+c_1-a_1-c_1)\\div2}",
-      "expected": "the fraction with numerator open paren b sub 2 plus c sub 2 minus a sub 2 minus c sub 2 close paren divided by 2 and denominator open paren b sub 1 plus c sub 1 minus a sub 1 minus c sub 1 close paren divided by 2"
-    },
-    {
       "source": "m=\\frac{3/8b_2-3/8a_2}{3/8b_1-3/8a_1}",
       "expected": "m equals the fraction with numerator 3 eighths b sub 2 minus 3 eighths a sub 2 and denominator 3 eighths b sub 1 minus 3 eighths a sub 1"
+    },
+    {
+      "source": "\\frac{(b_2+c_2-a_2-c_2)\\div2}{(b_1+c_1-a_1-c_1)\\div2}",
+      "expected": "the fraction with numerator open paren b sub 2 plus c sub 2 minus a sub 2 minus c sub 2 close paren divided by 2 and denominator open paren b sub 1 plus c sub 1 minus a sub 1 minus c sub 1 close paren divided by 2"
     },
     {
       "source": "(25\\frac{5}{7}, 44\\frac{2}{7})",
       "expected": "open paren 25 and 5 sevenths comma 44 and 2 sevenths close paren"
     },
     {
-      "source": "f(165) = \\sqrt{165\\cdot8^2+x}+y",
-      "expected": "f of 165 equals square root of 165 times 8 squared plus x end root plus y"
-    },
-    {
-      "source": "\\sum_{x=1}^2x",
-      "expected": "the sum from x equals 1 to 2 of x"
-    },
-    {
       "source": "(-25,185)",
       "expected": "open paren negative 25 comma 185 close paren"
+    },
+    {
+      "source": "10'-3''",
+      "expected": "10 feet minus 3 inches"
     },
     {
       "source": "\\frac{b_2-a_2}{b_1-a_1}",
@@ -1723,6 +1443,10 @@
     {
       "source": "\\overline{AP}/\\overline{PB} = a^2/b^2",
       "expected": "the fraction with numerator line segment cap a cap p and denominator line segment cap p cap b equals the fraction with numerator a squared and denominator b squared"
+    },
+    {
+      "source": "10^\\circ 9'",
+      "expected": "10 degrees 9 minutes"
     },
     {
       "source": "(\\frac{8-0}{2},\\frac{6-0}{2})",
@@ -1745,22 +1469,6 @@
       "expected": "open paren 4 over 1 comma 3 over 1 close paren"
     },
     {
-      "source": "\\text{Area}=\\frac{25\\pi}{2}+24 \\text { square units}",
-      "expected": "Area equals 25 pi over 2 plus 24 square units"
-    },
-    {
-      "source": "A=\\frac{25\\pi}{2}+24 \\text { square units}",
-      "expected": "cap a equals 25 pi over 2 plus 24 square units"
-    },
-    {
-      "source": "\\text{A}=\\frac{25\\pi}{2}+24 \\text { square units}",
-      "expected": "cap a equals 25 pi over 2 plus 24 square units"
-    },
-    {
-      "source": "A=1/2*8*6+1/2*\\pi*5^2",
-      "expected": "cap a equals 1 half times 8 times 6 plus 1 half times pi times 5 squared"
-    },
-    {
       "source": "\\frac{2*\\arcsin{3/5}*180/\\pi}{360}*2\\pi*5 \\text{ units}",
       "expected": "the fraction with numerator 2 times arcsin 3 fifths times 180 over pi and denominator 360 times 2 pi times 5 units"
     },
@@ -1777,40 +1485,12 @@
       "expected": "measure of angle cap b cap a cap c is congruent to measure of angle cap b cap c cap p"
     },
     {
-      "source": "\\overline{PB} = \\frac{7}{\\sqrt{2}}",
-      "expected": "line segment cap p cap b equals the fraction with numerator 7 and denominator square root of 2"
-    },
-    {
-      "source": "\\measuredangle P = 15^\\circ",
-      "expected": "measure of angle cap p equals 15 degrees"
-    },
-    {
       "source": "\\sqrt{x+1}",
       "expected": "square root of x plus 1 end root"
     },
     {
       "source": "(4,-3)",
       "expected": "open paren 4 comma negative 3 close paren"
-    },
-    {
-      "source": "f(x) = \\sqrt{64x}",
-      "expected": "f of x equals square root of 64 x"
-    },
-    {
-      "source": "f(x) = \\sqrt{8^2 * 330}",
-      "expected": "f of x equals square root of 8 squared times 330 end root"
-    },
-    {
-      "source": "f(x) = \\sqrt{64 \\cdot 330}",
-      "expected": "f of x equals square root of 64 times 330 end root"
-    },
-    {
-      "source": "f(x) = \\sqrt{330} \\times 8",
-      "expected": "f of x equals square root of 330 times 8"
-    },
-    {
-      "source": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
-      "expected": "x equals the fraction with numerator negative b plus or minus square root of b squared minus 4 a c end root and denominator 2 a"
     },
     {
       "source": "\\frac{(-3-9)}{(6-0)}\\cdot\\frac{(-7+3)}{(-2-6)}",
@@ -1841,24 +1521,12 @@
       "expected": "square root of 2"
     },
     {
-      "source": "f(165) = \\sqrt{64\\times165}",
-      "expected": "f of 165 equals square root of 64 times 165 end root"
-    },
-    {
-      "source": "f(165) = 8*\\sqrt{165}",
-      "expected": "f of 165 equals 8 times square root of 165"
-    },
-    {
       "source": "2*(180-132)/3",
       "expected": "2 times the fraction with numerator open paren 180 minus 132 close paren and denominator 3"
     },
     {
       "source": "(14*16*20)/12^3*491",
       "expected": "the fraction with numerator open paren 14 times 16 times 20 close paren and denominator 12 cubed times 491"
-    },
-    {
-      "source": "\\sqrt{4.95*11.18}",
-      "expected": "square root of 4 point 95 times 11 point 18 end root"
     },
     {
       "source": "[(14*16*20)/12^3)*491",
@@ -1871,10 +1539,6 @@
     {
       "source": "(0--32)/(16-14)",
       "expected": "the fraction with numerator open paren 0 minus negative 32 close paren and denominator open paren 16 minus 14 close paren"
-    },
-    {
-      "source": "\\measuredangle A = 32^{\\circ}",
-      "expected": "measure of angle cap a equals 32 degrees"
     },
     {
       "source": "\\frac{1273-1000}{16*2^2*\\pi\\div12^3*491}",
@@ -1893,12 +1557,8 @@
       "expected": "open paren the fraction with numerator a squared b and denominator a squared plus b squared comma the fraction with numerator a b squared and denominator a squared plus b squared close paren"
     },
     {
-      "source": "V=1/3\\pi*(12/5)^2\\times(9/5+16/5)",
-      "expected": "cap v equals 1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
-    },
-    {
-      "source": "V=1/3\\pi*(12/5)^2\\times(9/5+16/5)",
-      "expected": "cap v equals 1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
+      "source": "\\ln(x+y)",
+      "expected": "the natural log of open paren x plus y close paren"
     },
     {
       "source": "(4+\\frac{5}{\\sqrt{2}}, 3+\\frac{5}{\\sqrt{2}})",
@@ -1913,14 +1573,6 @@
       "expected": "line segment cap a prime cap b prime is parallel to line segment cap c cap d"
     },
     {
-      "source": "\\measuredangle{EAB} = \\measuredangle{ECD}",
-      "expected": "measure of angle cap e cap a cap b equals measure of angle cap e cap c cap d"
-    },
-    {
-      "source": "\\measuredangle{B'EA'} = \\measuredangle{CED}",
-      "expected": "measure of angle cap b prime cap e cap a prime equals measure of angle cap c cap e cap d"
-    },
-    {
       "source": "\\overline{AB} \\parallel \\overline{CD}",
       "expected": "line segment cap a cap b is parallel to line segment cap c cap d"
     },
@@ -1933,16 +1585,12 @@
       "expected": "open paren 1 comma negative 1 close paren"
     },
     {
-      "source": "y=\\frac{1}{8}(x-1)^2-1",
-      "expected": "y equals 1 eighth open paren x minus 1 close paren squared minus 1"
+      "source": "\\log 10",
+      "expected": "log 10"
     },
     {
       "source": "\\frac{-7+24}{8}",
       "expected": "the fraction with numerator negative 7 plus 24 and denominator 8"
-    },
-    {
-      "source": "y+1 = \\sqrt{(x-2)^2+(y-3)^2}",
-      "expected": "y plus 1 equals square root of open paren x minus 2 close paren squared plus open paren y minus 3 close paren squared end root"
     },
     {
       "source": "\\begin{bmatrix}1&2&3\\end{bmatrix}",
@@ -1951,18 +1599,6 @@
     {
       "source": "\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}",
       "expected": "The 3 by 1 column matrix 1 2 3"
-    },
-    {
-      "source": "1464=12(10^2+2*10+2)",
-      "expected": "1464 equals 12 times open paren 10 squared plus 2 times 10 plus 2 close paren"
-    },
-    {
-      "source": "1464=(10+2)(10^2+2*10+2)",
-      "expected": "1464 equals open paren 10 plus 2 close paren times open paren 10 squared plus 2 times 10 plus 2 close paren"
-    },
-    {
-      "source": "f(x) = (x+2)(x-(-1+i))(x-(-1-i))",
-      "expected": "f of x equals open paren x plus 2 close paren times open paren x minus open paren negative 1 plus i close paren close paren times open paren x minus open paren negative 1 minus i close paren close paren"
     },
     {
       "source": "\\begin{bmatrix}a&b&c\\\\x&y&z\\end{bmatrix}",
@@ -1981,40 +1617,8 @@
       "expected": "start set x such that x is less than 5 end set"
     },
     {
-      "source": "(a/c)^2+(b/c)^2 = 1\\implies a^2+b^2=c^2",
-      "expected": "open paren a over c close paren squared plus open paren b over c close paren squared equals 1 implies a squared plus b squared equals c squared"
-    },
-    {
       "source": "5,12,13",
       "expected": "5 comma 12 comma 13"
-    },
-    {
-      "source": "t=2/3",
-      "expected": "t equals 2 thirds"
-    },
-    {
-      "source": "t=\\frac{2}{3}",
-      "expected": "t equals 2 thirds"
-    },
-    {
-      "source": "\\frac{2}{3}=\\frac{\\frac{12}{13} - 0}{\\frac{5}{13}+\\frac{13}{13}}",
-      "expected": "2 thirds equals the fraction with numerator 12 over 13 minus 0 and denominator 5 over 13 plus 13 over 13"
-    },
-    {
-      "source": "\\frac{2}{3}=\\frac{\\frac{12}{13} - 0}{\\frac{5}{13}+1}",
-      "expected": "2 thirds equals the fraction with numerator 12 over 13 minus 0 and denominator 5 over 13 plus 1"
-    },
-    {
-      "source": "\\frac{1-2t^2+t^4}{1+2t^2+t^4} + \\frac{4t^2}{1+2t^2+t^4}=1",
-      "expected": "the fraction with numerator 1 minus 2 t squared plus t to the 4th power and denominator 1 plus 2 t squared plus t to the 4th power plus the fraction with numerator 4 t squared and denominator 1 plus 2 t squared plus t to the 4th power equals 1"
-    },
-    {
-      "source": "f(x)=1/2 * \\sin{1/4 *x} + 5",
-      "expected": "f of x equals 1 half times sine 1 fourth times x plus 5"
-    },
-    {
-      "source": "x=2, y=1, z=-1",
-      "expected": "x equals 2 comma y equals 1 comma z equals negative 1"
     },
     {
       "source": "(\\frac{1-t^2}{1+t^2},\\frac{2t}{1+t^2})",
@@ -2025,10 +1629,6 @@
       "expected": "start set 2 comma 1 comma negative 1 end set"
     },
     {
-      "source": "f(x) = \\ln {x}",
-      "expected": "f of x equals natural log x"
-    },
-    {
       "source": "2\\pi",
       "expected": "2 pi"
     },
@@ -2037,100 +1637,20 @@
       "expected": "pi over 2"
     },
     {
-      "source": "t=3\\pi/2",
-      "expected": "t equals 3 pi over 2"
-    },
-    {
       "source": "1+\\pi/2",
       "expected": "1 plus pi over 2"
-    },
-    {
-      "source": "H(t) = 1+t+\\cos{(\\pi-t)}",
-      "expected": "cap h of t equals 1 plus t plus cosine of open paren pi minus t close paren"
     },
     {
       "source": "1+3\\pi/2-\\cos{\\frac{3\\pi}{2}}",
       "expected": "1 plus 3 pi over 2 minus cosine 3 pi over 2"
     },
     {
-      "source": "\\tan(x) = \\frac{.6}{.8}",
-      "expected": "tangent of x equals point 6 over point 8"
-    },
-    {
-      "source": ".6^2+\\cos(x^2) = 1",
-      "expected": "point 6 squared plus cosine of open paren x squared close paren equals 1"
-    },
-    {
-      "source": "f(n) = 1000*(\\frac{5}{6})^n",
-      "expected": "f of n equals 1000 times 5 sixths to the n th power"
-    },
-    {
-      "source": "a=1000*(1.0025)^n",
-      "expected": "a equals 1000 times 1 point 0025 to the n th power"
-    },
-    {
-      "source": "f(n) = 1000\\cdot(\\frac{5}{6})^n",
-      "expected": "f of n equals 1000 times 5 sixths to the n th power"
-    },
-    {
-      "source": "f(n) = 1000\\times(\\frac{5}{6})^n",
-      "expected": "f of n equals 1000 times 5 sixths to the n th power"
-    },
-    {
-      "source": "f(12) = 1000*(\\frac{5}{6})^(12)",
-      "expected": "f of 12 equals 1000 times 5 sixths raised to the 12 power"
-    },
-    {
-      "source": "1 = 1000*(\\frac{5}{6})^n",
-      "expected": "1 equals 1000 times 5 sixths to the n th power"
-    },
-    {
-      "source": "g(x) = \\frac{2x+3}{x-1}",
-      "expected": "g of x equals the fraction with numerator 2 x plus 3 and denominator x minus 1"
-    },
-    {
-      "source": "g(x) = 2x+6",
-      "expected": "g of x equals 2 x plus 6"
-    },
-    {
-      "source": "f(x) = \\frac{1}{2} x -3",
-      "expected": "f of x equals 1 half x minus 3"
-    },
-    {
-      "source": "f(t)=1000(1+.0025)^{12t}",
-      "expected": "f of t equals 1000 open paren 1 plus point 0025 close paren raised to the 12 t power"
-    },
-    {
-      "source": "f(t)=1000*(1.0025)^{12t}",
-      "expected": "f of t equals 1000 times 1 point 0025 raised to the 12 t power"
-    },
-    {
-      "source": "f(t)=1000*(1+.03)^t",
-      "expected": "f of t equals 1000 times open paren 1 plus point 03 close paren to the t th power"
-    },
-    {
-      "source": "f(t)=1000*(1.03)^t",
-      "expected": "f of t equals 1000 times 1 point 03 to the t th power"
-    },
-    {
-      "source": "\\sum_{k=0}^{n-1} a\\cdot r ^{k}",
-      "expected": "the sum from k equals 0 to n minus 1 of a times r to the k th power"
-    },
-    {
-      "source": "\\ln (x+y)",
-      "expected": "the natural log of open paren x plus y close paren"
-    },
-    {
       "source": "\\ln 10",
       "expected": "natural log 10"
     },
     {
-      "source": "\\ln(x+y)",
+      "source": "\\ln (x+y)",
       "expected": "the natural log of open paren x plus y close paren"
-    },
-    {
-      "source": "\\log 10",
-      "expected": "log 10"
     },
     {
       "source": "\\log(x+y)",
@@ -2141,12 +1661,24 @@
       "expected": "the log of open paren x plus y close paren"
     },
     {
-      "source": "g(x) = \\log_2 {x}",
-      "expected": "g of x equals the log base 2 of x"
+      "source": "\\frac{7.5}{5}",
+      "expected": "7 point 5 over 5"
     },
     {
-      "source": "86248-74248*1.0025^n = 20000*1.005^n-20000",
-      "expected": "86248 minus 74248 times 1 point 0025 to the n th power equals 20000 times 1 point 005 to the n th power minus 20000"
+      "source": "\\log_b x",
+      "expected": "the log base b of x"
+    },
+    {
+      "source": "\\frac{11.25}{7.5}",
+      "expected": "11 point 25 over 7 point 5"
+    },
+    {
+      "source": "(10.2-5)/4",
+      "expected": "the fraction with numerator open paren 10 point 2 minus 5 close paren and denominator 4"
+    },
+    {
+      "source": "(10.2-5)\\div 4",
+      "expected": "open paren 10 point 2 minus 5 close paren divided by 4"
     },
     {
       "source": "(39.34,4336)",
@@ -2157,10 +1689,6 @@
       "expected": "39 point 34 months"
     },
     {
-      "source": "1.69^{t/2} = (1+.3)^t",
-      "expected": "1 point 69 raised to the t over 2 power equals open paren 1 plus point 3 close paren to the t th power"
-    },
-    {
       "source": "\\log_2 10",
       "expected": "the log base 2 of 10"
     },
@@ -2169,48 +1697,36 @@
       "expected": "1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
     },
     {
-      "source": "y=\\frac{-3}{2}x+\\frac{15+16}{2}",
-      "expected": "y equals negative 3 over 2 x plus the fraction with numerator 15 plus 16 and denominator 2"
+      "source": "100+100(1+.02/12)+100(1+.02/12)^2",
+      "expected": "100 plus 100 times open paren 1 plus point 02 over 12 close paren plus 100 open paren 1 plus point 02 over 12 close paren squared"
     },
     {
-      "source": "\\log_b x",
-      "expected": "the log base b of x"
+      "source": "-10'3''",
+      "expected": "negative 10 feet 3 inches"
     },
     {
-      "source": "\\log_2 {x} = 1.443*\\ln{x}",
-      "expected": "the log base 2 of x equals 1 point 443 times natural log x"
+      "source": "-3\\neq\\sqrt{-5x-6}",
+      "expected": "negative 3 is not equal to square root of negative 5 x minus 6 end root"
     },
     {
-      "source": "\\log_2 {x} = \\frac{1}{.693}*\\ln{x}",
-      "expected": "the log base 2 of x equals 1 over point 693 times natural log x"
+      "source": "10'",
+      "expected": "10 feet"
     },
     {
-      "source": "y-8=-3/2(x-5)",
-      "expected": "y minus 8 equals negative 3 over 2 times open paren x minus 5 close paren"
+      "source": "10'3''",
+      "expected": "10 feet 3 inches"
     },
     {
-      "source": "y=\\frac{1}{8}-1",
-      "expected": "y equals 1 eighth minus 1"
+      "source": "1' 1''",
+      "expected": "1 foot 1 inch"
     },
     {
-      "source": "y=\\frac{1}{8}(x-1)^2-1",
-      "expected": "y equals 1 eighth open paren x minus 1 close paren squared minus 1"
+      "source": "3''",
+      "expected": "3 inches"
     },
     {
-      "source": "y = \\frac{1}{8}(x-2)^2+1",
-      "expected": "y equals 1 eighth open paren x minus 2 close paren squared plus 1"
-    },
-    {
-      "source": "y=\\frac{1}{8}(0-1)^2-1",
-      "expected": "y equals 1 eighth open paren 0 minus 1 close paren squared minus 1"
-    },
-    {
-      "source": "y=\\frac{1}{8}(-1)^2-1",
-      "expected": "y equals 1 eighth negative 1 squared minus 1"
-    },
-    {
-      "source": "y=\\frac{1}{8}*(-1*-1)-1",
-      "expected": "y equals 1 eighth times open paren negative 1 times negative 1 close paren minus 1"
+      "source": "d^\\circ m' s''",
+      "expected": "d degrees m minutes s seconds"
     },
     {
       "source": "|\\frac{-7}{8}-(-3)|",
@@ -2249,36 +1765,684 @@
       "expected": "negative 7 over 8 minus open paren negative 3 over 1 close paren"
     },
     {
-      "source": "f(-2) = -2^3+4(-2)^2+6(-2)+4",
-      "expected": "f of negative 2 equals negative 2 cubed plus 4 negative 2 squared plus 6 times negative 2 plus 4"
-    },
-    {
-      "source": "h(d)=-17/2 * \\cos(2\\pi/365*d)+12.5",
-      "expected": "h of d equals negative 17 over 2 times cosine of open paren 2 pi over 365 times d close paren plus 12 point 5"
-    },
-    {
-      "source": "h(d)=-17/2 * \\cos{2\\pi/365*d}+12.5",
-      "expected": "h of d equals negative 17 over 2 times cosine 2 pi over 365 times d plus 12 point 5"
-    },
-    {
       "source": "-17/2*\\cos{(2\\pi/365 * 130)} + 12 \\frac{1}{2}",
       "expected": "negative 17 over 2 times cosine of open paren 2 pi over 365 times 130 close paren plus 12 and 1 half"
     },
     {
-      "source": "H(d) = -17/2*\\cos(2*\\pi/365.25 * d) + 12 \\frac{1}{4}",
-      "expected": "cap h of d equals negative 17 over 2 times cosine of open paren 2 times pi over 365 point 25 times d close paren plus 12 and 1 fourth"
+      "source": "(25.5-5)/ 4",
+      "expected": "the fraction with numerator open paren 25 point 5 minus 5 close paren and denominator 4"
     },
     {
-      "source": "H(d) = -17/2*\\cos(2\\pi/365 * d) + 12 \\frac{1}{4}",
-      "expected": "cap h of d equals negative 17 over 2 times cosine of open paren 2 pi over 365 times d close paren plus 12 and 1 fourth"
+      "source": "\\frac{25.5-5}{4}",
+      "expected": "the fraction with numerator 25 point 5 minus 5 and denominator 4"
+    },
+    {
+      "source": "\\frac{10.2-5}{4}",
+      "expected": "the fraction with numerator 10 point 2 minus 5 and denominator 4"
+    },
+    {
+      "source": "\\frac{25.3-5}{4}",
+      "expected": "the fraction with numerator 25 point 3 minus 5 and denominator 4"
+    },
+    {
+      "source": "\\frac{g(4)-g(0)}{4}",
+      "expected": "the fraction with numerator g of 4 minus g of 0 and denominator 4"
+    },
+    {
+      "source": "\\frac{h(4)-h(0)}{4}",
+      "expected": "the fraction with numerator h of 4 minus h of 0 and denominator 4"
+    },
+    {
+      "source": "11.25/7.5",
+      "expected": "11 point 25 over 7 point 5"
+    },
+    {
+      "source": "[15*(1.69)^{4/2}-15]/4",
+      "expected": "the fraction with numerator open bracket 15 times 1 point 69 raised to the 4 halves power minus 15 close bracket and denominator 4"
+    },
+    {
+      "source": "[15*1.69^{4/2}-15]/4",
+      "expected": "the fraction with numerator open bracket 15 times 1 point 69 raised to the 4 halves power minus 15 close bracket and denominator 4"
+    },
+    {
+      "source": "(25.5-5)\\div 4",
+      "expected": "open paren 25 point 5 minus 5 close paren divided by 4"
+    },
+    {
+      "source": "\\frac{15*1.69^{4/2}-15}{4}",
+      "expected": "the fraction with numerator 15 times 1 point 69 raised to the 4 halves power minus 15 and denominator 4"
+    },
+    {
+      "source": "7.5/5",
+      "expected": "7 point 5 over 5"
+    },
+    {
+      "source": "\\frac{10.2-5}{4}",
+      "expected": "the fraction with numerator 10 point 2 minus 5 and denominator 4"
+    },
+    {
+      "source": "4(1+.75+.75^{2})",
+      "expected": "4 times open paren 1 plus point 75 plus point 75 squared close paren"
+    },
+    {
+      "source": "4*(1+.75+.75^{2})",
+      "expected": "4 times open paren 1 plus point 75 plus point 75 squared close paren"
+    },
+    {
+      "source": "\\sin r = 15/17",
+      "expected": "sine r is equal to 15 over 17"
+    },
+    {
+      "source": "\\det\\begin{vmatrix}1&k\\\\0&k\\end{vmatrix}",
+      "expected": "det The 2 by 2 matrix row 1, 1 k row 2, 0 k"
+    },
+    {
+      "source": "\\begin{bmatrix}1&0\\\\0&k\\end{bmatrix} \\times \\begin{bmatrix}0\\\\0\\end{bmatrix}",
+      "expected": "The 2 by 2 matrix row 1, 1 0 row 2, 0 k times The 2 by 1 column matrix 0 0"
+    },
+    {
+      "source": "\\cos r = 8/17",
+      "expected": "cosine r is equal to 8 over 17"
+    },
+    {
+      "source": "\\begin{bmatrix}0\\\\0\\end{bmatrix},\\begin{bmatrix}k\\\\k\\end{bmatrix},\\begin{bmatrix}1+k\\\\k\\end{bmatrix}, \\begin{bmatrix}1\\\\0\\end{bmatrix}",
+      "expected": "The 2 by 1 column matrix 0 0 comma The 2 by 1 column matrix k k comma The 2 by 1 column matrix row 1 1 plus k row 2 k comma The 2 by 1 column matrix 1 0"
+    },
+    {
+      "source": "\\begin{pmatrix}1+k+k^2+k^3 \\ldots +k^{10}\\\\k^{10}\\end{pmatrix}",
+      "expected": "The 2 by 1 column matrix row 1 1 plus k plus k squared plus k cubed dot dot dot plus k to the 10th power row 2 k to the 10th power"
+    },
+    {
+      "source": "y=\\frac{1}{8}(0-1)^2-1",
+      "expected": "y is equal to 1 eighth open paren 0 minus 1 close paren squared minus 1"
+    },
+    {
+      "source": "\\measuredangle A = 32^{\\circ}",
+      "expected": "measure of angle cap a is equal to 32 degrees"
+    },
+    {
+      "source": "\\angle A = 32^{\\circ}",
+      "expected": "angle cap a is equal to 32 degrees"
+    },
+    {
+      "source": "\\text{Area}=\\frac{25\\pi}{2}+24 \\text { square units}",
+      "expected": "Area is equal to 25 pi over 2 plus 24 square units"
+    },
+    {
+      "source": "y-8=-3/2(x-5)",
+      "expected": "y minus 8 is equal to negative 3 over 2 times open paren x minus 5 close paren"
+    },
+    {
+      "source": "\\sum_{k=0}^{n-1} a\\cdot r ^{k}",
+      "expected": "the sum from k is equal to 0 to n minus 1 of a times r to the k th power"
+    },
+    {
+      "source": "r \\ne 1",
+      "expected": "r is not equal to 1"
+    },
+    {
+      "source": "x=2, y=1, z=-1",
+      "expected": "x is equal to 2 comma y is equal to 1 comma z is equal to negative 1"
+    },
+    {
+      "source": "y=-1*x+70",
+      "expected": "y is equal to negative 1 times x plus 70"
+    },
+    {
+      "source": "\\begin{pmatrix}\\cos{1} & -\\sin{1}\\\\\\sin{1} & \\cos{1}\\end{pmatrix} \\times\\begin{pmatrix}x\\cos{1}-y\\sin{1} \\\\ x\\sin{1}+y\\cos{1}\\end{pmatrix}",
+      "expected": "The 2 by 2 matrix, row 1, column 1, cosine 1 column 2, negative sine 1 row 2, column 1, sine 1 column 2, cosine 1 times The 2 by 1 column matrix row 1 x cosine 1 minus y sine 1 row 2 x sine 1 plus y cosine 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}(x-1)^2-1",
+      "expected": "y is equal to 1 eighth open paren x minus 1 close paren squared minus 1"
+    },
+    {
+      "source": "\\text{A}=\\frac{25\\pi}{2}+24 \\text { square units}",
+      "expected": "cap a is equal to 25 pi over 2 plus 24 square units"
+    },
+    {
+      "source": "V=1/3\\pi*(12/5)^2\\times(9/5+16/5)",
+      "expected": "cap v is equal to 1 third pi times 12 fifths squared times open paren 9 fifths plus 16 fifths close paren"
+    },
+    {
+      "source": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+      "expected": "x is equal to the fraction with numerator negative b plus or minus square root of b squared minus 4 a c end root and denominator 2 a"
+    },
+    {
+      "source": "\\sin x = 8/17",
+      "expected": "sine x is equal to 8 over 17"
+    },
+    {
+      "source": "V=\\pi \\cdot r^2 \\cdot \\text{height}",
+      "expected": "cap v is equal to pi times r squared times height"
+    },
+    {
+      "source": "\\begin{pmatrix}1&3&2\\\\1&-1&1\\\\2&3&3\\end{pmatrix}",
+      "expected": ""
+    },
+    {
+      "source": "1+\\ldots+2",
+      "expected": "1 plus dot dot dot plus 2"
+    },
+    {
+      "source": "f(x) = 1/2 * x^2",
+      "expected": "f of x is equal to 1 half times x squared"
+    },
+    {
+      "source": "1\\ldots2",
+      "expected": "1 dot dot dot 2"
+    },
+    {
+      "source": "h(t) = 10\\times.75^{n}",
+      "expected": "h of t is equal to 10 times point 75 to the n th power"
+    },
+    {
+      "source": "f(x) = 1/2 * |x|",
+      "expected": "f of x is equal to 1 half times absolute value of x"
+    },
+    {
+      "source": "\\begin{pmatrix}1&3&2\\\\1&-1&1\\\\2&3&3\\end{pmatrix}\\times\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}",
+      "expected": "The 3 by 3 matrix, row 1, column 1, 1 column 2, 3 column 3, 2 row 2, column 1, 1 column 2, negative 1 column 3, 1 row 3, column 1, 2 column 2, 3 column 3, 3 times The 3 by 1 column matrix x y z"
+    },
+    {
+      "source": "f(n) = 1000\\cdot(\\frac{5}{6})^n",
+      "expected": "f of n is equal to 1000 times 5 sixths to the n th power"
+    },
+    {
+      "source": "2*.016 = .032",
+      "expected": "2 times point 016 is equal to point 032"
+    },
+    {
+      "source": "y=70 -1\\times x",
+      "expected": "y is equal to 70 minus 1 times x"
+    },
+    {
+      "source": "y=\\frac{4}{3}\\times x+10",
+      "expected": "y is equal to 4 thirds times x plus 10"
+    },
+    {
+      "source": "t=\\frac{2}{3}",
+      "expected": "t is equal to 2 thirds"
+    },
+    {
+      "source": "h(t) = 5*\\frac{3}{2}^{t}",
+      "expected": "h of t is equal to 5 times 3 halves to the t th power"
+    },
+    {
+      "source": "y=\\frac{4}{3}x+10",
+      "expected": "y is equal to 4 thirds x plus 10"
+    },
+    {
+      "source": "\\sqrt{180}\\times\\sqrt{80}*1/2=60",
+      "expected": "square root of 180 times square root of 80 times 1 half is equal to 60"
+    },
+    {
+      "source": "y=70 - x",
+      "expected": "y is equal to 70 minus x"
+    },
+    {
+      "source": "1464=(10+2)(10^2+2*10+2)",
+      "expected": "1464 is equal to open paren 10 plus 2 close paren times open paren 10 squared plus 2 times 10 plus 2 close paren"
+    },
+    {
+      "source": "86248-74248*1.0025^n = 20000*1.005^n-20000",
+      "expected": "86248 minus 74248 times 1 point 0025 to the n th power is equal to 20000 times 1 point 005 to the n th power minus 20000"
+    },
+    {
+      "source": "\\overline{PB} = \\frac{7}{\\sqrt{2}}",
+      "expected": "line segment cap p cap b is equal to the fraction with numerator 7 and denominator square root of 2"
+    },
+    {
+      "source": "A=1/2*8*6+1/2*\\pi*5^2",
+      "expected": "cap a is equal to 1 half times 8 times 6 plus 1 half times pi times 5 squared"
+    },
+    {
+      "source": "\\sqrt{180}\\times\\sqrt{80}/2=60",
+      "expected": "square root of 180 times the fraction with numerator square root of 80 and denominator 2 is equal to 60"
+    },
+    {
+      "source": "3x+2y=31",
+      "expected": "3 x plus 2 y is equal to 31"
+    },
+    {
+      "source": "x|_{x=2}",
+      "expected": "x evaluated at x is equal to 2"
+    },
+    {
+      "source": "(0,9), (6,-3),(-2,-7)",
+      "expected": "open paren 0 comma 9 close paren comma open paren 6 comma negative 3 close paren comma open paren negative 2 comma negative 7 close paren"
+    },
+    {
+      "source": "\\begin{pmatrix}\\cos{0}&-\\sin{0}\\\\\\sin{0}&\\cos{0}\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}= \\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}",
+      "expected": "The 2 by 2 matrix, row 1, column 1, cosine 0 column 2, negative sine 0 row 2, column 1, sine 0 column 2, cosine 0 times The 2 by 1 column matrix row 1 negative 1 row 2 negative 1 is equal to The 2 by 2 matrix row 1, 1 0 row 2, 0 1 times The 2 by 1 column matrix row 1 negative 1 row 2 negative 1"
+    },
+    {
+      "source": "2.37<h<1.99",
+      "expected": "2 point 37 is less than h comma h is less than 1 point 99"
+    },
+    {
+      "source": "h(x) = 3^{x/4}",
+      "expected": "h of x is equal to 3 raised to the x over 4 power"
+    },
+    {
+      "source": "\\sqrt{180}\\times\\sqrt{80}*.5=60",
+      "expected": "square root of 180 times square root of 80 times point 5 is equal to 60"
+    },
+    {
+      "source": "(a/c)^2+(b/c)^2 = 1\\implies a^2+b^2=c^2",
+      "expected": "open paren a over c close paren squared plus open paren b over c close paren squared is equal to 1 implies a squared plus b squared is equal to c squared"
+    },
+    {
+      "source": "\\frac{2}{3}=\\frac{\\frac{12}{13} - 0}{\\frac{5}{13}+\\frac{13}{13}}",
+      "expected": "2 thirds is equal to the fraction with numerator 12 over 13 minus 0 and denominator 5 over 13 plus 13 over 13"
+    },
+    {
+      "source": "f(t)=1000*(1.03)^t",
+      "expected": "f of t is equal to 1000 times 1 point 03 to the t th power"
+    },
+    {
+      "source": "f(t)=1000*(1.0025)^{12t}",
+      "expected": "f of t is equal to 1000 times 1 point 0025 raised to the 12 t power"
+    },
+    {
+      "source": "g(x) = \\frac{2x+3}{x-1}",
+      "expected": "g of x is equal to the fraction with numerator 2 x plus 3 and denominator x minus 1"
+    },
+    {
+      "source": "\\begin{pmatrix}\\cos{0}&-\\sin{0}\\\\\\sin{0}&\\cos{0}\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}= \\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}",
+      "expected": "the 2 by 2 matrix, row 1, column 1, cosine 0 column 2, negative sine 0 row 2, column 1, sine 0 column 2, cosine 0 times the 2 by 1 column matrix row 1 negative 1 row 2 negative 1 is equal to the 2 by 2 matrix row 1, 1 0 row 2, 0 1 times the 2 by 1 column matrix row 1 negative 1 row 2 negative 1"
     },
     {
       "source": "8^(\\frac{x}{3}+\\frac{2}{3}) = 4*8^\\frac{x}{3}",
-      "expected": "8 raised to the open paren x over 3 plus 2 thirds close paren power equals 4 times 8 raised to the x over 3 power"
+      "expected": "8 raised to the open paren x over 3 plus 2 thirds close paren power is equal to 4 times 8 raised to the x over 3 power"
+    },
+    {
+      "source": "y=\\frac{1}{8}(-1)^2-1",
+      "expected": "y is equal to 1 eighth negative 1 squared minus 1"
+    },
+    {
+      "source": "f(x) = (x+2)(x-(-1+i))(x-(-1-i))",
+      "expected": "f of x is equal to open paren x plus 2 close paren times open paren x minus open paren negative 1 plus i close paren close paren times open paren x minus open paren negative 1 minus i close paren close paren"
+    },
+    {
+      "source": "C=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}",
+      "expected": "cap c is equal to the 2 by 2 matrix row 1, 1 0 row 2, 0 1"
+    },
+    {
+      "source": "P*B=\\begin{pmatrix}0&0\\\\1&0\\end{pmatrix}\\times\\begin{pmatrix}1&1\\\\0&0\\end{pmatrix}",
+      "expected": "cap p times cap b is equal to the 2 by 2 matrix row 1, 0 0 row 2, 1 0 times the 2 by 2 matrix row 1, 1 1 row 2, 0 0"
+    },
+    {
+      "source": "A=\\begin{pmatrix}0&0\\\\1&1\\end{pmatrix}",
+      "expected": "cap a is equal to the 2 by 2 matrix row 1, 0 0 row 2, 1 1"
+    },
+    {
+      "source": "\\log_2{x-1} = 3y",
+      "expected": "log sub 2 x minus 1 is equal to 3 y"
+    },
+    {
+      "source": "f(x) = x^{3x} + 1",
+      "expected": ""
+    },
+    {
+      "source": "\\ln{x} = \\ln{e^{y-3}}",
+      "expected": "natural log x is equal to the natural log of e raised to the y minus 3 power"
+    },
+    {
+      "source": "f(x) = \\log{2x+3}",
+      "expected": "f of x is equal to the log of 2 x plus 3"
+    },
+    {
+      "source": "f(x) = e^{x-3}",
+      "expected": "f of x is equal to e raised to the x minus 3 power"
+    },
+    {
+      "source": "y = \\frac{1}{8}(x-2)^2+1",
+      "expected": "y is equal to 1 eighth open paren x minus 2 close paren squared plus 1"
+    },
+    {
+      "source": "y=\\frac{10^{x} - 3}{2}",
+      "expected": "y is equal to the fraction with numerator 10 to the x th power minus 3 and denominator 2"
+    },
+    {
+      "source": "\\begin{pmatrix}\\cos{1} & -\\sin{1}\\\\\\sin{1} & \\cos{1}\\end{pmatrix} \\times\\begin{pmatrix}x\\\\y\\end{pmatrix} = \\begin{pmatrix}x*\\cos{1} - y*\\sin{1}\\\\x*\\sin{1} + y*\\cos{1}\\end{pmatrix}",
+      "expected": "the 2 by 2 matrix, row 1, column 1, cosine 1 column 2, negative sine 1 row 2, column 1, sine 1 column 2, cosine 1 times the 2 by 1 column matrix x y is equal to the 2 by 1 column matrix row 1 x times cosine 1 minus y times sine 1 row 2 x times sine 1 plus y times cosine 1"
+    },
+    {
+      "source": "f(165) = \\sqrt{64\\times165}",
+      "expected": "f of 165 is equal to square root of 64 times 165 end root"
+    },
+    {
+      "source": "h(n) = 10*(.75)^{n}+4(\\frac{1-.75^{n}}{1-.75})",
+      "expected": "h of n is equal to 10 times point 75 to the n th power plus 4 times open paren the fraction with numerator 1 minus point 75 to the n th power and denominator 1 minus point 75 close paren"
+    },
+    {
+      "source": "H(d) = -17/2*\\cos(2*\\pi/365.25 * d) + 12 \\frac{1}{4}",
+      "expected": "cap h of d is equal to negative 17 over 2 times cosine of open paren 2 times pi over 365 point 25 times d close paren plus 12 and 1 fourth"
+    },
+    {
+      "source": "g(t) = 5+1.3t",
+      "expected": "g of t is equal to 5 plus 1 point 3 t"
+    },
+    {
+      "source": "H(d) = -17/2*\\cos(2\\pi/365 * d) + 12 \\frac{1}{4}",
+      "expected": "cap h of d is equal to negative 17 over 2 times cosine of open paren 2 pi over 365 times d close paren plus 12 and 1 fourth"
+    },
+    {
+      "source": "h(d)=-17/2 * \\cos{2\\pi/365*d}+12.5",
+      "expected": "h of d is equal to negative 17 over 2 times cosine 2 pi over 365 times d plus 12 point 5"
+    },
+    {
+      "source": "f(-2) = -2^3+4(-2)^2+6(-2)+4",
+      "expected": "f of negative 2 is equal to negative 2 cubed plus 4 negative 2 squared plus 6 times negative 2 plus 4"
+    },
+    {
+      "source": "h(d)=-17/2 * \\cos(2\\pi/365*d)+12.5",
+      "expected": "h of d is equal to negative 17 over 2 times cosine of open paren 2 pi over 365 times d close paren plus 12 point 5"
+    },
+    {
+      "source": "y=\\frac{-3}{2}x+\\frac{15+16}{2}",
+      "expected": "y is equal to negative 3 over 2 x plus the fraction with numerator 15 plus 16 and denominator 2"
+    },
+    {
+      "source": "h(n) = 16-6*(0.75)^{n}",
+      "expected": "h of n is equal to 16 minus 6 times 0 point 75 to the n th power"
+    },
+    {
+      "source": "S_n=S_{n-1}(1+.02/12)+100",
+      "expected": "cap s sub n is equal to cap s sub n minus 1 times open paren 1 plus point 02 over 12 close paren plus 100"
+    },
+    {
+      "source": "a=1000*(1.0025)^n",
+      "expected": "a is equal to 1000 times 1 point 0025 to the n th power"
+    },
+    {
+      "source": "f(t)=1000(1+.0025)^{12t}",
+      "expected": "f of t is equal to 1000 open paren 1 plus point 0025 close paren raised to the 12 t power"
+    },
+    {
+      "source": "f(t)=1000*(1+.03)^t",
+      "expected": "f of t is equal to 1000 times open paren 1 plus point 03 close paren to the t th power"
+    },
+    {
+      "source": "g(x) = 2x+6",
+      "expected": "g of x is equal to 2 x plus 6"
+    },
+    {
+      "source": "f(x) = \\frac{1}{2} x -3",
+      "expected": "f of x is equal to 1 half x minus 3"
+    },
+    {
+      "source": ".6^2+\\cos(x^2) = 1",
+      "expected": "point 6 squared plus cosine of open paren x squared close paren is equal to 1"
+    },
+    {
+      "source": "1 = 1000*(\\frac{5}{6})^n",
+      "expected": "1 is equal to 1000 times 5 sixths to the n th power"
+    },
+    {
+      "source": "f(x) = \\ln {x}",
+      "expected": "f of x is equal to natural log x"
+    },
+    {
+      "source": "f(12) = 1000*(\\frac{5}{6})^(12)",
+      "expected": "f of 12 is equal to 1000 times 5 sixths raised to the 12 power"
+    },
+    {
+      "source": "(-3-9)/(6-0) * (-7+3)/(-2-6) = -1",
+      "expected": "the fraction with numerator open paren negative 3 minus 9 close paren and denominator open paren 6 minus 0 close paren times the fraction with numerator open paren negative 7 plus 3 close paren and denominator open paren negative 2 minus 6 close paren is equal to negative 1"
+    },
+    {
+      "source": "H(t) = 1+t+\\cos{(\\pi-t)}",
+      "expected": "cap h of t is equal to 1 plus t plus cosine of open paren pi minus t close paren"
+    },
+    {
+      "source": "t=3\\pi/2",
+      "expected": "t is equal to 3 pi over 2"
+    },
+    {
+      "source": "f(x)=1/2 * \\sin{1/4 *x} + 5",
+      "expected": "f of x is equal to 1 half times sine 1 fourth times x plus 5"
+    },
+    {
+      "source": "y+1 = \\sqrt{(x-2)^2+(y-3)^2}",
+      "expected": "y plus 1 is equal to square root of open paren x minus 2 close paren squared plus open paren y minus 3 close paren squared end root"
+    },
+    {
+      "source": "\\frac{1-2t^2+t^4}{1+2t^2+t^4} + \\frac{4t^2}{1+2t^2+t^4}=1",
+      "expected": "the fraction with numerator 1 minus 2 t squared plus t to the 4th power and denominator 1 plus 2 t squared plus t to the 4th power plus the fraction with numerator 4 t squared and denominator 1 plus 2 t squared plus t to the 4th power is equal to 1"
+    },
+    {
+      "source": "1464=12(10^2+2*10+2)",
+      "expected": "1464 is equal to 12 times open paren 10 squared plus 2 times 10 plus 2 close paren"
+    },
+    {
+      "source": "\\frac{2}{3}=\\frac{\\frac{12}{13} - 0}{\\frac{5}{13}+1}",
+      "expected": "2 thirds is equal to the fraction with numerator 12 over 13 minus 0 and denominator 5 over 13 plus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}-1",
+      "expected": "y is equal to 1 eighth minus 1"
+    },
+    {
+      "source": "y=\\frac{1}{8}*(-1*-1)-1",
+      "expected": "y is equal to 1 eighth times open paren negative 1 times negative 1 close paren minus 1"
+    },
+    {
+      "source": "f(x) = \\sqrt{8^2 * 330}",
+      "expected": "f of x is equal to square root of 8 squared times 330 end root"
+    },
+    {
+      "source": "\\measuredangle P = [(130-100) \\div 2] ^\\circ",
+      "expected": "measure of angle cap p is equal to open bracket open paren 130 minus 100 close paren divided by 2 close bracket degrees"
+    },
+    {
+      "source": "\\measuredangle P = \\frac{130-100}{2} ^\\circ",
+      "expected": "measure of angle cap p is equal to the fraction with numerator 130 minus 100 and denominator 2 degrees"
+    },
+    {
+      "source": "\\measuredangle P = 15^\\circ",
+      "expected": "measure of angle cap p is equal to 15 degrees"
+    },
+    {
+      "source": "f(x) = \\sqrt{64 \\cdot 330}",
+      "expected": "f of x is equal to square root of 64 times 330 end root"
+    },
+    {
+      "source": "\\frac{\\sqrt{180}\\times\\sqrt{80}}{2}=60",
+      "expected": "the fraction with numerator square root of 180 times square root of 80 and denominator 2 is equal to 60"
+    },
+    {
+      "source": "f(165) = \\sqrt{165\\cdot8^2+x}+y",
+      "expected": "f of 165 is equal to square root of 165 times 8 squared plus x end root plus y"
+    },
+    {
+      "source": "\\sqrt{180}\\times\\sqrt{80}\\div2=60",
+      "expected": "square root of 180 times square root of 80 divided by 2 is equal to 60"
+    },
+    {
+      "source": "y= 70 + -x",
+      "expected": "y is equal to 70 plus negative x"
+    },
+    {
+      "source": "V=2/3\\cdot22/7\\cdot729 - 1/3\\cdot22/7\\cdot729",
+      "expected": "cap v is equal to 2 thirds times 22 sevenths times 729 minus 1 third times 22 sevenths times 729"
+    },
+    {
+      "source": "V=48/5\\pi",
+      "expected": "cap v is equal to 48 fifths pi"
+    },
+    {
+      "source": "\\frac{\\sin.524}{d} = \\frac{\\sin.262}{50}",
+      "expected": "the fraction with numerator sine point 524 and denominator d is equal to the fraction with numerator sine point 262 and denominator 50"
+    },
+    {
+      "source": "\\text{volume}=(5^2 * \\pi* 5*\\tan30)/3",
+      "expected": "volume is equal to the fraction with numerator open paren 5 squared times pi times 5 times tangent 30 close paren and denominator 3"
+    },
+    {
+      "source": "V=1/2\\cdot4/3\\times\\pi\\times9^3 - 1/3\\times\\pi\\times9^3",
+      "expected": "cap v is equal to 1 half times 4 thirds times pi times 9 cubed minus 1 third times pi times 9 cubed"
+    },
+    {
+      "source": "\\tan{1.24} = \\overline{DC}/250",
+      "expected": "tangent 1 point 24 is equal to the fraction with numerator line segment cap d cap c and denominator 250"
+    },
+    {
+      "source": "\\tan{1.03} = \\overline{BC}/250",
+      "expected": "tangent 1 point 03 is equal to the fraction with numerator line segment cap b cap c and denominator 250"
+    },
+    {
+      "source": "g(x) = \\frac{3}{4^{x}}",
+      "expected": "g of x is equal to the fraction with numerator 3 and denominator 4 to the x th power"
+    },
+    {
+      "source": "V=\\pi * r^2 * h",
+      "expected": "cap v is equal to pi times r squared times h"
+    },
+    {
+      "source": "f(x) = 1/2 \\abs{x}",
+      "expected": "f of x is equal to 1 half absolute value of x"
+    },
+    {
+      "source": "\\tan r = 15/8",
+      "expected": "tangent r is equal to 15 eighths"
+    },
+    {
+      "source": "\\$1500=115 \\text {dollars per ton}/2200 \\text{lbs} * 988\\text{lbs per block} \\cdot x \\text{blocks}",
+      "expected": "1500 dollars is equal to 115 dollars per ton over 2200 lbs times 988 lbs per block times x blocks"
+    },
+    {
+      "source": "\\$1500=\\frac{\\$115}{1 \\text{ton}} * \\frac{1\\text{ton}}{2200 \\text{lbs}} * \\frac{988\\text{lbs}}{1 \\text{block}} \\cdot x \\text{blocks}",
+      "expected": "1500 dollars is equal to the fraction with numerator 115 dollars and denominator 1 ton times 1 ton over 2200 lbs times 988 lbs over 1 block times x blocks"
+    },
+    {
+      "source": "\\cos x = 15/17",
+      "expected": "cosine x is equal to 15 over 17"
+    },
+    {
+      "source": "\\sum_{x=1}^2x",
+      "expected": "the sum from x is equal to 1 to 2 of x"
+    },
+    {
+      "source": "f(x) = \\sqrt{64x}",
+      "expected": "f of x is equal to square root of 64 x"
+    },
+    {
+      "source": "\\tan x = 8/15",
+      "expected": "tangent x is equal to 8 over 15"
+    },
+    {
+      "source": "f(x) = 1/2 x^2",
+      "expected": "f of x is equal to 1 half x squared"
+    },
+    {
+      "source": "f(x) = .5 \\cdot \\abs{x}",
+      "expected": "f of x is equal to point 5 times absolute value of x"
+    },
+    {
+      "source": "f(n) = a\\times2^n",
+      "expected": "f of n is equal to a times 2 to the n th power"
+    },
+    {
+      "source": "h(t) = 2(t-11)^2 - 50",
+      "expected": "h of t is equal to 2 open paren t minus 11 close paren squared minus 50"
+    },
+    {
+      "source": "f(165) = 8*\\sqrt{165}",
+      "expected": "f of 165 is equal to 8 times square root of 165"
+    },
+    {
+      "source": "f(n) = 2^n\\times a",
+      "expected": "f of n is equal to 2 to the n th power times a"
+    },
+    {
+      "source": "f(3) = 3*4^3",
+      "expected": "f of 3 is equal to 3 times 4 cubed"
+    },
+    {
+      "source": "f(n) = 3\\cdot4^n",
+      "expected": "f of n is equal to 3 times 4 to the n th power"
+    },
+    {
+      "source": "f(x) = 8*\\sqrt{330}",
+      "expected": "f of x is equal to 8 times square root of 330"
+    },
+    {
+      "source": "f(x) = \\sqrt{330} \\times 8",
+      "expected": "f of x is equal to square root of 330 times 8"
+    },
+    {
+      "source": "3\\cdot x^{.4} = 3\\cdot (x^{4})^{1/10}",
+      "expected": "3 times x raised to the point 4 power is equal to 3 times open paren x to the 4th power close paren raised to the 1 tenths power"
+    },
+    {
+      "source": "x = y",
+      "expected": "x is equal to y"
+    },
+    {
+      "source": "\\log_2 {x} = 1.443*\\ln{x}",
+      "expected": "the log base 2 of x is equal to 1 point 443 times natural log x"
+    },
+    {
+      "source": "\\measuredangle{B'EA'} = \\measuredangle{CED}",
+      "expected": "measure of angle cap b prime cap e cap a prime is equal to measure of angle cap c cap e cap d"
+    },
+    {
+      "source": "\\sum_{k=0}^{n-1} a\\cdot r ^{k}=a\\cdot\\frac{1-r^n}{1-r} ,r \\neq 1",
+      "expected": "the sum from k is equal to 0 to n minus 1 of a times r to the k th power is equal to a times the fraction with numerator 1 minus r to the n th power and denominator 1 minus r comma r is not equal to 1"
+    },
+    {
+      "source": "(1+i)^{10} = 32*i",
+      "expected": "open paren 1 plus i close paren to the 10th power is equal to 32 times i"
+    },
+    {
+      "source": "\\tan(x) = \\frac{.6}{.8}",
+      "expected": "tangent of x is equal to point 6 over point 8"
+    },
+    {
+      "source": "-2\\neq\\sqrt{-5x-6}",
+      "expected": "negative 2 is not equal to square root of negative 5 x minus 6 end root"
+    },
+    {
+      "source": "(1-.4)^{-x} = .6^{-x}",
+      "expected": "open paren 1 minus point 4 close paren raised to the negative x power is equal to point 6 raised to the negative x power"
+    },
+    {
+      "source": "x < y",
+      "expected": "x is less than y"
+    },
+    {
+      "source": "\\begin{pmatrix}1&3&2\\\\1&-1&1\\\\2&3&3\\end{pmatrix}\\times\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}=\\begin{pmatrix}8\\\\-2\\\\7\\end{pmatrix}",
+      "expected": "the 3 by 3 matrix, row 1, column 1, 1 column 2, 3 column 3, 2 row 2, column 1, 1 column 2, negative 1 column 3, 1 row 3, column 1, 2 column 2, 3 column 3, 3 times the 3 by 1 column matrix x y z is equal to the 3 by 1 column matrix row 1 8 row 2 negative 2 row 3 7"
+    },
+    {
+      "source": "\\sqrt{4.95*11.18}",
+      "expected": "square root of 4 point 95 times 11 point 18 end root"
+    },
+    {
+      "source": "\\begin{pmatrix} \\cos{1} & -\\sin{1} \\\\ \\sin{1} & \\cos{1} \\end{pmatrix} \\times \\begin{pmatrix} x\\cos{1}-y\\sin{1} \\\\ x\\sin{1}+y\\cos{1} \\end{pmatrix} = \\begin{pmatrix} \\cos{1}(x\\cos{1}-y\\sin{1})-\\sin{1}(x\\sin{1}+y\\cos{1}) \\\\ \\sin{1}(x\\cos{1}-y\\sin{1}) + \\cos{1}(x\\sin{1}+y\\cos{1})\\end{pmatrix}",
+      "expected": "the 2 by 2 matrix, row 1, column 1, cosine 1 column 2, negative sine 1 row 2, column 1, sine 1 column 2, cosine 1 times the 2 by 1 column matrix row 1 x cosine 1 minus y sine 1 row 2 x sine 1 plus y cosine 1 is equal to the 2 by 1 column matrix row 1 cosine 1 minus sine 1 row 2 sine 1 plus cosine 1"
+    },
+    {
+      "source": "g(x) = 3*.25^{x}",
+      "expected": "g of x is equal to 3 times point 25 to the x th power"
+    },
+    {
+      "source": "3\\cdot x^{.4} = 3\\cdot \\sqrt[10]{x^{4}}",
+      "expected": "3 times x raised to the point 4 power is equal to 3 times 10th root of x to the 4th power"
+    },
+    {
+      "source": "\\measuredangle{EAB} = \\measuredangle{ECD}",
+      "expected": "measure of angle cap e cap a cap b is equal to measure of angle cap e cap c cap d"
     },
     {
       "source": "\\sqrt{4*17}",
       "expected": "square root of 4 times 17 end root"
+    },
+    {
+      "source": "\\text{1 2 3}",
+      "expected": "1 2 3"
     },
     {
       "source": "x|y",
