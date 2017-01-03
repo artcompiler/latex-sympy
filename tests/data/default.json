@@ -1,6 +1,26 @@
 {
   "tests": [
     {
+      "source": "\\sqrt{4*17}",
+      "expected": "square root of 4 times 17 end root"
+    },
+    {
+      "source": "\\text{1 2 3}",
+      "expected": "1 2 3"
+    },
+    {
+      "source": "x|y",
+      "expected": "x divides y"
+    },
+    {
+      "source": "\\psi",
+      "expected": "psi"
+    },
+    {
+      "source": "x",
+      "expected": "x"
+    },
+    {
       "source": "\\emptyset",
       "expected": "empty set"
     },
@@ -33,16 +53,8 @@
       "expected": "1 microgram"
     },
     {
-      "source": "x \\cap y",
-      "expected": "intersection of x and y"
-    },
-    {
       "source": "10gal",
       "expected": "10 gallons"
-    },
-    {
-      "source": "x \\cup y",
-      "expected": "union of x and y"
     },
     {
       "source": "x \\subseteq y",
@@ -131,10 +143,6 @@
     {
       "source": "x \\cdot y",
       "expected": "x times y"
-    },
-    {
-      "source": "\\bigcup S_n",
-      "expected": "union cap s sub n"
     },
     {
       "source": "x \\times y",
@@ -585,18 +593,6 @@
       "expected": "x double prime"
     },
     {
-      "source": "B \\cup C",
-      "expected": "union of cap b and cap c"
-    },
-    {
-      "source": "B \\cap C",
-      "expected": "intersection of cap b and cap c"
-    },
-    {
-      "source": "A \\cup B \\cup C",
-      "expected": "union of cap a and union of cap b and cap c"
-    },
-    {
       "source": "1in",
       "expected": "1 inch"
     },
@@ -663,18 +659,6 @@
     {
       "source": "(q-2\\sqrt{2})(q+\\sqrt{8})",
       "expected": "open paren q minus 2 square root of 2 close paren times open paren q plus square root of 8 close paren"
-    },
-    {
-      "source": "x \\ne y",
-      "expected": "x not equal to y"
-    },
-    {
-      "source": "x \\ngtr y",
-      "expected": "x not greater than y"
-    },
-    {
-      "source": "x \\nless y",
-      "expected": "x not less than y"
     },
     {
       "source": "10%",
@@ -1033,14 +1017,6 @@
       "expected": "r infinity"
     },
     {
-      "source": "\\int f(x)",
-      "expected": "integral f of x"
-    },
-    {
-      "source": "\\bigcap S_n",
-      "expected": "intersection cap s sub n"
-    },
-    {
       "source": "x \\notin y",
       "expected": "x is not in y"
     },
@@ -1051,10 +1027,6 @@
     {
       "source": "10mi",
       "expected": "10 miles"
-    },
-    {
-      "source": "10cup",
-      "expected": "10 cups"
     },
     {
       "source": "x \\dot y",
@@ -1417,10 +1389,6 @@
       "expected": "100 meters per 8 seconds"
     },
     {
-      "source": "m=\\frac{3/8b_2-3/8a_2}{3/8b_1-3/8a_1}",
-      "expected": "m equals the fraction with numerator 3 eighths b sub 2 minus 3 eighths a sub 2 and denominator 3 eighths b sub 1 minus 3 eighths a sub 1"
-    },
-    {
       "source": "\\frac{(b_2+c_2-a_2-c_2)\\div2}{(b_1+c_1-a_1-c_1)\\div2}",
       "expected": "the fraction with numerator open paren b sub 2 plus c sub 2 minus a sub 2 minus c sub 2 close paren divided by 2 and denominator open paren b sub 1 plus c sub 1 minus a sub 1 minus c sub 1 close paren divided by 2"
     },
@@ -1439,10 +1407,6 @@
     {
       "source": "\\frac{b_2-a_2}{b_1-a_1}",
       "expected": "the fraction with numerator b sub 2 minus a sub 2 and denominator b sub 1 minus a sub 1"
-    },
-    {
-      "source": "\\overline{AP}/\\overline{PB} = a^2/b^2",
-      "expected": "the fraction with numerator line segment cap a cap p and denominator line segment cap p cap b equals the fraction with numerator a squared and denominator b squared"
     },
     {
       "source": "10^\\circ 9'",
@@ -1533,10 +1497,6 @@
       "expected": "open paren the fraction with numerator open paren 14 times 16 times 20 close paren and denominator 12 cubed close paren times 491"
     },
     {
-      "source": "\\text{A2}=\\frac{a^2*b^2+b^4}{a^2+b^2}",
-      "expected": "A2 equals the fraction with numerator a squared times b squared plus b to the 4th power and denominator a squared plus b squared"
-    },
-    {
       "source": "(0--32)/(16-14)",
       "expected": "the fraction with numerator open paren 0 minus negative 32 close paren and denominator open paren 16 minus 14 close paren"
     },
@@ -1547,10 +1507,6 @@
     {
       "source": "\\frac{\\sqrt{3600+6400}}{8} \\text{ meters per second}",
       "expected": "the fraction with numerator square root of 3600 plus 6400 end root and denominator 8 meters per second"
-    },
-    {
-      "source": "AP/BP = a^2/b^2",
-      "expected": "cap a cap p over cap b cap p equals the fraction with numerator a squared and denominator b squared"
     },
     {
       "source": "(\\frac{a^2b}{a^2+b^2},\\frac{ab^2}{a^2+b^2})",
@@ -1593,24 +1549,8 @@
       "expected": "the fraction with numerator negative 7 plus 24 and denominator 8"
     },
     {
-      "source": "\\begin{bmatrix}1&2&3\\end{bmatrix}",
-      "expected": "The 1 by 3 row matrix 1 2 3"
-    },
-    {
-      "source": "\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}",
-      "expected": "The 3 by 1 column matrix 1 2 3"
-    },
-    {
-      "source": "\\begin{bmatrix}a&b&c\\\\x&y&z\\end{bmatrix}",
-      "expected": "The 2 by 3 matrix row 1, a b c row 2, x y z"
-    },
-    {
       "source": "(3/5, 4/5)",
       "expected": "open paren 3 fifths comma 4 fifths close paren"
-    },
-    {
-      "source": "\\begin{bmatrix}1&2&3&4\\\\5&6&7&8\\end{bmatrix}",
-      "expected": "The 2 by 4 matrix, row 1, column 1, 1 column 2, 2 column 3, 3 column 4, 4 row 2, column 1, 5 column 2, 6 column 3, 7 column 4, 8"
     },
     {
       "source": "{x|x<5}",
@@ -1679,10 +1619,6 @@
     {
       "source": "(10.2-5)\\div 4",
       "expected": "open paren 10 point 2 minus 5 close paren divided by 4"
-    },
-    {
-      "source": "(39.34,4336)",
-      "expected": "open paren 39 point 34 comma 4336 close paren"
     },
     {
       "source": "39.34 \\text{ months}",
@@ -1833,24 +1769,16 @@
       "expected": "sine r is equal to 15 over 17"
     },
     {
-      "source": "\\det\\begin{vmatrix}1&k\\\\0&k\\end{vmatrix}",
-      "expected": "det The 2 by 2 matrix row 1, 1 k row 2, 0 k"
-    },
-    {
-      "source": "\\begin{bmatrix}1&0\\\\0&k\\end{bmatrix} \\times \\begin{bmatrix}0\\\\0\\end{bmatrix}",
-      "expected": "The 2 by 2 matrix row 1, 1 0 row 2, 0 k times The 2 by 1 column matrix 0 0"
+      "source": "\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}",
+      "expected": "the 3 by 1 column matrix 1 2 3"
     },
     {
       "source": "\\cos r = 8/17",
       "expected": "cosine r is equal to 8 over 17"
     },
     {
-      "source": "\\begin{bmatrix}0\\\\0\\end{bmatrix},\\begin{bmatrix}k\\\\k\\end{bmatrix},\\begin{bmatrix}1+k\\\\k\\end{bmatrix}, \\begin{bmatrix}1\\\\0\\end{bmatrix}",
-      "expected": "The 2 by 1 column matrix 0 0 comma The 2 by 1 column matrix k k comma The 2 by 1 column matrix row 1 1 plus k row 2 k comma The 2 by 1 column matrix 1 0"
-    },
-    {
-      "source": "\\begin{pmatrix}1+k+k^2+k^3 \\ldots +k^{10}\\\\k^{10}\\end{pmatrix}",
-      "expected": "The 2 by 1 column matrix row 1 1 plus k plus k squared plus k cubed dot dot dot plus k to the 10th power row 2 k to the 10th power"
+      "source": "m=\\frac{3/8b_2-3/8a_2}{3/8b_1-3/8a_1}",
+      "expected": "m is equal to the fraction with numerator 3 eighths b sub 2 minus 3 eighths a sub 2 and denominator 3 eighths b sub 1 minus 3 eighths a sub 1"
     },
     {
       "source": "y=\\frac{1}{8}(0-1)^2-1",
@@ -1889,8 +1817,8 @@
       "expected": "y is equal to negative 1 times x plus 70"
     },
     {
-      "source": "\\begin{pmatrix}\\cos{1} & -\\sin{1}\\\\\\sin{1} & \\cos{1}\\end{pmatrix} \\times\\begin{pmatrix}x\\cos{1}-y\\sin{1} \\\\ x\\sin{1}+y\\cos{1}\\end{pmatrix}",
-      "expected": "The 2 by 2 matrix, row 1, column 1, cosine 1 column 2, negative sine 1 row 2, column 1, sine 1 column 2, cosine 1 times The 2 by 1 column matrix row 1 x cosine 1 minus y sine 1 row 2 x sine 1 plus y cosine 1"
+      "source": "\\begin{bmatrix}1&2&3&4\\\\5&6&7&8\\end{bmatrix}",
+      "expected": "the 2 by 4 matrix, row 1, column 1, 1 column 2, 2 column 3, 3 column 4, 4 row 2, column 1, 5 column 2, 6 column 3, 7 column 4, 8"
     },
     {
       "source": "y=\\frac{1}{8}(x-1)^2-1",
@@ -1917,10 +1845,6 @@
       "expected": "cap v is equal to pi times r squared times height"
     },
     {
-      "source": "\\begin{pmatrix}1&3&2\\\\1&-1&1\\\\2&3&3\\end{pmatrix}",
-      "expected": ""
-    },
-    {
       "source": "1+\\ldots+2",
       "expected": "1 plus dot dot dot plus 2"
     },
@@ -1939,10 +1863,6 @@
     {
       "source": "f(x) = 1/2 * |x|",
       "expected": "f of x is equal to 1 half times absolute value of x"
-    },
-    {
-      "source": "\\begin{pmatrix}1&3&2\\\\1&-1&1\\\\2&3&3\\end{pmatrix}\\times\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}",
-      "expected": "The 3 by 3 matrix, row 1, column 1, 1 column 2, 3 column 3, 2 row 2, column 1, 1 column 2, negative 1 column 3, 1 row 3, column 1, 2 column 2, 3 column 3, 3 times The 3 by 1 column matrix x y z"
     },
     {
       "source": "f(n) = 1000\\cdot(\\frac{5}{6})^n",
@@ -2013,10 +1933,6 @@
       "expected": "open paren 0 comma 9 close paren comma open paren 6 comma negative 3 close paren comma open paren negative 2 comma negative 7 close paren"
     },
     {
-      "source": "\\begin{pmatrix}\\cos{0}&-\\sin{0}\\\\\\sin{0}&\\cos{0}\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}= \\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}",
-      "expected": "The 2 by 2 matrix, row 1, column 1, cosine 0 column 2, negative sine 0 row 2, column 1, sine 0 column 2, cosine 0 times The 2 by 1 column matrix row 1 negative 1 row 2 negative 1 is equal to The 2 by 2 matrix row 1, 1 0 row 2, 0 1 times The 2 by 1 column matrix row 1 negative 1 row 2 negative 1"
-    },
-    {
       "source": "2.37<h<1.99",
       "expected": "2 point 37 is less than h comma h is less than 1 point 99"
     },
@@ -2049,12 +1965,12 @@
       "expected": "g of x is equal to the fraction with numerator 2 x plus 3 and denominator x minus 1"
     },
     {
-      "source": "\\begin{pmatrix}\\cos{0}&-\\sin{0}\\\\\\sin{0}&\\cos{0}\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}= \\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}",
-      "expected": "the 2 by 2 matrix, row 1, column 1, cosine 0 column 2, negative sine 0 row 2, column 1, sine 0 column 2, cosine 0 times the 2 by 1 column matrix row 1 negative 1 row 2 negative 1 is equal to the 2 by 2 matrix row 1, 1 0 row 2, 0 1 times the 2 by 1 column matrix row 1 negative 1 row 2 negative 1"
-    },
-    {
       "source": "8^(\\frac{x}{3}+\\frac{2}{3}) = 4*8^\\frac{x}{3}",
       "expected": "8 raised to the open paren x over 3 plus 2 thirds close paren power is equal to 4 times 8 raised to the x over 3 power"
+    },
+    {
+      "source": "\\begin{pmatrix}\\cos{0}&-\\sin{0}\\\\\\sin{0}&\\cos{0}\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}= \\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}*\\begin{pmatrix}-1\\\\-1\\end{pmatrix}",
+      "expected": "the 2 by 2 matrix, row 1, column 1, cosine 0 column 2, negative sine 0 row 2, column 1, sine 0 column 2, cosine 0 times the 2 by 1 column matrix row 1 negative 1 row 2 negative 1 is equal to the 2 by 2 matrix row 1, 1 0 row 2, 0 1 times the 2 by 1 column matrix row 1 negative 1 row 2 negative 1"
     },
     {
       "source": "y=\\frac{1}{8}(-1)^2-1",
@@ -2077,20 +1993,16 @@
       "expected": "cap a is equal to the 2 by 2 matrix row 1, 0 0 row 2, 1 1"
     },
     {
-      "source": "\\log_2{x-1} = 3y",
-      "expected": "log sub 2 x minus 1 is equal to 3 y"
-    },
-    {
-      "source": "f(x) = x^{3x} + 1",
-      "expected": ""
-    },
-    {
       "source": "\\ln{x} = \\ln{e^{y-3}}",
       "expected": "natural log x is equal to the natural log of e raised to the y minus 3 power"
     },
     {
       "source": "f(x) = \\log{2x+3}",
       "expected": "f of x is equal to the log of 2 x plus 3"
+    },
+    {
+      "source": "\\log_2{x-1} = 3y",
+      "expected": "log sub 2 x minus 1 is equal to 3 y"
     },
     {
       "source": "f(x) = e^{x-3}",
@@ -2181,12 +2093,12 @@
       "expected": "1 is equal to 1000 times 5 sixths to the n th power"
     },
     {
-      "source": "f(x) = \\ln {x}",
-      "expected": "f of x is equal to natural log x"
-    },
-    {
       "source": "f(12) = 1000*(\\frac{5}{6})^(12)",
       "expected": "f of 12 is equal to 1000 times 5 sixths raised to the 12 power"
+    },
+    {
+      "source": "f(x) = \\ln {x}",
+      "expected": "f of x is equal to natural log x"
     },
     {
       "source": "(-3-9)/(6-0) * (-7+3)/(-2-6) = -1",
@@ -2201,12 +2113,12 @@
       "expected": "t is equal to 3 pi over 2"
     },
     {
-      "source": "f(x)=1/2 * \\sin{1/4 *x} + 5",
-      "expected": "f of x is equal to 1 half times sine 1 fourth times x plus 5"
-    },
-    {
       "source": "y+1 = \\sqrt{(x-2)^2+(y-3)^2}",
       "expected": "y plus 1 is equal to square root of open paren x minus 2 close paren squared plus open paren y minus 3 close paren squared end root"
+    },
+    {
+      "source": "f(x)=1/2 * \\sin{1/4 *x} + 5",
+      "expected": "f of x is equal to 1 half times sine 1 fourth times x plus 5"
     },
     {
       "source": "\\frac{1-2t^2+t^4}{1+2t^2+t^4} + \\frac{4t^2}{1+2t^2+t^4}=1",
@@ -2301,12 +2213,12 @@
       "expected": "cap v is equal to pi times r squared times h"
     },
     {
-      "source": "f(x) = 1/2 \\abs{x}",
-      "expected": "f of x is equal to 1 half absolute value of x"
-    },
-    {
       "source": "\\tan r = 15/8",
       "expected": "tangent r is equal to 15 eighths"
+    },
+    {
+      "source": "f(x) = 1/2 \\abs{x}",
+      "expected": "f of x is equal to 1 half absolute value of x"
     },
     {
       "source": "\\$1500=115 \\text {dollars per ton}/2200 \\text{lbs} * 988\\text{lbs per block} \\cdot x \\text{blocks}",
@@ -2337,12 +2249,12 @@
       "expected": "f of x is equal to 1 half x squared"
     },
     {
-      "source": "f(x) = .5 \\cdot \\abs{x}",
-      "expected": "f of x is equal to point 5 times absolute value of x"
-    },
-    {
       "source": "f(n) = a\\times2^n",
       "expected": "f of n is equal to a times 2 to the n th power"
+    },
+    {
+      "source": "f(x) = .5 \\cdot \\abs{x}",
+      "expected": "f of x is equal to point 5 times absolute value of x"
     },
     {
       "source": "h(t) = 2(t-11)^2 - 50",
@@ -2413,12 +2325,36 @@
       "expected": "x is less than y"
     },
     {
+      "source": "\\bigcup S_n",
+      "expected": "the union of cap s sub n"
+    },
+    {
       "source": "\\begin{pmatrix}1&3&2\\\\1&-1&1\\\\2&3&3\\end{pmatrix}\\times\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}=\\begin{pmatrix}8\\\\-2\\\\7\\end{pmatrix}",
       "expected": "the 3 by 3 matrix, row 1, column 1, 1 column 2, 3 column 3, 2 row 2, column 1, 1 column 2, negative 1 column 3, 1 row 3, column 1, 2 column 2, 3 column 3, 3 times the 3 by 1 column matrix x y z is equal to the 3 by 1 column matrix row 1 8 row 2 negative 2 row 3 7"
     },
     {
+      "source": "x \\cup y",
+      "expected": "the union of x and y"
+    },
+    {
+      "source": "10cup",
+      "expected": "10 cups"
+    },
+    {
+      "source": "\\bigcap S_n",
+      "expected": "the intersection of cap s sub n"
+    },
+    {
       "source": "\\sqrt{4.95*11.18}",
       "expected": "square root of 4 point 95 times 11 point 18 end root"
+    },
+    {
+      "source": "B \\cap C",
+      "expected": "the intersection of cap b and cap c"
+    },
+    {
+      "source": "(39.34,4336)",
+      "expected": "open paren 39 point 34 comma 4336 close paren"
     },
     {
       "source": "\\begin{pmatrix} \\cos{1} & -\\sin{1} \\\\ \\sin{1} & \\cos{1} \\end{pmatrix} \\times \\begin{pmatrix} x\\cos{1}-y\\sin{1} \\\\ x\\sin{1}+y\\cos{1} \\end{pmatrix} = \\begin{pmatrix} \\cos{1}(x\\cos{1}-y\\sin{1})-\\sin{1}(x\\sin{1}+y\\cos{1}) \\\\ \\sin{1}(x\\cos{1}-y\\sin{1}) + \\cos{1}(x\\sin{1}+y\\cos{1})\\end{pmatrix}",
@@ -2437,24 +2373,64 @@
       "expected": "measure of angle cap e cap a cap b is equal to measure of angle cap e cap c cap d"
     },
     {
-      "source": "\\sqrt{4*17}",
-      "expected": "square root of 4 times 17 end root"
+      "source": "x \\cap y",
+      "expected": "the intersection of x and y"
     },
     {
-      "source": "\\text{1 2 3}",
-      "expected": "1 2 3"
+      "source": "x \\ne y",
+      "expected": "x is not equal to y"
     },
     {
-      "source": "x|y",
-      "expected": "x divides y"
+      "source": "x \\ngtr y",
+      "expected": "x is not greater than y"
     },
     {
-      "source": "\\psi",
-      "expected": "psi"
+      "source": "x \\nless y",
+      "expected": "x is not less than y"
     },
     {
-      "source": "x",
-      "expected": "x"
+      "source": "\\int f(x)",
+      "expected": "the integral of f of x"
+    },
+    {
+      "source": "\\begin{pmatrix}\\cos{1} & -\\sin{1}\\\\\\sin{1} & \\cos{1}\\end{pmatrix} \\times\\begin{pmatrix}x\\cos{1}-y\\sin{1} \\\\ x\\sin{1}+y\\cos{1}\\end{pmatrix}",
+      "expected": "the 2 by 2 matrix, row 1, column 1, cosine 1 column 2, negative sine 1 row 2, column 1, sine 1 column 2, cosine 1 times the 2 by 1 column matrix row 1 x cosine 1 minus y sine 1 row 2 x sine 1 plus y cosine 1"
+    },
+    {
+      "source": "\\text{A2}=\\frac{a^2*b^2+b^4}{a^2+b^2}",
+      "expected": "A2 is equal to the fraction with numerator a squared times b squared plus b to the 4th power and denominator a squared plus b squared"
+    },
+    {
+      "source": "\\begin{bmatrix}a&b&c\\\\x&y&z\\end{bmatrix}",
+      "expected": "the 2 by 3 matrix row 1, a b c row 2, x y z"
+    },
+    {
+      "source": "\\begin{bmatrix}1&2&3\\end{bmatrix}",
+      "expected": "the 1 by 3 row matrix 1 2 3"
+    },
+    {
+      "source": "\\overline{AP}/\\overline{PB} = a^2/b^2",
+      "expected": "the fraction with numerator line segment cap a cap p and denominator line segment cap p cap b is equal to the fraction with numerator a squared and denominator b squared"
+    },
+    {
+      "source": "AP/BP = a^2/b^2",
+      "expected": "cap a cap p over cap b cap p is equal to the fraction with numerator a squared and denominator b squared"
+    },
+    {
+      "source": "\\det\\begin{vmatrix}1&k\\\\0&k\\end{vmatrix}",
+      "expected": "det the 2 by 2 matrix row 1, 1 k row 2, 0 k"
+    },
+    {
+      "source": "\\begin{pmatrix}1+k+k^2+k^3 \\ldots +k^{10}\\\\k^{10}\\end{pmatrix}",
+      "expected": "the 2 by 1 column matrix row 1 1 plus k plus k squared plus k cubed dot dot dot plus k to the 10th power row 2 k to the 10th power"
+    },
+    {
+      "source": "\\begin{bmatrix}1&0\\\\0&k\\end{bmatrix} \\times \\begin{bmatrix}0\\\\0\\end{bmatrix}",
+      "expected": "the 2 by 2 matrix row 1, 1 0 row 2, 0 k times the 2 by 1 column matrix 0 0"
+    },
+    {
+      "source": "\\det\\begin{vmatrix}1&k\\\\0&k\\end{vmatrix}",
+      "expected": "det the 2 by 2 matrix row 1, 1 k row 2, 0 k"
     }
   ]
 }
