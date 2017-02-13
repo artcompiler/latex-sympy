@@ -187,10 +187,6 @@ import {rules} from "./rules.js";
         if (val.charAt(0) === "\\") {
           val = val.substring(1);
         }
-        if (val.indexOf(".") >= 0) {
-          let i = val.indexOf(".");
-          val = val.substring(0, i) + " point " + val.substring(i+1);
-        }
       }
       return val;
     }
@@ -500,6 +496,14 @@ import {rules} from "./rules.js";
           });
           str = s;  // Overwrite str.
         }
+        if (str.indexOf("%IP") >= 0) {
+          assert(env.ip);
+          str = str.replace("%IP", env.ip);
+        }
+        if (str.indexOf("%FP") >= 0) {
+          assert(env.fp);
+          str = str.replace("%FP", env.fp);
+        }
         if (str.indexOf("%M") >= 0) {
           assert(env.m);
           str = str.replace("%M", env.m);
@@ -757,13 +761,20 @@ import {rules} from "./rules.js";
             op: Model.VAR,
             args: [lookup(node.args[0])]
           }];
+          let env = {};
+          if (node.numberFormat === "decimal") {
+            let parts = node.args[0].split(".");
+            assert(parts.length === 2);
+            env.ip = parts[0];
+            env.fp = parts[1];
+          }
           let matches = match(patterns, node);
           if (matches.length === 0) {
             return node;
           }
           // Use first match for now.
           let template = matchedTemplate(rules, matches, 1);
-          return expand(template, args);
+          return expand(template, args, env);
         },
         binary: function(node) {
           let matches = match(patterns, node);
