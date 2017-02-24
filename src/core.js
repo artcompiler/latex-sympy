@@ -497,11 +497,9 @@ import {rules} from "./rules.js";
           str = s;  // Overwrite str.
         }
         if (str.indexOf("%IP") >= 0) {
-          assert(env.ip);
           str = str.replace("%IP", env.ip);
         }
         if (str.indexOf("%FP") >= 0) {
-          assert(env.fp);
           str = str.replace("%FP", env.fp);
         }
         if (str.indexOf("%M") >= 0) {
